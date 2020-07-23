@@ -2,7 +2,6 @@ package com.sprint.hibernate.entity;
 
 
 import javax.persistence.*;
-import java.math.BigInteger;
 
 @Entity
 @Table(name = "marathon_user")
