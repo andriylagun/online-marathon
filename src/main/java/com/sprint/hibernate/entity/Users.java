@@ -8,7 +8,6 @@ import java.math.BigInteger;
 public class Users {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @OneToMany(mappedBy = "users")
     private BigInteger id;
     @Column
     private String email;
@@ -20,5 +19,7 @@ public class Users {
     private String password;
     @Column
     private String role;
+    @OneToOne
+    private MarathonUser marathonUser;
 
 }

@@ -14,4 +14,7 @@ public class Marathon {
 
     @OneToMany(mappedBy = "marathon")
     private List<Sprint> sprintList;
+
+    @OneToOne
+    private MarathonUser marathonUser;
 }

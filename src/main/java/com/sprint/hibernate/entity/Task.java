@@ -1,7 +1,5 @@
 package com.sprint.hibernate.entity;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -18,6 +16,7 @@ public class Task {
 
     @ManyToOne
     private Sprint sprint;
-
+    @OneToOne
+    private Progress progress;
 
 }
