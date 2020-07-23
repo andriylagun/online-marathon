@@ -2,6 +2,7 @@ package com.sprint.hibernate.entity;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -19,7 +20,7 @@ public class Users {
     private String password;
     @Column
     private String role;
-    @OneToOne
-    private MarathonUser marathonUser;
+    @OneToMany
+    private List<MarathonUser> marathonUsers;
 
 }

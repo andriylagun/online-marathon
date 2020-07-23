@@ -2,6 +2,7 @@ package com.sprint.hibernate.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Task {
@@ -16,7 +17,7 @@ public class Task {
 
     @ManyToOne
     private Sprint sprint;
-    @OneToOne
-    private Progress progress;
+    @OneToMany
+    private List<Progress> progress;
 
 }

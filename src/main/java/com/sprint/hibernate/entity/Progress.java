@@ -17,7 +17,7 @@ public class Progress {
     private String status;
     private LocalDateTime updated;
 
-    @OneToOne
+    @ManyToOne
     private Task task;
 
     @ManyToOne(optional = false)

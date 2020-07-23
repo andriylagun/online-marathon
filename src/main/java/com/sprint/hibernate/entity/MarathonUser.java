@@ -9,10 +9,10 @@ import java.math.BigInteger;
 public class MarathonUser {
 
     @Id
-    @OneToOne
+    @ManyToOne
     private Marathon marathon;
 
     @Id
-    @OneToOne
+    @ManyToOne
     private Users user;
 }
