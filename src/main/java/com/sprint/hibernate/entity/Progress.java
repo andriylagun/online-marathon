@@ -32,6 +32,6 @@ public class Progress {
     private Task task;
 
     @ManyToOne(optional = false)
-    private Users trainee;
+    private User trainee;
 
 }

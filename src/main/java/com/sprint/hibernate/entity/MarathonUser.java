@@ -13,5 +13,5 @@ public class MarathonUser {
 
     @Id
     @ManyToOne
-    private Users user;
+    private User user;
 }

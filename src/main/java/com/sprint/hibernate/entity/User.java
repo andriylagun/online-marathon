@@ -12,10 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name="users")
-public class Users {
-
-    public Users() {
-    }
+public class User {
 
     public enum Role {
         MENTOR, TRAINEE
