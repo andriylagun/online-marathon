@@ -12,10 +12,6 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, BigInteger> {
 
-    List<User> getAll();   // findAll()?
-
-    User getUserById(BigInteger userId);  //UUID? long?
-
     User createOrUpdateUser(User user);
 
     List<User> getAllByRole(User.Role role);
