@@ -9,12 +9,10 @@ import java.math.BigInteger;
 public class MarathonUser {
 
     @Id
-    @OneToOne(mappedBy = "marathon_user")
-    @JoinColumn(name = "marathon_id")
-    private BigInteger marathonId;
+    @ManyToOne
+    private Marathon marathon;
 
     @Id
-    @OneToOne(mappedBy = "marathon_user")
-    @JoinColumn(name = "user_id")
-    private BigInteger userId;
+    @ManyToOne
+    private Users user;
 }

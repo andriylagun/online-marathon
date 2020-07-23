@@ -2,13 +2,13 @@ package com.sprint.hibernate.entity;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.List;
 
 @Entity
 @Table(name="users")
 public class Users {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @OneToMany(mappedBy = "users")
     private BigInteger id;
     @Column
     private String email;
@@ -20,5 +20,7 @@ public class Users {
     private String password;
     @Column
     private String role;
+    @OneToMany
+    private List<MarathonUser> marathonUsers;
 
 }
