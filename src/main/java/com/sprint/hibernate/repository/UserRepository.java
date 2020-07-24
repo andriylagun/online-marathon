@@ -12,12 +12,6 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, BigInteger> {
 
-    User createOrUpdateUser(User user);
-
     List<User> getAllByRole(User.Role role);
-
-    boolean addUserToMarathon(User user, Marathon marathon);
-
-    boolean addUserToTask(User user, Task task);
 
 }

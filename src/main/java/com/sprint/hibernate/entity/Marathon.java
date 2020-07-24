@@ -1,8 +1,14 @@
 package com.sprint.hibernate.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name="marathon")
 public class Marathon {

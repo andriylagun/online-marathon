@@ -1,6 +1,8 @@
 package com.sprint.hibernate.entity;
 
 import com.sun.istack.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -9,7 +11,8 @@ import javax.validation.constraints.Size;
 import java.math.BigInteger;
 import java.util.List;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name="users")
 public class User {
