@@ -2,6 +2,7 @@ package com.sprint.hibernate.service;
 
 import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -15,13 +16,22 @@ import java.util.Optional;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    final private UserRepository userRepository;
-    final private MarathonRepository marathonRepository;
 
-    public UserServiceImpl (UserRepository userRepository, MarathonRepository marathonRepository) {
+    private UserRepository userRepository;
+
+    @Autowired  //Нам потрібен сеттер, або конструктор щоб визначати що саме ми будемо використовувати
+                //@Autowired нам пошукає цей репозиторій, можна final,але тоді потрібне точне приведення до new UserRepository
+                //Ми ж стараємось уникати new.
+    public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.marathonRepository = marathonRepository;
     }
+
+    // final private MarathonRepository marathonRepository;
+
+  //  public UserServiceImpl (UserRepository userRepository, MarathonRepository marathonRepository) {
+  //      this.userRepository = userRepository;
+  //      this.marathonRepository = marathonRepository;
+  //  }
 
     public List<User> getAll() {
         List<User> users = userRepository.findAll();

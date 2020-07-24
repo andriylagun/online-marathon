@@ -15,6 +15,10 @@ public class Marathon {
     @OneToMany(mappedBy = "marathon")
     private List<Sprint> sprintList;
 
-    @OneToMany
-    private List<MarathonUser> marathonUsers;
+    @ManyToMany
+    @JoinTable(name = "marathon_user",
+            joinColumns = @JoinColumn(name = "marathon_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    )
+    private List<User> users;
 }
