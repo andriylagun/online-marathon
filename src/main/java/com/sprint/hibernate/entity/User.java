@@ -14,39 +14,41 @@ import java.util.List;
 @Table(name="users")
 public class User {
 
-    public enum Role {
-        MENTOR, TRAINEE
-    }
+  public enum Role {
+    MENTOR, TRAINEE //trainee мені не дуже подобається :) Може давай все таки Student?
+  }
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private BigInteger id;   //UUID
+  @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  private BigInteger id;   //UUID
 
-    @Column(unique = true)
-    @NotNull
-    @Pattern(regexp = ".+@.+\\..+", message = "please provide a volid email address")
-    private String email;
+  @Column(unique = true)
+  @NotNull
+  @Pattern(regexp = ".+@.+\\..+", message = "please provide a volid email address")
+  private String email;
 
-    @NotNull
-    @Column(name = "first_name")
-    private String firstName;
+  @NotNull
+  @Column(name = "first_name")
+  private String firstName;
 
-    @NotNull
-    @Size(min = 2, max = 20, message = "last name must be between 2 and 20 characters")
-    @Column(name = "last_name")
-    private String lastName;
+  @NotNull
+  @Size(min = 2, max = 20, message = "Last name must be between 2 and 20 characters")
+  @Column(name = "last_name")
+  private String lastName;
 
-    @Column
-    @NotNull
-    private String password;
+  @Column
+  @NotNull
+  private String password;
 
-    @Column
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private Role role;
+  @Column
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  private Role role;
 
-    @ToString.Exclude     //Lombok
-    @ManyToMany
-    private List<Marathon> marathons;
-
+  @ToString.Exclude
+  @ManyToMany(fetch = FetchType.LAZY, mappedBy="users")
+  /*Обновив твоє ManyToMany, тепер не потрібно використовувати окремої сутності для marathon_users
+    Подивишся реалізацію в Marathon.
+  */
+  private List<Marathon> marathons;
 }
