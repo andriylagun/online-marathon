@@ -1,9 +1,14 @@
 package com.sprint.hibernate.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 public class Task {
     @Id
