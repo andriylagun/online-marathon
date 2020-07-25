@@ -97,8 +97,8 @@ public class ApplicationTest {
         this.sprintService = sprintService;
         this.taskService = taskService;
         this.userService = userService;
-
     }
+
     @BeforeAll
     private static void setUp() throws NoSuchFieldException, IllegalAccessException {
         // Create students

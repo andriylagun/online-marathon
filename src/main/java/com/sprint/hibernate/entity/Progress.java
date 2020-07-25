@@ -2,12 +2,8 @@ package com.sprint.hibernate.entity;
 
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Data

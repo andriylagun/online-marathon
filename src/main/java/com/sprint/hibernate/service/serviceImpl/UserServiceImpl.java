@@ -36,13 +36,14 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
+    @Override
     public List<User> getAll() {
         List<User> users = userRepository.findAll();
         return users.isEmpty() ? new ArrayList<>() : users;
     }
 
-    public User getUserById(long userId) {            //long?  UUID?
+    @Override
+    public User getUserById(long userId) {
         Optional<User> user = userRepository.findById(userId);
 
         if (user.isPresent()) {
@@ -52,6 +53,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
     public User createOrUpdateUser(User input) {
         validator.validate(input);
         if(input != null) {
@@ -71,11 +73,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(input);
     }
 
+    @Override
     public List<User> getAllByRole (String role) {
         return userRepository.getAllByRole(User.Role.valueOf(role.toUpperCase()));
     }
 
-    public boolean addUserToMarathon(User user, Marathon marathon) {  // return User???
+    @Override
+    public boolean addUserToMarathon(User user, Marathon marathon) {
 
         Optional<User> userEntity = userRepository.findById(user.getId());
         Optional<Marathon> marathonEntity = marathonRepository.findById(marathon.getId());
@@ -86,6 +90,11 @@ public class UserServiceImpl implements UserService {
         users.add(userEntity.get());
         marathonEntity.get().setUsers(users);
         return true;
+    }
+
+    @Override
+    public void deleteUserById(long id) {
+        userRepository.deleteById(id);
     }
 
 }

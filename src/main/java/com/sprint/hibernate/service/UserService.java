@@ -20,4 +20,6 @@ public interface UserService {
 
     boolean addUserToMarathon(User user, Marathon marathon);
 
+    void deleteUserById(long id);
+
 }
