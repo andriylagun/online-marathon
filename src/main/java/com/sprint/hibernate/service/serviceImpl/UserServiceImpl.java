@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private MarathonRepository marathonRepository;
     @Autowired
-    EntityValidate validator;
+    private EntityValidate validator;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
