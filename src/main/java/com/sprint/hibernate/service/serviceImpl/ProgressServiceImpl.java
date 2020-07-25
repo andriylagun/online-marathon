@@ -1,9 +1,7 @@
 package com.sprint.hibernate.service.serviceImpl;
 
-import com.sprint.hibernate.entity.Progress;
-import com.sprint.hibernate.entity.Task;
-import com.sprint.hibernate.entity.User;
-import com.sprint.hibernate.repository.ProgressRepository;
+import com.sprint.hibernate.entity.*;
+import com.sprint.hibernate.repository.*;
 import com.sprint.hibernate.service.ProgressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +12,9 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.sprint.hibernate.entity.Progress.TaskStatus.*;
 
 @Service
 @Transactional
@@ -36,9 +37,16 @@ public class ProgressServiceImpl implements ProgressService {
         }
     }
 
-    /// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public Progress addTaskForStudent(Task task, User user) {
-        return null;
+        Progress progress = new Progress();
+        progress.setTask(task);
+        progress.setTrainee(user);
+        progress.setStarted(task.getCreated());
+        progress.setUpdated(task.getUpdated());
+        progress.setStatus(PENDING);             //???????????????????
+        progressRepository.save(progress);
+
+        return progress;
     }
 
     public Progress addOrUpdateProgress(Progress input) {
@@ -71,6 +79,12 @@ public class ProgressServiceImpl implements ProgressService {
     }
 
     public List<Progress> allProgressByUserIdAndSprintId(BigInteger userId, BigInteger sprintId) {
+//        List<Task> tasks = sprintRepository.getOne(sprintId).getTasks();
+//        return tasks.stream()
+//                .map(task -> task.getProgress())
+//                .flatMap(progress -> progress.stream())
+//                .filter(progress -> progress.getTrainee().getId() == userId)
+//                .collect(Collectors.toList());
         return progressRepository.allProgressByUserIdAndSprintId(userId, sprintId);
     }
 
