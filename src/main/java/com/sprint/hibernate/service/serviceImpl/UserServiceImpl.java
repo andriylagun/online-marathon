@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import javax.xml.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,10 +52,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public User createOrUpdateUser(User input) throws NoSuchFieldException, IllegalAccessException {
+    public User createOrUpdateUser(User input) {
         validator.validate(input);
         if(input != null) {
-                Optional<User> user = userRepository.findById(input.getId());
+                Optional<User> user = userRepository.findById(  input.getId());
 
             if(user.isPresent()) {
                 User newUser = user.get();

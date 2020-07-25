@@ -21,8 +21,8 @@ public class ApplicationTest {
     //    STUDENTS
     private final static long FIRST_STUDENT_ID = 1;
     private final static String FIRST_STUDENT_FIRST_NAME = "Anna";
-    private final static String FIRST_STUDENT_LAST_NAME = null;
-    private final static String FIRST_STUDENT_EMAIL = "annagmail.com";
+    private final static String FIRST_STUDENT_LAST_NAME = "Karenina";
+    private final static String FIRST_STUDENT_EMAIL = "anna@jmail.com";
     private final static String FIRST_STUDENT_PASSWORD = "abracadabra";
     private final static String FIRST_STUDENT_ROLE = "TRAINEE";
 
@@ -103,6 +103,7 @@ public class ApplicationTest {
     private static void setUp() throws NoSuchFieldException, IllegalAccessException {
         // Create students
         User student1 = new User();
+        student1.setId(FIRST_STUDENT_ID);
         student1.setFirstName(FIRST_STUDENT_FIRST_NAME);
         student1.setLastName(FIRST_STUDENT_LAST_NAME);
         student1.setEmail(FIRST_STUDENT_EMAIL);
@@ -145,6 +146,7 @@ public class ApplicationTest {
                 ", role=TRAINEE"  +
                 ']';
         User student1 = new User();
+        student1.setId(1);
         student1.setFirstName(FIRST_STUDENT_FIRST_NAME);
         student1.setLastName(FIRST_STUDENT_LAST_NAME);
         student1.setEmail(FIRST_STUDENT_EMAIL);
