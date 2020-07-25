@@ -1,6 +1,7 @@
 package com.sprint.hibernate.entity;
 
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
@@ -19,15 +20,19 @@ public class Progress {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
     @CreationTimestamp
     private LocalDate started;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
+    @NotNull
     @CreationTimestamp
     private LocalDate updated;
 
+    @NotNull
     @OneToOne
     private Task task;
 
