@@ -2,6 +2,7 @@ package com.sprint.hibernate.service.serviceImpl;
 
 import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.Sprint;
+import com.sprint.hibernate.validator.EntityValidate;
 import com.sprint.hibernate.repository.SprintRepository;
 import com.sprint.hibernate.service.SprintService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,14 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class SprintServiceImpl implements SprintService {
+    @Autowired
+    private EntityValidate validator;
 
    private SprintRepository sprintRepository;
     @Autowired
@@ -30,27 +35,36 @@ public class SprintServiceImpl implements SprintService {
 
     @Override
     public boolean addSprintToMarathon(Sprint sprint, Marathon marathon) {
-
+        validator.validate(sprint);
+        validator.validate(marathon);
         return marathon.getSprintList().add(sprint);
     }
 
 
     @Override
     public Sprint createOrUpdateSprint(Sprint sprint) {
-        Sprint updated=sprintRepository.getOne(sprint.getId());
-            if (updated == null)
-                throw new EntityNotFoundException("No sprint exist for given id");
-        updated.setMarathon(sprint.getMarathon());
-        updated.setStartDate(sprint.getStartDate());
-        updated.setFinish(sprint.getFinish());
-        updated.setTasks(sprint.getTasks());
-        updated.setTitle(sprint.getTitle());
-        return updated;
+        validator.validate(sprint);
+        if(sprint != null) {
+            Optional<Sprint> temp = sprintRepository.findById(  sprint.getId());
+
+            if(temp.isPresent()) {
+                Sprint newSprint = temp.get();
+                newSprint.setTitle(sprint.getTitle());
+                newSprint.setTasks(sprint.getTasks());
+                newSprint.setFinish(sprint.getFinish());
+                newSprint.setStartDate(sprint.getStartDate());
+                newSprint.setMarathon(sprint.getMarathon());
+                newSprint = sprintRepository.save(newSprint);
+                return newSprint;
+            }
+        }
+        return sprintRepository.save(sprint);
     }
 
     @Override
     public Sprint getSprintById(long id) {
-        return sprintRepository.getOne(id);
+
+        return sprintRepository.findById(id).get();
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.sprint.hibernate.service.serviceImpl;
 import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.service.MarathonService;
+import com.sprint.hibernate.validator.EntityValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ import java.util.Optional;
 @Transactional
 public class MarathonServiceImpl implements MarathonService {
 
+    @Autowired
+    private EntityValidate validator;
     private MarathonRepository marathonRepository;
     @Autowired
     public void setMarathonRepository(MarathonRepository marathonRepository){
@@ -23,6 +26,7 @@ public class MarathonServiceImpl implements MarathonService {
 
     @Override
     public List<Marathon> getAll() {
+
         return marathonRepository.findAll();
     }
 
@@ -33,14 +37,15 @@ public class MarathonServiceImpl implements MarathonService {
 
     @Override
     public Marathon createOrUpdate(Marathon input) {
-        Marathon marathon=marathonRepository.findById(input.getId()).get();
-        if(marathon==null)
+        validator.validate(input);
+        Optional<Marathon> marathon=marathonRepository.findById(input.getId());
+        if(!marathon.isPresent())
             return marathonRepository.save(input);
-
-        marathon.setSprintList(input.getSprintList());
-        marathon.setTitle(input.getTitle());
-        marathon.setUsers(input.getUsers());
-        return marathon;
+        Marathon newMarathon=marathon.get();
+        newMarathon.setSprintList(input.getSprintList());
+        newMarathon.setTitle(input.getTitle());
+        newMarathon.setUsers(input.getUsers());
+        return newMarathon;
     }
 
     @Override

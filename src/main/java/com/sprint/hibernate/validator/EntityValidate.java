@@ -1,15 +1,13 @@
 package com.sprint.hibernate.validator;
 
-import lombok.var;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.validation.*;
-import java.util.Optional;
 import java.util.Set;
 @Service
 public class EntityValidate {
-    public static <T> boolean validate ( T entity ) throws ConstraintViolationException, IllegalAccessException, NoSuchFieldException {
+
+    public static <T> boolean validate ( T entity ) throws ConstraintViolationException {
         String message="";;
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

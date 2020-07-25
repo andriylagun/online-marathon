@@ -3,6 +3,7 @@ package com.sprint.hibernate.entity;
 
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigInteger;

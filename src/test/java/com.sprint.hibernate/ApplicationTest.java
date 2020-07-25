@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,8 +21,8 @@ public class ApplicationTest {
     //    STUDENTS
     private final static long FIRST_STUDENT_ID = 1;
     private final static String FIRST_STUDENT_FIRST_NAME = "Anna";
-    private final static String FIRST_STUDENT_LAST_NAME = "Ivanochko";
-    private final static String FIRST_STUDENT_EMAIL = "anna@gmail.com";
+    private final static String FIRST_STUDENT_LAST_NAME = "Karenina";
+    private final static String FIRST_STUDENT_EMAIL = "anna@jmail.com";
     private final static String FIRST_STUDENT_PASSWORD = "abracadabra";
     private final static String FIRST_STUDENT_ROLE = "TRAINEE";
 
@@ -98,32 +97,31 @@ public class ApplicationTest {
         this.sprintService = sprintService;
         this.taskService = taskService;
         this.userService = userService;
-        setUp();
-    }
 
-    private void setUp() throws NoSuchFieldException, IllegalAccessException {
+    }
+    @BeforeAll
+    private static void setUp() throws NoSuchFieldException, IllegalAccessException {
         // Create students
         User student1 = new User();
+        student1.setId(FIRST_STUDENT_ID);
         student1.setFirstName(FIRST_STUDENT_FIRST_NAME);
         student1.setLastName(FIRST_STUDENT_LAST_NAME);
         student1.setEmail(FIRST_STUDENT_EMAIL);
         student1.setPassword(FIRST_STUDENT_PASSWORD);
         student1.setRole(User.Role.valueOf(FIRST_STUDENT_ROLE));
-        userService.createOrUpdateUser(student1);
         User student2 = new User();
         student2.setFirstName(SECOND_STUDENT_FIRST_NAME);
         student2.setLastName(SECOND_STUDENT_LAST_NAME);
         student2.setEmail(SECOND_STUDENT_EMAIL);
         student2.setPassword(SECOND_STUDENT_PASSWORD);
         student2.setRole(User.Role.valueOf(SECOND_STUDENT_ROLE));
-        userService.createOrUpdateUser(student2);
         User student3 = new User();
         student3.setFirstName(THIRD_STUDENT_FIRST_NAME);
         student3.setLastName(THIRD_STUDENT_LAST_NAME);
         student3.setEmail(THIRD_STUDENT_EMAIL);
         student3.setPassword(THIRD_STUDENT_PASSWORD);
         student3.setRole(User.Role.valueOf(THIRD_STUDENT_ROLE));
-        userService.createOrUpdateUser(student3);
+
         // Create mentors
 
         // Create marathon
@@ -138,7 +136,7 @@ public class ApplicationTest {
     }
 
     @Test
-    public void checkGetUserById() {
+    public void checkGetUserById() throws NoSuchFieldException, IllegalAccessException {
         String expectedUser="User[" +
                 "id=1" +
                 ", firstName=Anna'" +'\'' +
@@ -147,6 +145,14 @@ public class ApplicationTest {
                 ", password='abracadabra"+ '\'' +
                 ", role=TRAINEE"  +
                 ']';
+        User student1 = new User();
+        student1.setId(1);
+        student1.setFirstName(FIRST_STUDENT_FIRST_NAME);
+        student1.setLastName(FIRST_STUDENT_LAST_NAME);
+        student1.setEmail(FIRST_STUDENT_EMAIL);
+        student1.setPassword(FIRST_STUDENT_PASSWORD);
+        student1.setRole(User.Role.valueOf(FIRST_STUDENT_ROLE));
+        userService.createOrUpdateUser(student1);
         String actualUser = userService.getUserById(1).toString();
         Assertions.assertEquals(expectedUser, actualUser, "checkGetUserById()");
     }
