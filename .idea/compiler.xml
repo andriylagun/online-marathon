@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Sprint13_Hibernate" target="1.8" />
+      <module name="Sprint13_Hibernate" target="9" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

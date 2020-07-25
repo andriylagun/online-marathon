@@ -1,6 +1,7 @@
 package com.sprint.hibernate.entity;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,8 +10,7 @@ import javax.persistence.*;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "progress")
 public class Progress {
@@ -20,8 +20,8 @@ public class Progress {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @CreationTimestamp
     private LocalDate started;
@@ -32,7 +32,7 @@ public class Progress {
     @CreationTimestamp
     private LocalDate updated;
 
-    @ManyToOne
+    @OneToOne
     private Task task;
 
     @ManyToOne(optional = false)

@@ -27,7 +27,7 @@ public class ProgressServiceImpl implements ProgressService {
         this.progressRepository = progressRepository;
     }
 
-    public Progress getProgressById(BigInteger progressId) {
+    public Progress getProgressById(long progressId) {
         Optional<Progress> progress = progressRepository.findById(progressId);
 
         if (progress.isPresent()) {
@@ -50,7 +50,7 @@ public class ProgressServiceImpl implements ProgressService {
     }
 
     public Progress addOrUpdateProgress(Progress input) {
-        if(input.getId() != null) {
+        if(input!= null) {
             Optional<Progress> progress = progressRepository.findById(input.getId());
 
             if(progress.isPresent()) {
@@ -74,11 +74,11 @@ public class ProgressServiceImpl implements ProgressService {
         return false;
     }
 
-    public List<Progress> allProgressByUserIdAndMarathonId(BigInteger userId, BigInteger marathonId) {
+    public List<Progress> allProgressByUserIdAndMarathonId(long userId, long marathonId) {
         return progressRepository.allProgressByUserIdAndMarathonId(userId, marathonId);
     }
 
-    public List<Progress> allProgressByUserIdAndSprintId(BigInteger userId, BigInteger sprintId) {
+    public List<Progress> allProgressByUserIdAndSprintId(long userId, long sprintId) {
 //        List<Task> tasks = sprintRepository.getOne(sprintId).getTasks();
 //        return tasks.stream()
 //                .map(task -> task.getProgress())

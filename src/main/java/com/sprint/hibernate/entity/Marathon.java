@@ -1,27 +1,26 @@
 package com.sprint.hibernate.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.util.List;
 
-
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name="marathon")
 public class Marathon {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     private String title;
-
+    @ToString.Exclude
     @OneToMany(mappedBy = "marathon")
     private List<Sprint> sprintList;
-
+    @ToString.Exclude
     @ManyToMany
     @JoinTable(name = "marathon_user",
             joinColumns = @JoinColumn(name = "marathon_id", referencedColumnName = "id"),
