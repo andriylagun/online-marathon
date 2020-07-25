@@ -1,12 +1,16 @@
 package com.sprint.hibernate.entity;
 
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "progress")
 public class Progress {

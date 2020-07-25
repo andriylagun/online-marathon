@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.List;
 
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class Marathon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private BigInteger id;
 
     private String title;
 

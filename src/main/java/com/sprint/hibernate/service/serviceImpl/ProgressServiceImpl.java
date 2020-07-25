@@ -8,9 +8,12 @@ import com.sprint.hibernate.service.ProgressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,27 +27,51 @@ public class ProgressServiceImpl implements ProgressService {
     }
 
     public Progress getProgressById(BigInteger progressId) {
-        return null;
+        Optional<Progress> progress = progressRepository.findById(progressId);
+
+        if (progress.isPresent()) {
+            return progress.get();
+        } else {
+            throw new EntityNotFoundException("No progress exist for given id");
+        }
     }
 
+    /// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public Progress addTaskForStudent(Task task, User user) {
         return null;
     }
 
-    public Progress addOrUpdateProgress(Progress progress) {
-        return null;
+    public Progress addOrUpdateProgress(Progress input) {
+        if(input.getId() != null) {
+            Optional<Progress> progress = progressRepository.findById(input.getId());
+
+            if(progress.isPresent()) {
+                Progress newProgress = progress.get();
+                newProgress.setStatus(input.getStatus());
+                newProgress.setStarted(input.getStarted());
+                newProgress.setUpdated(LocalDate.now());
+                return newProgress;
+            }
+        }
+        return progressRepository.save(input);
+
     }
 
     public boolean setStatus(Progress.TaskStatus taskStatus, Progress progress) {
-        return true;
+        Optional<Progress> progressEntity = progressRepository.findById(progress.getId());
+        if (progressEntity.isPresent()) {
+            progressEntity.get().setStatus(taskStatus);
+            return true;
+        }
+        return false;
     }
 
     public List<Progress> allProgressByUserIdAndMarathonId(BigInteger userId, BigInteger marathonId) {
-        return null;
+        return progressRepository.allProgressByUserIdAndMarathonId(userId, marathonId);
     }
 
     public List<Progress> allProgressByUserIdAndSprintId(BigInteger userId, BigInteger sprintId) {
-        return null;
+        return progressRepository.allProgressByUserIdAndSprintId(userId, sprintId);
     }
 
 }

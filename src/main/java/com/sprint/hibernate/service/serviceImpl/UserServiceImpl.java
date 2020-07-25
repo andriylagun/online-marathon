@@ -1,7 +1,6 @@
 package com.sprint.hibernate.service.serviceImpl;
 
 import com.sprint.hibernate.entity.Marathon;
-import com.sprint.hibernate.entity.Task;
 import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.repository.UserRepository;
@@ -73,18 +72,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.getAllByRole(User.Role.valueOf(role.toUpperCase()));
     }
 
-    public boolean addUserToMarathon(User user, Marathon marathon) {
-//        User userEntity = userRepository.getOne(user.getId());
-//        Marathon marathonEntity = marathonRepository.getMarathonById(marathon.getId());
-//        List<User> users = marathonEntity.getUsers();
-//        users.add(userEntity);
-//        marathon.setUsers(users);
-//        marathonRepository.save(marathon);
+    public boolean addUserToMarathon(User user, Marathon marathon) {  // return User???
 
+        Optional<User> userEntity = userRepository.findById(user.getId());
+        Optional<Marathon> marathonEntity = marathonRepository.findById(marathon.getId());
+        if(!userEntity.isPresent() || !marathonEntity.isPresent()) {
+            return false;
+        }
+        List<User> users = marathonEntity.get().getUsers();
+        users.add(userEntity.get());
+        marathonEntity.get().setUsers(users);
         return true;
     }
 
-    public boolean addUserToTask(User user, Task task) {
-        return true;
-    }
 }

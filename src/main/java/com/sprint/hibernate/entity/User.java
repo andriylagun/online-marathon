@@ -1,9 +1,7 @@
 package com.sprint.hibernate.entity;
 
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -13,6 +11,9 @@ import java.util.List;
 
 @Getter
 @Setter
+//@AllArgsConstructor
+//@NoArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name="users")
 public class User {
@@ -25,11 +26,6 @@ public class User {
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private BigInteger id;   //UUID
 
-  @Column(unique = true)
-  @NotNull
-  @Pattern(regexp = ".+@.+\\..+", message = "please provide a volid email address")
-  private String email;
-
   @NotNull
   @Column(name = "first_name")
   private String firstName;
@@ -38,6 +34,11 @@ public class User {
   @Size(min = 2, max = 20, message = "Last name must be between 2 and 20 characters")
   @Column(name = "last_name")
   private String lastName;
+
+  @Column(unique = true)
+  @NotNull
+  @Pattern(regexp = ".+@.+\\..+", message = "please provide a volid email address")
+  private String email;
 
   @Column
   @NotNull
