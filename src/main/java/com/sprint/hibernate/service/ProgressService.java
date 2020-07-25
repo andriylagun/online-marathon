@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ProgressService {
 
-    Progress getProgressById(BigInteger progressId);
+    Progress getProgressById(long progressId);
 
     Progress addTaskForStudent(Task task, User user);
 
@@ -17,8 +17,8 @@ public interface ProgressService {
 
     boolean setStatus(Progress.TaskStatus taskStatus, Progress progress);
 
-    List<Progress> allProgressByUserIdAndMarathonId(BigInteger userId, BigInteger marathonId);
+    List<Progress> allProgressByUserIdAndMarathonId(long userId, long marathonId);
 
-    List<Progress> allProgressByUserIdAndSprintId(BigInteger userId, BigInteger sprintId);
+    List<Progress> allProgressByUserIdAndSprintId(long userId, long sprintId);
 
 }

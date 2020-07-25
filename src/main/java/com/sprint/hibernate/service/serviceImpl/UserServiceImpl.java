@@ -5,12 +5,13 @@ import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.repository.UserRepository;
 import com.sprint.hibernate.service.UserService;
+import com.sprint.hibernate.validator.EntityValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.math.BigInteger;
+import javax.xml.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private MarathonRepository marathonRepository;
+    @Autowired
+    EntityValidate validator;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -40,7 +43,7 @@ public class UserServiceImpl implements UserService {
         return users.isEmpty() ? new ArrayList<>() : users;
     }
 
-    public User getUserById(BigInteger userId) {            //long?  UUID?
+    public User getUserById(long userId) {            //long?  UUID?
         Optional<User> user = userRepository.findById(userId);
 
         if (user.isPresent()) {
@@ -50,8 +53,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public User createOrUpdateUser(User input) {
-        if(input.getId() != null) {
+    public User createOrUpdateUser(User input) throws NoSuchFieldException, IllegalAccessException {
+        validator.validate(input);
+        if(input != null) {
                 Optional<User> user = userRepository.findById(input.getId());
 
             if(user.isPresent()) {

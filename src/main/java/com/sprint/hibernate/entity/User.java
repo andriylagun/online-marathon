@@ -6,12 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.math.BigInteger;
 import java.util.List;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 @Entity
 @Table(name="users")
 public class User {
@@ -20,9 +17,9 @@ public class User {
     MENTOR, TRAINEE
   }
 
-  @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
-  private BigInteger id;
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long id;
 
   @NotNull
   @Column(name = "first_name")
@@ -50,6 +47,5 @@ public class User {
   @ToString.Exclude
   @ManyToMany(fetch = FetchType.LAZY, mappedBy="users")
   private List<Marathon> marathons;
-
 
 }

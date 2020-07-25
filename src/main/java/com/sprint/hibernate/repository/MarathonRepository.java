@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 import java.util.List;
 @Repository
-public interface MarathonRepository extends JpaRepository<Marathon, BigInteger> {
-        void deleteMarathonById(BigInteger id);
+public interface MarathonRepository extends JpaRepository<Marathon, Long> {
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,20 +27,24 @@ public class MarathonServiceImpl implements MarathonService {
     }
 
     @Override
-    public Marathon getMarathonById(BigInteger id) {
+    public Marathon getMarathonById(long id) {
         return marathonRepository.getOne(id);
     }
 
     @Override
     public Marathon createOrUpdate(Marathon input) {
-        Marathon marathon=marathonRepository.getOne(input.getId());
-        if(marathon.getId()==null)
+        Marathon marathon=marathonRepository.findById(input.getId()).get();
+        if(marathon==null)
             return marathonRepository.save(input);
+
+        marathon.setSprintList(input.getSprintList());
+        marathon.setTitle(input.getTitle());
+        marathon.setUsers(input.getUsers());
         return marathon;
     }
 
     @Override
-    public void deleteMarathonById(BigInteger id) {
-
+    public void deleteMarathonById(long id) {
+    marathonRepository.deleteById(id);
     }
 }

@@ -8,8 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 
 @Repository
-public interface TaskRepository extends JpaRepository<Task, BigInteger> {
-    Task addTaskToSprint(Task task, Sprint sprint);
-     Task   getTaskById	(BigInteger id);
+public interface TaskRepository extends JpaRepository<Task, Long> {
+
 
 }
