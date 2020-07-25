@@ -32,7 +32,7 @@ public class Progress {
     @CreationTimestamp
     private LocalDate updated;
 
-    @ManyToOne
+    @OneToOne
     private Task task;
 
     @ManyToOne(optional = false)

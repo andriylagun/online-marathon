@@ -16,18 +16,10 @@ public class Sprint {
     private LocalDate finish;
     private String title;
 
-    @ManyToOne(optional=false)
+            @ManyToOne(optional=false)
     private Marathon marathon;
 
     @OneToMany(mappedBy = "sprint", cascade = CascadeType.ALL)
     private List<Task> tasks;
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
 
 }

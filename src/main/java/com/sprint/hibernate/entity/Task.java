@@ -17,7 +17,7 @@ public class Task {
 
     @ManyToOne
     private Sprint sprint;
-    @OneToMany
-    private List<Progress> progress;
+    @OneToOne
+    private Progress progress;
 
 }

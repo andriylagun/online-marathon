@@ -11,7 +11,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, BigInteger> {
+public interface    UserRepository extends JpaRepository<User, BigInteger> {
 
     @Query(value = "SELECT u FROM User u WHERE u.role = :role")
     List<User> getAllByRole(User.Role role);

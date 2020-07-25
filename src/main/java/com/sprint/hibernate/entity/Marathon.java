@@ -1,5 +1,6 @@
 package com.sprint.hibernate.entity;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -11,20 +11,18 @@ import java.util.List;
 
 @Getter
 @Setter
-//@AllArgsConstructor
-//@NoArgsConstructor
 @EqualsAndHashCode
 @Entity
 @Table(name="users")
 public class User {
 
   public enum Role {
-    MENTOR, TRAINEE //trainee мені не дуже подобається :) Може давай все таки Student?
+    MENTOR, TRAINEE
   }
 
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
-  private BigInteger id;   //UUID
+  private BigInteger id;
 
   @NotNull
   @Column(name = "first_name")
@@ -51,8 +49,7 @@ public class User {
 
   @ToString.Exclude
   @ManyToMany(fetch = FetchType.LAZY, mappedBy="users")
-  /*Обновив твоє ManyToMany, тепер не потрібно використовувати окремої сутності для marathon_users
-    Подивишся реалізацію в Marathon.
-  */
   private List<Marathon> marathons;
+
+
 }

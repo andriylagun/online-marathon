@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     public User createOrUpdateUser(User input) {
         if(input.getId() != null) {
-            Optional<User> user = userRepository.findById(input.getId());
+                Optional<User> user = userRepository.findById(input.getId());
 
             if(user.isPresent()) {
                 User newUser = user.get();
