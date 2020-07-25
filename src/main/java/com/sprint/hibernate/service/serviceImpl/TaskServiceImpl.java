@@ -48,7 +48,9 @@ public class TaskServiceImpl implements TaskService {
     public boolean addTaskToSprint(Task task, Sprint sprint) {
         validator.validate(task);
         validator.validate(sprint);
-        return sprint.getTasks().add(task);
+        task.setSprint(sprint);
+        taskRepository.save(task);
+        return true;
     }
 
     @Override
