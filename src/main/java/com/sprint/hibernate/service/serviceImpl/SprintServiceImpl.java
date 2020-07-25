@@ -37,7 +37,9 @@ public class SprintServiceImpl implements SprintService {
     public boolean addSprintToMarathon(Sprint sprint, Marathon marathon) {
         validator.validate(sprint);
         validator.validate(marathon);
-        return marathon.getSprintList().add(sprint);
+        sprint.setMarathon(marathon);
+        sprintRepository.save(sprint);
+        return true;
     }
 
 

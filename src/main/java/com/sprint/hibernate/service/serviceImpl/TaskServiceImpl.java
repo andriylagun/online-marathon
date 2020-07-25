@@ -5,7 +5,6 @@ import com.sprint.hibernate.entity.Task;
 import com.sprint.hibernate.repository.TaskRepository;
 import com.sprint.hibernate.service.TaskService;
 import com.sprint.hibernate.validator.EntityValidate;
-import org.hibernate.validator.internal.engine.ValidatorImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
