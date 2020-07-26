@@ -78,15 +78,10 @@ public class ApplicationTest {
     //PROGRESS
 
 
-    @Autowired
     private MarathonService marathonService;
-    @Autowired
     private ProgressService progressService;
-    @Autowired
     private SprintService sprintService;
-    @Autowired
     private TaskService taskService;
-    @Autowired
     private UserService userService;
 
     @Autowired

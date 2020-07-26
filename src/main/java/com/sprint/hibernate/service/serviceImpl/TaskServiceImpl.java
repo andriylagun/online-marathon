@@ -5,7 +5,6 @@ import com.sprint.hibernate.entity.Task;
 import com.sprint.hibernate.repository.TaskRepository;
 import com.sprint.hibernate.service.TaskService;
 import com.sprint.hibernate.validator.EntityValidate;
-import org.hibernate.validator.internal.engine.ValidatorImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +48,9 @@ public class TaskServiceImpl implements TaskService {
     public boolean addTaskToSprint(Task task, Sprint sprint) {
         validator.validate(task);
         validator.validate(sprint);
-        return sprint.getTasks().add(task);
+        task.setSprint(sprint);
+        taskRepository.save(task);
+        return true;
     }
 
     @Override
