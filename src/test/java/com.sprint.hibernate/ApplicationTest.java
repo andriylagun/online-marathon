@@ -6,14 +6,8 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.transaction.BeforeTransaction;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.transaction.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -204,10 +198,15 @@ public class ApplicationTest {
 
     @Test
     public void checkAllProgressByUserIdAndSprintId() {
-        String expected = "[]";
-        String actual = progressService.allProgressByUserIdAndSprintId(1, 2).toString();
+        String expected = List.of(
+                progressService.getProgressById(2),
+                progressService.getProgressById(2)
+        ).toString();
+
+        String actual = progressService.allProgressByUserIdAndSprintId(2, 1).toString();
         Assertions.assertEquals(expected, actual);
     }
+
     @Test
     public void checkAllProgressByUserIdAndMarathonId(){
         String expected=List.of(
@@ -217,12 +216,4 @@ public class ApplicationTest {
         String actual=progressService.allProgressByUserIdAndMarathonId(1,1).toString();
         Assertions.assertEquals(expected,actual);
     }
-
-   // @Test
-    //public void checkGetAll() {
-       // List<User> expected = List.of(
-//
-  //              );
-    //}
-
 }

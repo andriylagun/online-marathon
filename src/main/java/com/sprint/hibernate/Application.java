@@ -1,14 +1,10 @@
 package com.sprint.hibernate;
 
-import com.sprint.hibernate.entity.*;
 import com.sprint.hibernate.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import javax.validation.ConstraintViolationException;
 
     @SpringBootApplication
 public class Application implements CommandLineRunner{
