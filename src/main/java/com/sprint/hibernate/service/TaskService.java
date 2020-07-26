@@ -10,4 +10,5 @@ public interface TaskService {
     boolean addTaskToSprint(Task task, Sprint sprint);
     Task   getTaskById	(long id);
     void deleteSprintById(long id);
+    void deleteAll();
 }

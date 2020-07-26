@@ -9,10 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import javax.validation.ConstraintViolationException;
-import java.time.LocalDate;
-import java.util.Random;
 
-@SpringBootApplication
+    @SpringBootApplication
 public class Application implements CommandLineRunner{
     private UserService userService;
     private TaskService taskService;
@@ -46,7 +44,7 @@ public class Application implements CommandLineRunner{
 
         System.out.println("=======   application started   ========");
     }
-    @Bean
+    /*@Bean
     public CommandLineRunner demo() {
         return (args) -> {
             System.out.println("*** START MAIN ***");
@@ -146,5 +144,5 @@ public class Application implements CommandLineRunner{
             }
             System.out.println("*** STOP MAIN ***");
         };
-    }
+    }*/
 }

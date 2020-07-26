@@ -1,12 +1,16 @@
 package com.sprint.hibernate.service.serviceImpl;
 
 import com.sprint.hibernate.entity.Marathon;
+import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.validator.EntityValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.Query;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.List;
@@ -32,7 +36,14 @@ public class MarathonServiceImpl implements MarathonService {
 
     @Override
     public Marathon getMarathonById(long id) {
-        return marathonRepository.getOne(id);
+
+        Optional<Marathon> marathon = marathonRepository.findById(id);
+
+        if (marathon.isPresent()) {
+            return marathon.get();
+        } else {
+            throw new EntityNotFoundException("No user exist for given id");
+        }
     }
 
     @Override
@@ -47,9 +58,12 @@ public class MarathonServiceImpl implements MarathonService {
         newMarathon.setUsers(input.getUsers());
         return newMarathon;
     }
-
     @Override
     public void deleteMarathonById(long id) {
     marathonRepository.deleteById(id);
+    }
+
+    public void deleteAll(){
+        marathonRepository.deleteAll();
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
 @Table(name="sprint")
 public class Sprint {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name="start_date")
     @NotNull

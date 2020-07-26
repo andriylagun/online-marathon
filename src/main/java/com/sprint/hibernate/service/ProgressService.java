@@ -22,5 +22,6 @@ public interface ProgressService {
     List<Progress> allProgressByUserIdAndSprintId(long userId, long sprintId);
 
     void deleteProgressById(long id);
+    void deleteAll();
 
 }

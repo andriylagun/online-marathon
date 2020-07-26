@@ -21,7 +21,7 @@ public class Progress {
         PASS, FAIL, PENDING
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull
