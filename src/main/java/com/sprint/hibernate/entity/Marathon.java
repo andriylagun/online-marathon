@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name="marathon")
 public class Marathon {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull
@@ -24,42 +24,11 @@ public class Marathon {
     @OneToMany(mappedBy = "marathon")
     private List<Sprint> sprintList;
     @ToString.Exclude
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "marathon_user",
             joinColumns = @JoinColumn(name = "marathon_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
     )
     private List<User> users;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public List<Sprint> getSprintList() {
-        return sprintList;
-    }
-
-    public void setSprintList(List<Sprint> sprintList) {
-        this.sprintList = sprintList;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 }

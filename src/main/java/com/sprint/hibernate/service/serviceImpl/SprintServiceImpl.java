@@ -73,4 +73,7 @@ public class SprintServiceImpl implements SprintService {
     public void deleteSprintById(long id) {
         sprintRepository.deleteById(id);
     }
+    public void deleteAll(){
+        sprintRepository.deleteAll();
+    }
 }

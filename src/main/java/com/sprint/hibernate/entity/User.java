@@ -2,6 +2,7 @@ package com.sprint.hibernate.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -19,7 +20,7 @@ public class User {
   }
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 
   @NotNull

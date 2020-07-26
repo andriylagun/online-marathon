@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
     @Override
     public User createOrUpdateUser(User input) {
         validator.validate(input);
@@ -96,5 +97,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(long id) {
         userRepository.deleteById(id);
     }
-
+    public void deleteAll(){
+        userRepository.deleteAll();
+    }
 }

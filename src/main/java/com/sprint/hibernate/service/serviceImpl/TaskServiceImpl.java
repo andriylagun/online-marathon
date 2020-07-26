@@ -55,11 +55,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task getTaskById(long id) {
-        return taskRepository.getOne(id);
+        return taskRepository.findById(id).orElseGet(null);
     }
 
     @Override
     public void deleteSprintById(long id) {
         taskRepository.deleteById(id);
+    }
+    public void deleteAll(){
+        taskRepository.deleteAll();
     }
 }

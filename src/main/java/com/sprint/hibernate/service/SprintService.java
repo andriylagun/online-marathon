@@ -16,4 +16,5 @@ public interface SprintService {
     Sprint getSprintById(long id);
 
     void deleteSprintById(long id);
+    void deleteAll();
 }

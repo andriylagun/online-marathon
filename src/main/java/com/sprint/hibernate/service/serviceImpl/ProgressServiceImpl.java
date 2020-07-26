@@ -90,5 +90,7 @@ public class ProgressServiceImpl implements ProgressService {
     public void deleteProgressById(long id) {
         progressRepository.deleteById(id);
     }
-
+    public void deleteAll(){
+        progressRepository.deleteAll();
+    }
 }
