@@ -9,10 +9,8 @@ import java.util.List;
 @Repository
 public interface ProgressRepository extends JpaRepository<Progress, Long> {
 
-    @Query(value = "  SELECT p FROM Progress p INNER JOIN Marathon m ON m.id=:marathonId WHERE p.trainee.id=:userId AND m.id=:marathonId")
-    List<Progress> allProgressByUserIdAndMarathonId(long userId, long marathonId);
+    List<Progress> findAllByTraineeIdAndTaskSprintMarathonId(long userId, long marathonId);
 
-    @Query(value = "SELECT p FROM Progress p INNER JOIN Task t ON t.sprint.id=:sprintId WHERE p.trainee.id = :userId AND t.sprint.id=:sprintId")
-    List<Progress> allProgressByUserIdAndSprintId(long userId, long sprintId);
+    List<Progress> findAllByTraineeIdAndTaskSprintId(long userId, long sprintId);
 
 }

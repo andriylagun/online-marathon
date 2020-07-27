@@ -199,7 +199,6 @@ public class ApplicationTest {
     @Test
     public void checkAllProgressByUserIdAndSprintId() {
         String expected = List.of(
-                progressService.getProgressById(2),
                 progressService.getProgressById(2)
         ).toString();
 

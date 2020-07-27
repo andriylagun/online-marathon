@@ -78,12 +78,12 @@ public class ProgressServiceImpl implements ProgressService {
 
     @Override
     public List<Progress> allProgressByUserIdAndMarathonId(long userId, long marathonId) {
-        return progressRepository.allProgressByUserIdAndMarathonId(userId, marathonId);
+        return progressRepository.findAllByTraineeIdAndTaskSprintMarathonId(userId, marathonId);
     }
 
     @Override
     public List<Progress> allProgressByUserIdAndSprintId(long userId, long sprintId) {
-        return progressRepository.allProgressByUserIdAndSprintId(userId, sprintId);
+        return progressRepository.findAllByTraineeIdAndTaskSprintId(userId, sprintId);
     }
 
     @Override
