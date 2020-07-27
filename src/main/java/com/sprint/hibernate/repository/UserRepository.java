@@ -1,5 +1,6 @@
 package com.sprint.hibernate.repository;
 
+import com.sprint.hibernate.entity.Progress;
 import com.sprint.hibernate.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,4 +12,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT u FROM User u WHERE u.role = :role")
     List<User> getAllByRole(User.Role role);
+
+    List<User> findAllByMarathonIdAndRole(long marathonId, User.Role role);
 }

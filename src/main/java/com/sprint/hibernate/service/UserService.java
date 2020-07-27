@@ -20,6 +20,10 @@ public interface UserService {
 
     boolean addUserToMarathon(User user, Marathon marathon);
 
+    List<User> allUsersByMarathonIdAndRole(long id, String role);
+
     void deleteUserById(long id);
     void deleteAll();
+
+    public boolean deleteUserFromMarathon(User user, Marathon marathon);
 }

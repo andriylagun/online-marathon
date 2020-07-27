@@ -93,11 +93,29 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    public List<User> allUsersByMarathonIdAndRole(long id, String role) {
+        return userRepository.findAllByMarathonIdAndRole(id, User.Role.valueOf(role));
+    }
+
     @Override
     public void deleteUserById(long id) {
         userRepository.deleteById(id);
     }
     public void deleteAll(){
         userRepository.deleteAll();
+    }
+
+    @Override
+    public boolean deleteUserFromMarathon(User user, Marathon marathon) {
+
+        Optional<User> userEntity = userRepository.findById(user.getId());
+        Optional<Marathon> marathonEntity = marathonRepository.findById(marathon.getId());
+        if(!userEntity.isPresent() || !marathonEntity.isPresent()) {
+            return false;
+        }
+        List<User> users = marathonEntity.get().getUsers();
+        users.remove(userEntity.get());
+        marathonEntity.get().setUsers(users);
+        return true;
     }
 }
