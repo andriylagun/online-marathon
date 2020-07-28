@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User> allUsersByMarathonIdAndRole(long id, String role) {
-        return userRepository.findAllByMarathonIdAndRole(id, User.Role.valueOf(role));
+        return userRepository.findAllByMarathonsIdAndRole(id, User.Role.valueOf(role));
     }
 
     @Override

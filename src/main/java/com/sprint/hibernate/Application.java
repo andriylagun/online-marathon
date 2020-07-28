@@ -1,12 +1,18 @@
 package com.sprint.hibernate;
 
+import com.sprint.hibernate.entity.*;
 import com.sprint.hibernate.service.*;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
-    @SpringBootApplication
+import javax.validation.ConstraintViolationException;
+import java.util.List;
+
+@SpringBootApplication
 public class Application implements CommandLineRunner{
     private UserService userService;
     private TaskService taskService;
@@ -14,7 +20,6 @@ public class Application implements CommandLineRunner{
     private  ProgressService progressService;
     private MarathonService marathonService;
 
-    @Autowired
     public Application(
             UserService userService,
             TaskService taskService,
@@ -29,9 +34,6 @@ public class Application implements CommandLineRunner{
         this.marathonService = marathonService;
     }
 
-    public Application() {
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -39,6 +41,11 @@ public class Application implements CommandLineRunner{
     public void run(String... args) throws Exception {
 
         System.out.println("=======   application started   ========");
+        List<User> users = userService.getAll();
+        List<Marathon> marathons = marathonService.getAll();
+        if (marathons.size() == 4) System.out.println("+++++++++++++++");
+        else System.out.println("---------------");
+        System.out.println(marathons.get(0).getTitle());
     }
     /*@Bean
     public CommandLineRunner demo() {

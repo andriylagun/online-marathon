@@ -3,6 +3,7 @@ package com.sprint.hibernate.controller;
 import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,12 +14,10 @@ import java.util.List;
 
 @Controller
 @Data
+@AllArgsConstructor
 public class StudentController {
 
-    @Autowired
     private UserService userService;
-
-    @Autowired
     private MarathonService marathonService;
 
     //    List of all students (page available via .. /students, method GET)
