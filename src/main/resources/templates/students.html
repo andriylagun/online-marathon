@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Students</title>
@@ -8,9 +8,20 @@
     <h2>Students</h2>
     <table>
         <tr>
-            <th></th>
+            <th>Lastname</th><th>Firstname</th><th>Email</th><th></th>
+        </tr>
+        <tr th:each="student: ${students}">
+            <td>
+                <a th:href="@{/student/{student_id}(id=${student.getId()})}">th:text="${student.getLastName()}"</a>
+            </td>
+            <td th:text="${student.getFirstName()}"/>
+            <td th:text="${student.getEmail()}"/>
+            <td>
+                <a th:href="@{/delete/{student_id}(id=${student.getId()})}">Remove from marathon</a>
+            </td>
         </tr>
     </table>
+    <a th:href="@{/students/{marathon_id}/add}(id=${student.getMarathonId()})}">Add student to Marathon</a>    <!-- student.getMarathonId()?????? -->
 </body>
 </html>
 

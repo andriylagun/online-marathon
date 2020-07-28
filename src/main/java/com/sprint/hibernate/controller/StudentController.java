@@ -57,12 +57,28 @@ public class StudentController {
         return "edit_student";
     }
 
+    @GetMapping("/students/{marathon_id}/add")
+    public String creatStudent(@PathVariable(name="marathon_id") long marathonId, Model model) {
+        User student = new User();
+        model.addAttribute("student", student);
+        model.addAttribute("marathon_id", marathonId);
+        return "add_student";
+    }
+
     // Add student to marathon (route is like ../students/{marathon_id}/add)
     @PostMapping("/students/{marathon_id}/add")
     public String addStudentToMarathon(@PathVariable(name="marathon_id") long marathonId,
-                                       @ModelAttribute(name="user") User user, Model model) {
-        userService.addUserToMarathon(user, marathonService.getMarathonById(marathonId));
-        return "redirect:/students";
+                                       @ModelAttribute(name="student") User student) {
+        userService.addUserToMarathon(student, marathonService.getMarathonById(marathonId));
+        return "redirect:/students/{marathon_id}";
+    }
+
+    //When user clicks on student name ‘Student’ page with filled data about selected student should be opened
+    @GetMapping("/student/{student_id}")
+    public String getInfoAboutStudent(@PathVariable(name="student_id") long studentId, Model model) {
+        User student = userService.getUserById(studentId);
+        model.addAttribute("student", student);
+        return "student";
     }
 
 }
