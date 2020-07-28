@@ -18,11 +18,14 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class MarathonController {
+
     private MarathonService marathonService;
 
     @GetMapping("/marathons")
     public String getAllMarathons(Model model) {
         List<Marathon> marathons = marathonService.getAll();
+        Marathon marathon = new Marathon();
+        model.addAttribute("marathon", marathon);
         model.addAttribute("marathons", marathons );
         return "marathons";
     }
@@ -33,16 +36,14 @@ public class MarathonController {
         return "redirect:/marathons";
     }
 
-    @GetMapping("/createmarathon")
-    public String creatMarathon(Model model) {
-        Marathon marathon = new Marathon();
-        model.addAttribute("marathon", marathon);
-        return "createmarathon";
-    }
+   // @GetMapping("marathons/create")
+   // public String createMarathon(@PathVariable(name="marathon") Marathon marathon) {
+   //     marathonService.createOrUpdate(marathon);
+   //     return "redirect:/marathons";
+  //  }
 
-    @PostMapping("/createMarathon")
-    public String addMarathon(@ModelAttribute(name="marathon") Marathon marathon) {
-        marathonService.createOrUpdate(marathon);
-        return "redirect:/marathons";
-    }
+    @PostMapping("/marathons/create")
+    public String addMarathon(@ModelAttribute(name= "marathon") Marathon marathon ) {
+       marathonService.createOrUpdate(marathon);
+       return "redirect:/marathons"; }
 }
