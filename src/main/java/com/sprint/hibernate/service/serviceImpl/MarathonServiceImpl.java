@@ -48,7 +48,6 @@ public class MarathonServiceImpl implements MarathonService {
         if(!marathon.isPresent())
             return marathonRepository.save(input);
         Marathon newMarathon=marathon.get();
-        newMarathon.setSprintList(input.getSprintList());
         newMarathon.setTitle(input.getTitle());
         newMarathon.setUsers(input.getUsers());
         return newMarathon;

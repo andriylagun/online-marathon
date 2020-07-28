@@ -25,25 +25,34 @@ public class MarathonController {
     public String getAllMarathons(Model model) {
         List<Marathon> marathons = marathonService.getAll();
         Marathon marathon = new Marathon();
+        String title="";
+        model.addAttribute("title", title);
         model.addAttribute("marathon", marathon);
-        model.addAttribute("marathons", marathons );
+        model.addAttribute("marathons", marathons);
         return "marathons";
     }
 
-    @GetMapping("/marathon/delete/{id}")
-    public String deleteMarathon(@PathVariable(name="id") Long id) {
+    @GetMapping("/marathons/delete/{id}")
+    public String deleteMarathon(@PathVariable(name = "id") Long id) {
         marathonService.deleteMarathonById(id);
         return "redirect:/marathons";
     }
 
-   // @GetMapping("marathons/create")
-   // public String createMarathon(@PathVariable(name="marathon") Marathon marathon) {
-   //     marathonService.createOrUpdate(marathon);
-   //     return "redirect:/marathons";
-  //  }
-
     @PostMapping("/marathons/create")
-    public String addMarathon(@ModelAttribute(name= "marathon") Marathon marathon ) {
-       marathonService.createOrUpdate(marathon);
-       return "redirect:/marathons"; }
+    public String addMarathon(@ModelAttribute(name = "marathon") Marathon marathon) {
+        marathonService.createOrUpdate(marathon);
+        return "redirect:/marathons";
+    }
+
+    @GetMapping("/marathons/edit/{id}")
+    public String editMarathons(@PathVariable(name = "id") long id,Model model) {
+        Marathon marathon = marathonService.getMarathonById(id);
+        model.addAttribute("marathon",marathon);
+        return "edit_marathon";
+    }
+    @PostMapping("/marathons/edit")
+    public String editMarathon(@ModelAttribute(name = "marathon") Marathon marathon) {
+        marathonService.createOrUpdate(marathon);
+        return "redirect:/marathons";
+    }
 }

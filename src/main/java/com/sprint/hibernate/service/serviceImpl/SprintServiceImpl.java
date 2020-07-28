@@ -39,8 +39,7 @@ public class SprintServiceImpl implements SprintService {
 
 
     @Override
-    public Sprint createOrUpdateSprint(Sprint sprint) {
-        validator.validate(sprint);
+    public Sprint updateSprint(Sprint sprint) {
         if(sprint != null) {
             Optional<Sprint> temp = sprintRepository.findById(  sprint.getId());
 
