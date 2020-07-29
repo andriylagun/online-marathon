@@ -14,30 +14,10 @@
 
     <!-- Подключаем Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous" ></script>
+</head>
 
-    <title>Add student</title>
 </head>
 <body>
-<div class="container">
-    <h2>Add student</h2>
-    <form th:action="@{/students/add/{marathon_id} (marathon_id=${marathon.getId()})}" th:object="${student}" method="post">
-        <div class="row">
-            <div class="form-group has-success has-feedback">
-                <input type="text" th:field="*{firstName}" class="form-control" placeholder="Firstname" >
-                </br>
-                <input type="text" th:field="*{lastName}" class="form-control" placeholder="Lastname" >
-                </br>
-                <input type="text" th:field="*{email}" class="form-control" placeholder="Email" >
-                </br>
-                <input type="text" th:field="*{password}" class="form-control" placeholder="Password" >
-                </br>
-                <input type="text" th:field="*{role}" class="form-control" placeholder="Role" >
-                </br>
-                <input type="submit" class="btn btn-primary" value="Update">
-                <input type="reset" class="btn btn-danger" value="Reset">
-            </div>
-        </div>
-    </form>
-</div>
+
 </body>
 </html>

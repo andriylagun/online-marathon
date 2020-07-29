@@ -23,7 +23,7 @@
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
-                <th>Lastname</th><th>Firstname</th><th>Email</th><th></th>
+                <th>Lastname</th><th>Firstname</th><th>Email</th><th></th><th></th>
             </tr>
             <tbody>
                 <tr th:each="student: ${students}">
@@ -32,6 +32,12 @@
                     </td>
                     <td th:text="${student.getFirstName()}"/>
                     <td th:text="${student.getEmail()}"/>
+                    <td>
+                        <a th:href="@{/students/{marathon_id}/edit/{student_id}(student_id=${student.getId()}, marathon_id=${marathon.getId()})}"
+                           class="btn btn-warning btn-sm">
+                            Edit
+                        </a>
+                    </td>
                     <td>
                         <a th:href="@{/students/{marathon_id}/delete/{student_id}(student_id=${student.getId()}, marathon_id=${marathon.getId()})}"
                            class="btn btn-danger btn-sm"
@@ -42,10 +48,18 @@
                 </tr>
             </tbody>
         </table>
+        
+        <a th:href="@{/home}"
+           class="btn btn-info btn-sm">
+            Main page
+        </a>
+
         <a th:href="@{/students/{marathon_id}/add (marathon_id=${marathon.getId()})}"
            class="btn btn-info btn-sm">
             Add student to Marathon
         </a>
+
+
     </div>
 </body>
 </html>
