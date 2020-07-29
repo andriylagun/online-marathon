@@ -1,8 +1,10 @@
 package com.sprint.hibernate.service.serviceImpl;
 
 import com.sprint.hibernate.entity.Marathon;
+import com.sprint.hibernate.entity.Progress;
 import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.repository.MarathonRepository;
+import com.sprint.hibernate.repository.ProgressRepository;
 import com.sprint.hibernate.repository.UserRepository;
 import com.sprint.hibernate.service.UserService;
 import com.sprint.hibernate.validator.EntityValidate;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private MarathonRepository marathonRepository;
+    private ProgressRepository progressRepository;
     @Autowired
     private EntityValidate validator;
 
@@ -34,7 +37,10 @@ public class UserServiceImpl implements UserService {
     public void setMarathonRepository(MarathonRepository marathonRepository) {
         this.marathonRepository = marathonRepository;
     }
-
+    @Autowired
+    public void setProgressRepository(ProgressRepository progressRepository){
+        this.progressRepository = progressRepository;
+    }
 
     @Override
     public List<User> getAll() {
@@ -56,7 +62,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createOrUpdateUser(User input) {
-        validator.validate(input);
         if(input != null) {
                 Optional<User> user = userRepository.findById(input.getId());
 
@@ -67,8 +72,7 @@ public class UserServiceImpl implements UserService {
                 newUser.setLastName(input.getLastName());
                 newUser.setRole(input.getRole());
                 newUser.setPassword(input.getPassword());
-                newUser = userRepository.save(newUser);
-                return newUser;
+                return userRepository.save(newUser);
             }
         }
         return userRepository.save(input);
@@ -109,6 +113,13 @@ public class UserServiceImpl implements UserService {
         if (marathons != null) {
             for (Marathon marathon : marathons) {
                 deleteUserFromMarathon(user, marathon);
+            }
+        }
+        List<Progress> userProgress= progressRepository.findAllByTraineeId(user.getId());
+        if(userProgress != null){
+            for (Progress progress: userProgress)
+            {
+                progress.setTrainee(null);
             }
         }
         userRepository.deleteById(id);
