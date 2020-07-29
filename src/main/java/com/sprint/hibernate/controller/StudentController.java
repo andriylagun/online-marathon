@@ -5,7 +5,6 @@ import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +52,7 @@ public class StudentController {
     public String editStudent(@PathVariable(name="marathon_id") long marathonId,
                               @PathVariable(name="student_id") long studentId) {
         //?????????????????????????????????????????????
-        return "edit_student";
+        return "edit-student";
     }
 
     @GetMapping("/students/{marathon_id}/add")
@@ -61,7 +60,7 @@ public class StudentController {
         User student = new User();
         model.addAttribute("student", student);
         model.addAttribute("marathon_id", marathonId);
-        return "add_student";
+        return "add-student";
     }
 
     // Add student to marathon (route is like ../students/{marathon_id}/add)
@@ -78,6 +77,11 @@ public class StudentController {
         User student = userService.getUserById(studentId);
         model.addAttribute("student", student);
         return "student";
+    }
+
+    @GetMapping("/home")
+    public String homePage(Model model) {
+        return "../static/index";
     }
 
 }
