@@ -1,5 +1,6 @@
 package com.sprint.hibernate.controller;
 
+import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.UserService;
@@ -33,16 +34,17 @@ public class StudentController {
     public String getAllStudentsFromMarathon (@PathVariable(name="marathon_id") long marathonId, Model model) {
         List<User> students = userService.allUsersByMarathonIdAndRole(marathonId, "TRAINEE");
         model.addAttribute("students", students);
-        return "students";
+        model.addAttribute("marathon", marathonService.getMarathonById(marathonId));
+        return "marathon-students";
     }
 
     // When a route is like ../students/{marathon_id}/delete/{student_id},  then student with corresponding
     // student_id should be deleted from marathon with marathon_id
-    @DeleteMapping("/students/{marathon_id}/delete/{student_id}")
+    @GetMapping("/students/{marathon_id}/delete/{student_id}")
     public String removeFromMarathon(@PathVariable(name="marathon_id") long marathonId,
                                      @PathVariable(name="student_id") long studentId) {
         userService.deleteUserFromMarathon(userService.getUserById(studentId), marathonService.getMarathonById(marathonId));
-        return "redirect:/students";
+        return "marathon-students";
     }
 
 
@@ -50,16 +52,20 @@ public class StudentController {
     // of a student with student_id
     @GetMapping("/students/{marathon_id}/edit/{student_id}")
     public String editStudent(@PathVariable(name="marathon_id") long marathonId,
-                              @PathVariable(name="student_id") long studentId) {
+                              @PathVariable(name="student_id") long studentId, Model model) {
         //?????????????????????????????????????????????
-        return "edit-student";
+        User student = userService.getUserById(studentId);
+        model.addAttribute("student", student);
+        model.addAttribute("marathon", marathonService.getMarathonById(marathonId));
+        return "add-student";
+//        return "edit-student";
     }
 
     @GetMapping("/students/{marathon_id}/add")
     public String creatStudent(@PathVariable(name="marathon_id") long marathonId, Model model) {
         User student = new User();
         model.addAttribute("student", student);
-        model.addAttribute("marathon_id", marathonId);
+        model.addAttribute("marathon", marathonService.getMarathonById(marathonId));
         return "add-student";
     }
 

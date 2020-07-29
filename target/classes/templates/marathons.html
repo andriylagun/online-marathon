@@ -23,31 +23,28 @@
 
 <div class="container">
 
-    <h3>Marathon List Directory</h3>
+    <h3>Marathon List Page</h3>
     <hr>
 
     <table class="table table-bordered table-striped">
-        <thead class="thead-dark">
+        <thead class="bg-primary">
         <tr>
             <th>Title</th>
             <th>Action</th>
         </tr>
         </thead>
 
-        <tbody>
+        <tbody class="bg-light">
         <tr th:each="tempMarathon : ${marathons}">
-
-            <td th:text="${tempMarathon.title}"></td>
-
+            <td>
+                <a th:text="${tempMarathon.title}" th:href="@{/students/{marathon_id}(marathon_id=${tempMarathon.getId()})}"></a>
+            </td>
             <td>
                 <!-- Add "update" button/link -->
-                <a th:href="@{/marathons/edit(marathonId=${tempMarathon.id})}"
-                   class="btn btn-info btn-sm">
-                    Edit
-                </a>
-
+                <a th:href="@{marathons/edit/{id}(id=${tempMarathon.getId()})}"
+                   class="btn btn-primary btn-sm">Edit</a>
                 <!-- Add "delete" button/link -->
-                <a th:href="@{marathon/delete/{id}(id=${tempMarathon.getId()})}"
+                <a th:href="@{marathons/delete/{id}(id=${tempMarathon.getId()})}"
                    class="btn btn-danger btn-sm"
                    onclick="if (!(confirm('Are you sure you want to close this marathon?'))) return false">
                     Close
@@ -66,10 +63,11 @@
             <div class="modal-content">
                 <form th:action="@{/marathons/create}" th:object="${marathon}" method="post">
                     <div class="input-group input-group-lg">
-                        <span class="input-group-addon"><img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/24/Misc-Web-Database-icon.png"></span></span>
+                        <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Alarm-Plus-icon.png">
+                        <h4>Create new marathon:</h4>
+                        <span class="input-group-addon"></span></span>
                         <input type="text" th:field="*{title}" placeholder="Enter a name of marathon"/>
-                        <button type="submit" class="btn btn-primary" >Create</button>
-                        <button type="reset" class="btn btn-danger">Reset</button>
+                        &nbsp&nbsp<button type="submit" class="btn btn-primary" >Create</button>
                     </div>
                 </form>
             </div>

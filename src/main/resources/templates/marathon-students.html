@@ -23,7 +23,7 @@
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
-                <th>Lastname</th><th>Firstname</th><th>Email</th>
+                <th>Lastname</th><th>Firstname</th><th>Email</th><th></th>
             </tr>
             <tbody>
                 <tr th:each="student: ${students}">
@@ -32,21 +32,20 @@
                     </td>
                     <td th:text="${student.getFirstName()}"/>
                     <td th:text="${student.getEmail()}"/>
-<!--                    <td>-->
-<!--                        <a th:href="@{/delete/{student_id}(id=${student.getId()})}"-->
-<!--                           class="btn btn-danger btn-sm"-->
-<!--                           onclick="if (!(confirm('Are you sure you want to remove this student?'))) return false">-->
-<!--                            Remove from marathon-->
-<!--                        </a>-->
-<!--                    </td>-->
+                    <td>
+                        <a th:href="@{/students/{marathon_id}/delete/{student_id}(student_id=${student.getId()}, marathon_id=${marathon.getId()})}"
+                           class="btn btn-danger btn-sm"
+                           onclick="if (!(confirm('Are you sure you want to remove this student?'))) return false">
+                            Remove from marathon
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>
-
-<!--        <a th:href="@{/students/{marathon_id}/add}"-->
-<!--           class="btn btn-info btn-sm">-->
-<!--            Add student to Marathon-->
-<!--        </a>-->
+        <a th:href="@{/students/{marathon_id}/add (marathon_id=${marathon.getId()})}"
+           class="btn btn-info btn-sm">
+            Add student to Marathon
+        </a>
     </div>
 </body>
 </html>
