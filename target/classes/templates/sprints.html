@@ -30,25 +30,8 @@
             <td th:text="${sprint.getTitle()}"/>
             <td th:text="${sprint.getStartDate()}"/>
             <td th:text="${sprint.getFinish()}"/>
-            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm1">Edit</button>
-
-                <div class="modal fade bd-example-modal-sm1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  >
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <form th:action="@{/sprints/edit}" th:object="${newSprint}" method="post">
-                                <div class="input-group input-group-lg">
-                                    <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Alarm-Plus-icon.png">
-                                    <h4>Edit marathon:</h4>
-                                    <span class="input-group-addon"></span></span>
-                                    <input type="text" th:field="*{title}" placeholder="Enter new name of Sprint"/>
-<!--                                        <input type="date" th:field="{date}"/>-->
-                                    &nbsp&nbsp<button type="submit" class="btn btn-primary" onclick="if (!(confirm('Are you sure you want to edit this sprint?'))) return false" >Edit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <a th:href="@{marathons/sprints/delete/{id}(id=${sprint.getId()})}"
+            <td>
+                <a th:href="@{/sprints/delete/{id}/{mid}(id=${sprint.getId()}, mid=${sprintMarathon.getId()})}"
                    class="btn btn-danger btn-sm"
                    onclick="if (!(confirm('Are you sure you want to close this marathon?'))) return false">
                     Close
@@ -63,7 +46,7 @@
     <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  >
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
-                <form th:action="@{/sprints/add/{id}(id=${marathon.getId()})}" th:object="${newSprint}" method="post">
+                <form th:action="@{/sprints/add/{id}(id=${sprintMarathon.getId()})}" th:object="${newSprint}" method="post">
                     <div class="input-group input-group-lg">
                         <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Alarm-Plus-icon.png">
                         <h4>Create new sprint:</h4>

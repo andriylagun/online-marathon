@@ -61,25 +61,39 @@ public class MarathonController {
     @GetMapping("/sprints/{id}")
     public String showSprints(@PathVariable(name="id") long id,
                               Model model){
-        Marathon marathon = marathonService.getMarathonById(id);
-        List<Sprint> sprints= marathon.getSprintList();
+        Marathon sprintMarathon = marathonService.getMarathonById(id);
+        List<Sprint> sprints= sprintMarathon.getSprintList();
         Sprint newSprint= new Sprint();
         model.addAttribute("newSprint", newSprint);
         model.addAttribute("sprints", sprints);
-        model.addAttribute("marathon", marathon);
-        String welcome="Sprints of "+marathon.getTitle();
+        model.addAttribute("sprintMarathon", sprintMarathon);
+        String welcome="Sprints of "+sprintMarathon.getTitle();
         model.addAttribute("welcome", welcome);
         return "sprints";
     }
-    @PostMapping("/sprints/edit")
-    public String editMarathon(@ModelAttribute(name ="sprint") Sprint sprint){
-        sprintService.updateSprint(sprint);
-        return "redirect:/marathons";
+    @PostMapping("/sprints/edit/{mid}")
+    public String editSprint(@ModelAttribute(name ="newSprint") Sprint sprint,
+                             @PathVariable(name= "mid") long id){
+        Sprint sprint1 = Sprint.builder()
+                .id(sprint.getId())
+                .title(sprint.getTitle())
+                .marathon(marathonService.getMarathonById(id)).build();
+        sprintService.updateSprint(sprint1);
+        return "redirect:/sprints/{mid}";
     }
     @PostMapping("/sprints/add/{id}")
     public String createSprint(@ModelAttribute(name ="marathon") Marathon marathon,
-                               @ModelAttribute(name ="sprint") Sprint sprint) {
-        sprintService.addSprintToMarathon(sprint, marathon);
-        return "redirect:/marathons";
+                               @ModelAttribute(name ="newSprint") Sprint sprint) {
+        Sprint sprint1=Sprint.builder()
+                .title(sprint.getTitle())
+                .build();
+        sprintService.addSprintToMarathon(sprint1, marathon);
+        return "redirect:/sprints/{id}";
+    }
+    @GetMapping("/sprints/delete/{id}/{mid}")
+    public String deleteSprint(@PathVariable(name = "id") long id,
+                               @PathVariable(name = "mid") long mid) {
+        sprintService.deleteSprintById(id,marathonService.getMarathonById(mid));
+        return "redirect:/sprints/{mid}";
     }
 }

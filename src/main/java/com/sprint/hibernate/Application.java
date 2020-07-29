@@ -41,13 +41,8 @@ public class Application implements CommandLineRunner{
     public void run(String... args) throws Exception {
 
         System.out.println("=======   application started   ========");
-        List<User> users = userService.getAll();
-        List<Marathon> marathons = marathonService.getAll();
-        if (marathons.size() == 4) System.out.println("+++++++++++++++");
-        else System.out.println("---------------");
-        System.out.println(marathons.get(0).getTitle());
     }
-    /*@Bean
+   /* @Bean
     public CommandLineRunner demo() {
         return (args) -> {
             System.out.println("*** START MAIN ***");
@@ -134,7 +129,7 @@ public class Application implements CommandLineRunner{
                 //6. All methods with SprintService!
                 sprintService.getSprintById(sprint1.getId());
                 sprintService.addSprintToMarathon(sprint1, marathon2);
-                sprintService.createOrUpdateSprint(sprint1);
+                sprintService.updateSprint(sprint1);
                 sprintService.getSprintById(7);
 
                 //7. All methods with TaskService!
