@@ -15,22 +15,21 @@
     <!-- Подключаем Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous" ></script>
 
-    <title>Progress</title>
+    <title>List of tasks</title>
 </head>
 <body>
     <div class="container">
-        <h2 th:text="|${student.getLastName()} ${student.getFirstName()}|"></h2>
+        <h2 th:text="${sprint.getTitle()}"></h2>
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
-                <th>Task</th><th>Started</th><th>Updated</th><th>Status</th>
+                <th>Task</th><th>Created</th><th>Updated</th>
             </tr>
             <tbody>
-            <tr th:each="item: ${progress}">
-                <td th:text="${item.getTask().id}"/>
-                <td th:text="${item.getStarted()}"/>
-                <td th:text="${item.getUpdated()}"/>
-                <td th:text="${item.getStatus()}"/>
+            <tr th:each="task: ${tasks}">
+                <td th:text="${task.getTitle()}"/>
+                <td th:text="${task.getCreated()}"/>
+                <td th:text="${task.getUpdated()}"/>
             </tr>
             </tbody>
         </table>
