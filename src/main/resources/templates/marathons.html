@@ -31,6 +31,7 @@
         <tr>
             <th>Title</th>
             <th>Action</th>
+            <th>Sprints</th>
         </tr>
         </thead>
 
@@ -41,15 +42,32 @@
             </td>
             <td>
                 <!-- Add "update" button/link -->
-                <a th:href="@{marathons/edit/{id}(id=${tempMarathon.getId()})}"
-                   class="btn btn-primary btn-sm">Edit</a>
+                <button type="button" th:action="${marathon.setId(tempMarathon.getId())}" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm1">Edit</button>
+
+                <div class="modal fade bd-example-modal-sm1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  >
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <form th:action="@{/marathons/edit/{id}(id=${marathon.getId()})}" th:object="${marathon}" method="post">
+                                <div class="input-group input-group-lg">
+                                    <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Alarm-Plus-icon.png">
+                                    <h4>Edit marathon:</h4>
+                                    <span class="input-group-addon"></span></span>
+                                    <input type="text" th:field="*{title}" placeholder="Enter new name of marathon"/>
+                                    &nbsp&nbsp<button type="submit" class="btn btn-primary" onclick="if (!(confirm('Are you sure you want to edit this marathon?'))) return false" >Edit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <!-- Add "delete" button/link -->
                 <a th:href="@{marathons/delete/{id}(id=${tempMarathon.getId()})}"
                    class="btn btn-danger btn-sm"
                    onclick="if (!(confirm('Are you sure you want to close this marathon?'))) return false">
                     Close
                 </a>
-
+            </td>
+            <td>
+                <a th:href="@{/sprints/{id}(id=${tempMarathon.getId()})}">Show sprints</a>
             </td>
 
 

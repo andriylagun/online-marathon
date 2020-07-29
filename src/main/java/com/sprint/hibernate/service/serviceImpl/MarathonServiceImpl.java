@@ -49,7 +49,6 @@ public class MarathonServiceImpl implements MarathonService {
             return marathonRepository.save(input);
         Marathon newMarathon=marathon.get();
         newMarathon.setTitle(input.getTitle());
-        newMarathon.setUsers(input.getUsers());
         return newMarathon;
     }
     @Override

@@ -1,9 +1,7 @@
-<!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
@@ -16,82 +14,70 @@
 
     <!-- Подключаем Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous" ></script>
-    <title>Marathon List Directory</title>
+
+    <title>Sprint list page</title>
 </head>
-
 <body>
-
 <div class="container">
-
-    <h3>Marathon List Page</h3>
-    <hr>
-
+    <h2><p th:text="${welcome}"/></h2>
     <table class="table table-bordered table-striped">
-        <thead class="bg-primary">
+        <thead class="thead-dark">
         <tr>
-            <th>Title</th>
-            <th>Action</th>
-            <th>Sprints</th>
+            <th>Title</th><th>Start date</th><th>Finish date</th><th>Actions</th><th>Tasks</th>
         </tr>
-        </thead>
-
-        <tbody class="bg-light">
-        <tr th:each="tempMarathon : ${marathons}">
-            <td>
-                <a th:text="${tempMarathon.title}" th:href="@{/students/{marathon_id}(marathon_id=${tempMarathon.getId()})}"></a>
-            </td>
-            <td>
-                <!-- Add "update" button/link -->
-                <button type="button" th:action="${marathon.setId(tempMarathon.getId())}" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm1">Edit</button>
+        <tbody>
+        <tr th:each="sprint: ${sprints}">
+            <td th:text="${sprint.getTitle()}"/>
+            <td th:text="${sprint.getStartDate()}"/>
+            <td th:text="${sprint.getFinish()}"/>
+            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm1">Edit</button>
 
                 <div class="modal fade bd-example-modal-sm1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  >
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
-                            <form th:action="@{/marathons/edit/{id}(id=${marathon.getId()})}" th:object="${marathon}" method="post">
+                            <form th:action="@{/sprints/edit}" th:object="${newSprint}" method="post">
                                 <div class="input-group input-group-lg">
                                     <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Alarm-Plus-icon.png">
                                     <h4>Edit marathon:</h4>
                                     <span class="input-group-addon"></span></span>
-                                    <input type="text" th:field="*{title}" placeholder="Enter new name of marathon"/>
-                                    &nbsp&nbsp<button type="submit" class="btn btn-primary" onclick="if (!(confirm('Are you sure you want to edit this marathon?'))) return false" >Edit</button>
+                                    <input type="text" th:field="*{title}" placeholder="Enter new name of Sprint"/>
+<!--                                        <input type="date" th:field="{date}"/>-->
+                                    &nbsp&nbsp<button type="submit" class="btn btn-primary" onclick="if (!(confirm('Are you sure you want to edit this sprint?'))) return false" >Edit</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-                <!-- Add "delete" button/link -->
-                <a th:href="@{marathons/delete/{id}(id=${tempMarathon.getId()})}"
+                <a th:href="@{marathons/sprints/delete/{id}(id=${sprint.getId()})}"
                    class="btn btn-danger btn-sm"
                    onclick="if (!(confirm('Are you sure you want to close this marathon?'))) return false">
                     Close
                 </a>
             </td>
-            <td>
-                <a th:href="@{/sprints/{id}(id=${tempMarathon.getId()})}">Show sprints</a>
-            </td>
-
-
+            <td><a href="">Tasks</a></td>
         </tr>
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Create</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Add to marathon</button>
 
     <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  >
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
-                <form th:action="@{/marathons/create}" th:object="${marathon}" method="post">
+                <form th:action="@{/sprints/add/{id}(id=${marathon.getId()})}" th:object="${newSprint}" method="post">
                     <div class="input-group input-group-lg">
                         <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Alarm-Plus-icon.png">
-                        <h4>Create new marathon:</h4>
+                        <h4>Create new sprint:</h4>
                         <span class="input-group-addon"></span></span>
-                        <input type="text" th:field="*{title}" placeholder="Enter a name of marathon"/>
+                        <input type="text" th:text="${newSprint.getId()}" disabled>
+                        <input type="text" th:field="*{title}" placeholder="Enter a name of sprint"/>
                         &nbsp&nbsp<button type="submit" class="btn btn-primary" >Create</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
 
+
+</div>
 </body>
 </html>

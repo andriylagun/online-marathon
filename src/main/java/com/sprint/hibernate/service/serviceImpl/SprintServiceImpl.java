@@ -42,7 +42,6 @@ public class SprintServiceImpl implements SprintService {
     public Sprint updateSprint(Sprint sprint) {
         if(sprint != null) {
             Optional<Sprint> temp = sprintRepository.findById(  sprint.getId());
-
             if(temp.isPresent()) {
                 Sprint newSprint = temp.get();
                 newSprint.setTitle(sprint.getTitle());
@@ -54,17 +53,20 @@ public class SprintServiceImpl implements SprintService {
                 return newSprint;
             }
         }
-        return sprintRepository.save(sprint);
+        return null;
     }
 
     @Override
     public Sprint getSprintById(long id) {
 
-        return sprintRepository.findById(id).   get();
+        return sprintRepository.findById(id).get();
     }
 
     @Override
-    public void deleteSprintById(long id) {
+    public void deleteSprintById(long id,Marathon marathon) {
+        List<Sprint> sprints = marathon.getSprintList();
+        sprints.remove(getSprintById(id));
+        marathon.setSprintList(sprints);
         sprintRepository.deleteById(id);
     }
     public void deleteAll(){
