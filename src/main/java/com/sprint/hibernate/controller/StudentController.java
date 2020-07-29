@@ -1,8 +1,7 @@
 package com.sprint.hibernate.controller;
 
-import com.sprint.hibernate.entity.Marathon;
+
 import com.sprint.hibernate.entity.User;
-import com.sprint.hibernate.repository.UserRepository;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.UserService;
 import lombok.AllArgsConstructor;
@@ -21,8 +20,6 @@ public class StudentController {
     private UserService userService;
     private MarathonService marathonService;
 
-    //    List of all students (page available via .. /students, method GET)
-    // but from some marathon!
     @GetMapping("/students")
     public String getAllStudents(Model model) {
         List<User> students = userService.getAllByRole("TRAINEE");
@@ -30,7 +27,6 @@ public class StudentController {
         return "students";
     }
 
-    // List of all students from some marathon (page available via .. /students/{marathon_id}, method GET)
     @GetMapping("/students/{marathon_id}")
     public String getAllStudentsFromMarathon (@PathVariable(name="marathon_id") long marathonId, Model model) {
         List<User> students = userService.allUsersByMarathonIdAndRole(marathonId, "TRAINEE");
@@ -39,32 +35,30 @@ public class StudentController {
         return "marathon-students";
     }
 
-    // When a route is like ../students/{marathon_id}/delete/{student_id},  then student with corresponding
-    // student_id should be deleted from marathon with marathon_id
     @GetMapping("/students/{marathon_id}/delete/{student_id}")
     public String removeFromMarathon(@PathVariable(name="marathon_id") long marathonId,
                                      @PathVariable(name="student_id") long studentId) {
         userService.deleteUserFromMarathon(userService.getUserById(studentId), marathonService.getMarathonById(marathonId));
-        return "marathon-students";
+        return "redirect:/students/{marathon_id}";
     }
 
+    @GetMapping("/students/delete/{student_id}")
+    public String removeStudent(@PathVariable(name="student_id") long studentId) {
+        userService.deleteUserById(studentId);
+        return "redirect:/students";
+    }
 
-    // When a route is like ../students/{marathon_id}/edit/{student_id}, then show edit mode
-    // of a student with student_id
-    @GetMapping("/students/{marathon_id}/edit/{student_id}")
-    public String editStudent(@PathVariable(name="marathon_id") long marathonId,
-                              @PathVariable(name="student_id") long studentId, Model model) {
-        //?????????????????????????????????????????????
+    @GetMapping("/students/edit/{student_id}")
+    public String editStudent(@PathVariable(name="student_id") long studentId, Model model) {
         User student = userService.getUserById(studentId);
         model.addAttribute("student", student);
-        model.addAttribute("marathon", marathonService.getMarathonById(marathonId));
         return "edit-student";
-//        return "edit-student";
     }
 
-    @PostMapping("/students/edit/{marathon_id}")
-    public String saveEditedStudent(@PathVariable(name="marathon_id") long marathonId,
+    @PostMapping("/students/edit/{student_id}")
+    public String saveEditedStudent(@PathVariable(name="student_id") long studentId,
                                     @ModelAttribute(name="student") User student) {
+//        student.setId(studentId);
         try {
             userService.createOrUpdateUser(student);
         } catch (NoSuchFieldException e) {
@@ -72,7 +66,7 @@ public class StudentController {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return "redirect:/students/{marathon_id}";
+        return "redirect:/students";
     }
 
     @GetMapping("/students/{marathon_id}/add")
@@ -83,10 +77,10 @@ public class StudentController {
         return "add-student";
     }
 
-    // Add student to marathon (route is like ../students/{marathon_id}/add)
     @PostMapping("/students/add/{marathon_id}")
     public String addStudentToMarathon(@PathVariable(name="marathon_id") long marathonId,
                                        @ModelAttribute(name="student") User student) {
+        student.setRole(User.Role.valueOf("TRAINEE"));
         try {
             userService.createOrUpdateUser(student);
         } catch (NoSuchFieldException e) {
@@ -98,7 +92,6 @@ public class StudentController {
         return "redirect:/students/{marathon_id}";
     }
 
-    //When user clicks on student name ‘Student’ page with filled data about selected student should be opened
     @GetMapping("/student/{student_id}")
     public String getInfoAboutStudent(@PathVariable(name="student_id") long studentId, Model model) {
         User student = userService.getUserById(studentId);
@@ -110,6 +103,30 @@ public class StudentController {
     public String homePage(Model model) {
         return "../static/index";
     }
+
+    //    @GetMapping("/students/{marathon_id}/edit/{student_id}")
+//    public String editStudent(@PathVariable(name="marathon_id") long marathonId,
+//                              @PathVariable(name="student_id") long studentId, Model model) {
+//        User student = userService.getUserById(studentId);
+//        model.addAttribute("student", student);
+//        model.addAttribute("marathon", marathonService.getMarathonById(marathonId));
+//        return "edit-student";
+//    }
+
+    //    @PostMapping("/students/{marathon_id}/edit/{student_id}")
+//    public String saveEditedStudent(@PathVariable(name="marathon_id") long marathonId,
+//                                    @PathVariable(name="student_id") long studentId,
+//                                    @ModelAttribute(name="student") User student) {
+//        try {
+//            userService.createOrUpdateUser(userService.getUserById(studentId));
+//        } catch (NoSuchFieldException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+////        userService.addUserToMarathon(student, marathonService.getMarathonById(marathonId));
+//        return "redirect:/students/{marathon_id}";
+//    }
 
 }
 

@@ -33,16 +33,16 @@
                     <td th:text="${student.getFirstName()}"/>
                     <td th:text="${student.getEmail()}"/>
                     <td>
-                        <a th:href="@{/students/{marathon_id}/delete/{student_id}(student_id=${student.getId()}, marathon_id=${marathon.getId()})}"
-                           class="btn btn-danger btn-sm"
-                           onclick="if (!(confirm('Are you sure you want to remove this student?'))) return false">
-                            Remove from marathon
+                        <a th:href="@{/students/edit/{student_id}(student_id=${student.getId()})}"
+                           class="btn btn-warning btn-sm">
+                            Edit
                         </a>
                     </td>
                     <td>
-                        <a th:href="@{/students/{marathon_id}/progress/{student_id}(student_id=${student.getId()}, marathon_id=${marathon.getId()})}"
-                           class="btn btn-info btn-sm">
-                            Progress
+                        <a th:href="@{/students/delete/{student_id}(student_id=${student.getId()})}"
+                           class="btn btn-danger btn-sm"
+                           onclick="if (!(confirm('Are you sure you want to remove this student?'))) return false">
+                            Remove
                         </a>
                     </td>
                 </tr>
@@ -53,12 +53,6 @@
            class="btn btn-info btn-sm">
             Main page
         </a>
-
-        <a th:href="@{/students/{marathon_id}/add (marathon_id=${marathon.getId()})}"
-           class="btn btn-info btn-sm">
-            Add student to Marathon
-        </a>
-
 
     </div>
 </body>
