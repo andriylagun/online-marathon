@@ -11,7 +11,7 @@ public interface SprintService {
 
     boolean addSprintToMarathon(Sprint sprint, Marathon marathon);
 
-    Sprint createOrUpdateSprint(Sprint sprint);
+    Sprint updateSprint(Sprint sprint);
 
     Sprint getSprintById(long id);
 
