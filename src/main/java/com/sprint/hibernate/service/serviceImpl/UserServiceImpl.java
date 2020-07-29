@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     public User createOrUpdateUser(User input) {
         validator.validate(input);
         if(input != null) {
-                Optional<User> user = userRepository.findById(  input.getId());
+                Optional<User> user = userRepository.findById(input.getId());
 
             if(user.isPresent()) {
                 User newUser = user.get();
@@ -90,6 +90,10 @@ public class UserServiceImpl implements UserService {
         List<User> users = marathonEntity.get().getUsers();
         users.add(userEntity.get());
         marathonEntity.get().setUsers(users);
+        //???????????????
+//        List<Marathon> marathons = userEntity.get().getMarathons();
+//        marathons.add(marathonEntity.get());
+//        userEntity.get().setMarathons(marathons);
         return true;
     }
 

@@ -2,6 +2,7 @@ package com.sprint.hibernate.controller;
 
 import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.User;
+import com.sprint.hibernate.repository.UserRepository;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.UserService;
 import lombok.AllArgsConstructor;
@@ -57,8 +58,21 @@ public class StudentController {
         User student = userService.getUserById(studentId);
         model.addAttribute("student", student);
         model.addAttribute("marathon", marathonService.getMarathonById(marathonId));
-        return "add-student";
+        return "edit-student";
 //        return "edit-student";
+    }
+
+    @PostMapping("/students/edit/{marathon_id}")
+    public String saveEditedStudent(@PathVariable(name="marathon_id") long marathonId,
+                                    @ModelAttribute(name="student") User student) {
+        try {
+            userService.createOrUpdateUser(student);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/students/{marathon_id}";
     }
 
     @GetMapping("/students/{marathon_id}/add")
@@ -70,9 +84,16 @@ public class StudentController {
     }
 
     // Add student to marathon (route is like ../students/{marathon_id}/add)
-    @PostMapping("/students/{marathon_id}/add")
+    @PostMapping("/students/add/{marathon_id}")
     public String addStudentToMarathon(@PathVariable(name="marathon_id") long marathonId,
                                        @ModelAttribute(name="student") User student) {
+        try {
+            userService.createOrUpdateUser(student);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         userService.addUserToMarathon(student, marathonService.getMarathonById(marathonId));
         return "redirect:/students/{marathon_id}";
     }

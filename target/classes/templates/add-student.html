@@ -20,7 +20,7 @@
 <body>
 <div class="container">
     <h2>Add student</h2>
-    <form th:action="@{/students/{marathon_id}/add}" th:object="${student}" method="post">
+    <form th:action="@{/students/add/{marathon_id} (marathon_id=${marathon.getId()})}" th:object="${student}" method="post">
         <div class="row">
             <div class="form-group has-success has-feedback">
                 <input type="text" th:field="*{firstName}" class="form-control" placeholder="Firstname" >
@@ -31,44 +31,13 @@
                 </br>
                 <input type="text" th:field="*{password}" class="form-control" placeholder="Password" >
                 </br>
+                <input type="text" th:field="*{role}" class="form-control" placeholder="Role" >
+                </br>
                 <input type="submit" class="btn btn-primary" value="Update">
                 <input type="reset" class="btn btn-danger" value="Reset">
             </div>
         </div>
     </form>
-
-
-<!--    <form th:action="@{/students/{marathon_id}/add}" th:object="${student}" method="post">-->
-<!--        <p>Firstname: <input type="text" th:field="*{firstName}"/></p>-->
-<!--        <p>Lastname: <input type="text" th:field="*{lastName}"/></p>-->
-<!--        <p>Email: <input type="text" th:field="*{email}"/></p>-->
-<!--        <p>Password: <input type="text" th:field="*{password}"/></p>-->
-<!--        <input type="submit" class="btn btn-primary" value="Add student">-->
-<!--        <input type="reset" class="btn btn-danger" value="Reset">-->
-<!--        <a th:href="@{/students/{marathon_id}/add (marathon_id=${marathon.getId()})}" th:object="${student}" method="post"-->
-<!--           class="btn btn-primary"-->
-<!--           onclick="if (!(confirm('Are you sure you want to add this student?'))) return false">-->
-<!--            Add student-->
-<!--        </a>-->
-<!--    </form>-->
 </div>
 </body>
 </html>
-
-
-
-<!--<form action="#" th:action="@{/saveStudent}" th:object="${student}" method="post">-->
-<!--    <table border="1">-->
-<!--        <tr>-->
-<!--            <td><label th:text="#{msg.id}" /></td>-->
-<!--            <td><input type="number" th:field="*{id}" /></td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <td><label th:text="#{msg.name}" /></td>-->
-<!--            <td><input type="text" th:field="*{name}" /></td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <td><input type="submit" value="Submit" /></td>-->
-<!--        </tr>-->
-<!--    </table>-->
-<!--</form>-->
