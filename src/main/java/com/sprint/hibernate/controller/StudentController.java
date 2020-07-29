@@ -32,6 +32,8 @@ public class StudentController {
     @GetMapping("/students/{marathon_id}")
     public String getAllStudentsFromMarathon (@PathVariable(name="marathon_id") long marathonId, Model model) {
         List<User> students = userService.allUsersByMarathonIdAndRole(marathonId, "TRAINEE");
+        User newStudent= new User();
+        model.addAttribute("newStudent", newStudent);
         model.addAttribute("students", students);
         model.addAttribute("marathon", marathonService.getMarathonById(marathonId));
         return "marathon-students";
@@ -73,18 +75,12 @@ public class StudentController {
         return "redirect:/students";
     }
 
-    @GetMapping("/students/{marathon_id}/add")
-    public String creatStudent(@PathVariable(name="marathon_id") long marathonId, Model model) {
-        User newStudent = new User();
-        model.addAttribute("student", newStudent);
-        model.addAttribute("marathon", marathonService.getMarathonById(marathonId));
-        return "add-student";
-    }
 
     @PostMapping("/students/add/{marathon_id}")
     public String addStudentToMarathon(@PathVariable(name="marathon_id") long marathonId,
                                        @ModelAttribute(name="student") User student) {
         student.setRole(User.Role.valueOf("TRAINEE"));
+
         try {
             userService.createOrUpdateUser(student);
         } catch (NoSuchFieldException e) {
