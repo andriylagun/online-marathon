@@ -60,7 +60,7 @@ public class SprintServiceImpl implements SprintService {
     @Override
     public Sprint getSprintById(long id) {
 
-        return sprintRepository.findById(id).get();
+        return sprintRepository.findById(id).   get();
     }
 
     @Override
