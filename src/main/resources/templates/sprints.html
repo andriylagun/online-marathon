@@ -32,9 +32,9 @@
             <td th:text="${sprint.getStartDate()}"/>
             <td th:text="${sprint.getFinish()}"/>
             <td>
-                <a th:href="@{/sprints/delete/{id}/{mid}(id=${sprint.getId()}, mid=${sprintMarathon.getId()})}"
+                <a th:href="@{/sprints/delete/{sprint_id}/{marathon_id}(sprint_id=${sprint.getId()}, marathon_id=${sprintMarathon.getId()})}"
                    class="btn btn-danger btn-sm"
-                   onclick="if (!(confirm('Are you sure you want to close this marathon?'))) return false">
+                   onclick="if (!(confirm('Are you sure you want to close this sprint?'))) return false">
                     Close
                 </a>
             </td>
@@ -47,12 +47,11 @@
     <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  >
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
-                <form th:action="@{/sprints/add/{id}(id=${sprintMarathon.getId()})}" th:object="${newSprint}" method="post">
+                <form th:action="@{/sprints/add/{marathon_id}(marathon_id=${sprintMarathon.getId()})}" th:object="${newSprint}" method="post">
                     <div class="input-group input-group-lg">
                         <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Alarm-Plus-icon.png">
                         <h4>Create new sprint:</h4>
                         <span class="input-group-addon"></span></span>
-                        <input type="text" th:text="${newSprint.getId()}" disabled>
                         <input type="text" th:field="*{title}" placeholder="Enter a name of sprint"/>
                         &nbsp&nbsp<button type="submit" class="btn btn-primary" >Create</button>
                     </div>
