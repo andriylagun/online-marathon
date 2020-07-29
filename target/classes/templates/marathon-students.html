@@ -33,22 +33,22 @@
                     <td th:text="${student.getFirstName()}"/>
                     <td th:text="${student.getEmail()}"/>
                     <td>
-                        <a th:href="@{/students/{marathon_id}/edit/{student_id}(student_id=${student.getId()}, marathon_id=${marathon.getId()})}"
-                           class="btn btn-warning btn-sm">
-                            Edit
-                        </a>
-                    </td>
-                    <td>
                         <a th:href="@{/students/{marathon_id}/delete/{student_id}(student_id=${student.getId()}, marathon_id=${marathon.getId()})}"
                            class="btn btn-danger btn-sm"
                            onclick="if (!(confirm('Are you sure you want to remove this student?'))) return false">
                             Remove from marathon
                         </a>
                     </td>
+                    <td>
+                        <a th:href="@{/students/{marathon_id}/progress/{student_id}(student_id=${student.getId()}, marathon_id=${marathon.getId()})}"
+                           class="btn btn-info btn-sm">
+                            Progress
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        
+
         <a th:href="@{/home}"
            class="btn btn-info btn-sm">
             Main page

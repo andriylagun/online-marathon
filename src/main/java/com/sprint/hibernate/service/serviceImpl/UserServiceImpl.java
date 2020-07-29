@@ -103,6 +103,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(long id) {
+        User user = userRepository.getOne(id);
+        List<User> students;
+        List<Marathon> marathons = user.getMarathons();
+        if (marathons != null) {
+            for (Marathon marathon : marathons) {
+                deleteUserFromMarathon(user, marathon);
+            }
+        }
         userRepository.deleteById(id);
     }
     public void deleteAll(){
