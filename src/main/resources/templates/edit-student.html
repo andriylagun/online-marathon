@@ -21,7 +21,6 @@
     <div class="container">
         <h2>Edit information about student</h2>
         <form th:action="@{/students/edit/{student_id} (student_id=${student.getId()})}" th:object="${student}" method="post">
-<!--        <form th:action="@{/students/edit/{marathon_id} (marathon_id=${marathon.getId()})}" th:object="${student}" method="post">-->
             <div class="row">
                 <div class="form-group has-success has-feedback">
                     <input type="text" th:field="*{firstName}" class="form-control" placeholder="Firstname" >

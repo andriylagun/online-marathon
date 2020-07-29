@@ -23,6 +23,8 @@ public class StudentController {
     @GetMapping("/students")
     public String getAllStudents(Model model) {
         List<User> students = userService.getAllByRole("TRAINEE");
+        User newStudent=User.builder().role(User.Role.TRAINEE).build();
+        model.addAttribute("newStudent", newStudent);
         model.addAttribute("students", students);
         return "students";
     }
@@ -44,6 +46,7 @@ public class StudentController {
 
     @GetMapping("/students/delete/{student_id}")
     public String removeStudent(@PathVariable(name="student_id") long studentId) {
+
         userService.deleteUserById(studentId);
         return "redirect:/students";
     }
@@ -58,8 +61,9 @@ public class StudentController {
     @PostMapping("/students/edit/{student_id}")
     public String saveEditedStudent(@PathVariable(name="student_id") long studentId,
                                     @ModelAttribute(name="student") User student) {
-//        student.setId(studentId);
         try {
+            student.setId(studentId);
+            student.setRole(User.Role.TRAINEE);
             userService.createOrUpdateUser(student);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
@@ -71,8 +75,8 @@ public class StudentController {
 
     @GetMapping("/students/{marathon_id}/add")
     public String creatStudent(@PathVariable(name="marathon_id") long marathonId, Model model) {
-        User student = new User();
-        model.addAttribute("student", student);
+        User newStudent = new User();
+        model.addAttribute("student", newStudent);
         model.addAttribute("marathon", marathonService.getMarathonById(marathonId));
         return "add-student";
     }
