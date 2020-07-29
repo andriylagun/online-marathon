@@ -22,7 +22,7 @@ public class TaskController {
     SprintService sprintService;
 
     @GetMapping("/tasks/{sprint_id}")
-    public String allTasks(@PathVariable(name="sprint_id") long sprintId, Model model) {
+    public String allTasks(@PathVariable(name = "sprint_id") long sprintId, Model model) {
         Sprint sprint = sprintService.getSprintById(sprintId);
         List<Task> tasks = sprint.getTasks();
         model.addAttribute("tasks", tasks);

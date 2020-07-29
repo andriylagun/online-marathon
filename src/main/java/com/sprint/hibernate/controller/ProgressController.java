@@ -22,8 +22,8 @@ public class ProgressController {
     UserService userService;
 
     @GetMapping("/students/{marathon_id}/progress/{student_id}")
-    public String removeFromMarathon(@PathVariable(name="marathon_id") long marathonId,
-                                     @PathVariable(name="student_id") long studentId, Model model) {
+    public String removeFromMarathon(@PathVariable(name = "marathon_id") long marathonId,
+                                     @PathVariable(name = "student_id") long studentId, Model model) {
         List<Progress> progress = progressService.allProgressByUserIdAndMarathonId(studentId, marathonId);
         model.addAttribute("progress", progress);
         model.addAttribute("student", userService.getUserById(studentId));
