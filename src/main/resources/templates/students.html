@@ -18,6 +18,7 @@
     <title>Students</title>
 </head>
 <body>
+<div th:replace="fragments/header.html :: header"/>
     <div class="container">
         <h2>Students</h2>
         <table class="table table-bordered table-striped">
@@ -79,11 +80,3 @@
     </div>
 </body>
 </html>
-
-
-<!--‘Students’ page should contain information about all students from selected marathon-->
-
-<!--There should be link ‘Remove from marathon’ next to each student-->
-<!--When user clicks on ‘Remove from marathon’ link corresponding student should be deleted and 'Students' page should be reloaded-->
-<!--Add button 'Add student to Marathon'. When user clicks on 'Add student to Marathon' button 'Student' page with empty fields should be opened-->
-<!--When user clicks on student name ‘Student’ page with filled data about selected student should be opened-->

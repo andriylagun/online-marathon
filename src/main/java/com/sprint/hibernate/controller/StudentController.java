@@ -104,30 +104,6 @@ public class StudentController {
         return "../static/index";
     }
 
-    //    @GetMapping("/students/{marathon_id}/edit/{student_id}")
-//    public String editStudent(@PathVariable(name="marathon_id") long marathonId,
-//                              @PathVariable(name="student_id") long studentId, Model model) {
-//        User student = userService.getUserById(studentId);
-//        model.addAttribute("student", student);
-//        model.addAttribute("marathon", marathonService.getMarathonById(marathonId));
-//        return "edit-student";
-//    }
-
-    //    @PostMapping("/students/{marathon_id}/edit/{student_id}")
-//    public String saveEditedStudent(@PathVariable(name="marathon_id") long marathonId,
-//                                    @PathVariable(name="student_id") long studentId,
-//                                    @ModelAttribute(name="student") User student) {
-//        try {
-//            userService.createOrUpdateUser(userService.getUserById(studentId));
-//        } catch (NoSuchFieldException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-////        userService.addUserToMarathon(student, marathonService.getMarathonById(marathonId));
-//        return "redirect:/students/{marathon_id}";
-//    }
-
 }
 
 

@@ -1,12 +1,9 @@
 package com.sprint.hibernate.controller;
 
-
-import com.sprint.hibernate.entity.Progress;
 import com.sprint.hibernate.entity.Sprint;
 import com.sprint.hibernate.entity.Task;
 import com.sprint.hibernate.service.SprintService;
 import com.sprint.hibernate.service.TaskService;
-import com.sprint.hibernate.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
