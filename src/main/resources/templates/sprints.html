@@ -34,7 +34,7 @@
                 <a th:href="@{/sprints/delete/{id}/{mid}(id=${sprint.getId()}, mid=${sprintMarathon.getId()})}"
                    class="btn btn-danger btn-sm"
                    onclick="if (!(confirm('Are you sure you want to close this marathon?'))) return false">
-                    Close
+                    Remove from marathon
                 </a>
             </td>
             <td><a href="">Tasks</a></td>
@@ -51,7 +51,6 @@
                         <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Alarm-Plus-icon.png">
                         <h4>Create new sprint:</h4>
                         <span class="input-group-addon"></span></span>
-                        <input type="text" th:text="${newSprint.getId()}" disabled>
                         <input type="text" th:field="*{title}" placeholder="Enter a name of sprint"/>
                         &nbsp&nbsp<button type="submit" class="btn btn-primary" >Create</button>
                     </div>
