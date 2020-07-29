@@ -36,9 +36,9 @@
 
         <tbody class="bg-light">
         <tr th:each="tempMarathon : ${marathons}">
-
-            <td th:text="${tempMarathon.title}"></td>
-
+            <td>
+                <a th:text="${tempMarathon.title}" th:href="@{/students/{marathon_id}(marathon_id=${tempMarathon.getId()})}"></a>
+            </td>
             <td>
                 <!-- Add "update" button/link -->
                 <a th:href="@{marathons/edit/{id}(id=${tempMarathon.getId()})}"
