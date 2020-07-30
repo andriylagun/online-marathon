@@ -3,6 +3,7 @@ package com.sprint.hibernate.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.apache.tomcat.jni.Local;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 @Data
 @Entity

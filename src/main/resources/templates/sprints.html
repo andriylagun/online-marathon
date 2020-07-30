@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Подключаем jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Подключаем плагин Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+    <!-- Подключаем Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous" ></script>
+
+    <title>Sprint list page</title>
+</head>
+<body>
+<div th:replace="fragments/header.html :: header"/>
+<div class="container">
+    <h2><p th:text="${welcome}"/></h2>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Title</th><th>Start date</th><th>Finish date</th><th>Actions</th><th>Tasks</th>
+        </tr>
+        <tbody>
+        <tr th:each="sprint: ${sprints}">
+            <td th:text="${sprint.getTitle()}"/>
+            <td th:text="${sprint.getStartDate()}"/>
+            <td th:text="${sprint.getFinish()}"/>
+            <td>
+                <a th:href="@{/sprints/delete/{sprint_id}/{marathon_id}(sprint_id=${sprint.getId()}, marathon_id=${sprintMarathon.getId()})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="if (!(confirm('Are you sure you want to close this sprint?'))) return false">
+                    Close
+                </a>
+            </td>
+            <td><a th:href="@{/tasks/{sprint_id}(sprint_id=${sprint.getId()})}">Tasks</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Add to marathon</button>
+
+    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <form th:action="@{/sprints/add/{marathon_id}(marathon_id=${sprintMarathon.getId()})}" th:object="${newSprint}" method="post">
+                    <div class="input-group input-group-lg">
+                        <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Alarm-Plus-icon.png">
+                        <h4>Create new sprint:</h4>
+                        <span class="input-group-addon"></span></span>
+                        <input type="text" th:field="*{title}" placeholder="Enter a name of sprint"/>
+                        &nbsp&nbsp<button type="submit" class="btn btn-primary" >Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
