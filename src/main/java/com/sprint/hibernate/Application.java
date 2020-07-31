@@ -7,41 +7,53 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @SpringBootApplication
-public class Application implements CommandLineRunner{
-    private UserService userService;
-    private TaskService taskService;
-    private SprintService sprintService;
-    private  ProgressService progressService;
-    private MarathonService marathonService;
+public class Application extends SpringBootServletInitializer {
 
-    public Application(
-            UserService userService,
-            TaskService taskService,
-            SprintService sprintService,
-            ProgressService progressService,
-            MarathonService marathonService
-    ) {
-        this.userService = userService;
-        this.taskService = taskService;
-        this.sprintService = sprintService;
-        this.progressService = progressService;
-        this.marathonService = marathonService;
-    }
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
     }
-    @Override
-    public void run(String... args) throws Exception {
 
-        System.out.println("=======   application started   ========");
-    }
+
+//@SpringBootApplication
+//public class Application implements CommandLineRunner{
+//    private UserService userService;
+//    private TaskService taskService;
+//    private SprintService sprintService;
+//    private  ProgressService progressService;
+//    private MarathonService marathonService;
+//
+//    public Application(
+//            UserService userService,
+//            TaskService taskService,
+//            SprintService sprintService,
+//            ProgressService progressService,
+//            MarathonService marathonService
+//    ) {
+//        this.userService = userService;
+//        this.taskService = taskService;
+//        this.sprintService = sprintService;
+//        this.progressService = progressService;
+//        this.marathonService = marathonService;
+//    }
+//
+//    public static void main(String[] args) {
+//        SpringApplication.run(Application.class, args);
+//    }
+//    @Override
+//    public void run(String... args) throws Exception {
+//
+//        System.out.println("=======   application started   ========");
+//    }
+
+
+
    /* @Bean
     public CommandLineRunner demo() {
         return (args) -> {
