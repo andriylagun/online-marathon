@@ -1,6 +1,7 @@
 package com.sprint.hibernate.service.serviceImpl;
 
 import com.sprint.hibernate.entity.Marathon;
+import com.sprint.hibernate.entity.Sprint;
 import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.validator.EntityValidate;
@@ -53,6 +54,10 @@ public class MarathonServiceImpl implements MarathonService {
     }
     @Override
     public void deleteMarathonById(long id) {
+        List<Sprint> sprints= marathonRepository.getOne(id).getSprintList();
+        for(Sprint sprint : sprints){
+            sprint.setMarathon(null);
+        }
     marathonRepository.deleteById(id);
     }
 

@@ -44,7 +44,11 @@ public class MarathonController {
         marathonService.createOrUpdate(marathon);
         return REDIRECT_TO_MARATHONS;
     }
-
+    @PostMapping("/marathons/edit/{id}")
+    public String editMarathon(@ModelAttribute(name = "marathon") Marathon marathon) {
+        marathonService.createOrUpdate(marathon);
+        return "redirect:/marathons";
+    }
     @GetMapping("/sprints/{id}")
     public String showSprints(@PathVariable(name = "id") long id,
                               Model model) {
