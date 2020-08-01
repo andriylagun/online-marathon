@@ -4,10 +4,7 @@ import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -34,7 +31,7 @@ public class UserRepositoryTest {
     private static User mentor2;
     private static Marathon marathon1;
 
-    @BeforeAll
+    @BeforeEach
     public void setUp() {
         marathon1 = Marathon.builder().id(1).title("JOM_1").build();
         marathonRepository.save(marathon1);
@@ -131,6 +128,5 @@ public class UserRepositoryTest {
         String actual = userRepository.getAllByRole(User.Role.valueOf("TRAINEE")).toString();
         Assertions.assertEquals(expected, actual);
     }
-
 
 }
