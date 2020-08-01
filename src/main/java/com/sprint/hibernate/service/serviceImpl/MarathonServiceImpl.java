@@ -5,7 +5,6 @@ import com.sprint.hibernate.exceptions.MarathonExistException;
 import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.SprintService;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
