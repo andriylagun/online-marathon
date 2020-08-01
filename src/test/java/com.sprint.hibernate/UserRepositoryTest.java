@@ -80,7 +80,6 @@ public class UserRepositoryTest {
         mentor1.setMarathons(List.of(marathon1));
 
 
-//        entityManager.persist(student1);
         userRepository.save(student1);
         userRepository.save(student2);
         userRepository.save(student3);

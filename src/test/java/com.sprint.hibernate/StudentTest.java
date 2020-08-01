@@ -12,14 +12,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
-import static java.util.EnumSet.allOf;
-import static net.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.data.repository.util.ClassUtils.hasProperty;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-public class StudentTest {
+public class    StudentTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -30,23 +27,29 @@ public class StudentTest {
     @Test
     public void getAllStudentsTest() throws Exception {
         List<User> expected = userService.getAllByRole("TRAINEE");
-
         mockMvc.perform(MockMvcRequestBuilders.get("/students"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("students"))
                 .andExpect(MockMvcResultMatchers.model().attribute("students", expected));
     }
 
-    // we should add to the controller method add student (not to marathon)
-    //test fails
     @Test
     public void testAddStudent() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/students/add")
+        mockMvc.perform(MockMvcRequestBuilders.post("/students/add/1")
+                .param("password", "12345678")
                 .param("email", "test@email.com")
                 .param("firstname", "fName")
                 .param("lastname", "lName"))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+                .andExpect(status().is3xxRedirection());
     }
 
-
+    @Test
+    public void testGetAllStudentsFromMarathon() throws Exception {
+        List<User> students = userService.allUsersByMarathonIdAndRole(1, "TRAINEE");
+        mockMvc.perform(MockMvcRequestBuilders.get("/students/1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attributeExists("students"))
+                .andExpect(MockMvcResultMatchers.model().size(3))
+                .andExpect(MockMvcResultMatchers.model().attribute("students", students));
+    }
 }

@@ -7,7 +7,6 @@ import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.repository.ProgressRepository;
 import com.sprint.hibernate.repository.UserRepository;
 import com.sprint.hibernate.service.UserService;
-import com.sprint.hibernate.validator.EntityValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +24,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private MarathonRepository marathonRepository;
     private ProgressRepository progressRepository;
-    @Autowired
-    private EntityValidate validator;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {

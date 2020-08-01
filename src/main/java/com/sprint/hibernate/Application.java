@@ -1,6 +1,7 @@
 package com.sprint.hibernate;
 
 import com.sprint.hibernate.entity.*;
+import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
     }
-
+}
 
 //@SpringBootApplication
 //public class Application implements CommandLineRunner{
@@ -28,14 +29,17 @@ public class Application extends SpringBootServletInitializer {
 //    private SprintService sprintService;
 //    private  ProgressService progressService;
 //    private MarathonService marathonService;
-//
+//    private MarathonRepository marathonRepository;
+//    @Autowired
 //    public Application(
+//            MarathonRepository marathonRepository,
 //            UserService userService,
 //            TaskService taskService,
 //            SprintService sprintService,
 //            ProgressService progressService,
 //            MarathonService marathonService
 //    ) {
+//        this.marathonRepository = marathonRepository;
 //        this.userService = userService;
 //        this.taskService = taskService;
 //        this.sprintService = sprintService;
@@ -51,9 +55,8 @@ public class Application extends SpringBootServletInitializer {
 //
 //        System.out.println("=======   application started   ========");
 //    }
-
-
-
+//
+//}
    /* @Bean
     public CommandLineRunner demo() {
         return (args) -> {
@@ -155,4 +158,3 @@ public class Application extends SpringBootServletInitializer {
             System.out.println("*** STOP MAIN ***");
         };
     }*/
-}

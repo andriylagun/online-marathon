@@ -34,18 +34,6 @@ public class UserServiceTest {
         this.userService = userService;
     }
 
-
-//    @TestConfiguration
-//    static class UserServiceTestConfiguration {
-//        @Bean
-//        public UserService userService() {
-//            return new UserServiceImpl();
-//        }
-//    }
-//
-//    @Autowired
-//    private UserService userService;
-
     @MockBean
     private UserRepository userRepository;
 
