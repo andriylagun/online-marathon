@@ -36,7 +36,6 @@ public class Progress {
     @CreationTimestamp
     private LocalDate updated;
 
-    @NotNull
     @OneToOne
     private Task task;
 

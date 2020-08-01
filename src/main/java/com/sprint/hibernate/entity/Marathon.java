@@ -6,11 +6,14 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;
-@Data
-@Entity
+import java.util.Objects;
+
 @Builder
-@NoArgsConstructor
+@Entity
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Table(name="marathon")
 public class Marathon {
     @Id
@@ -21,7 +24,7 @@ public class Marathon {
     @Size(min = 3, max = 20, message = "Marathon title must be between 3 and 20 characters")
     private String title;
     @ToString.Exclude
-    @OneToMany(mappedBy = "marathon")
+    @OneToMany(mappedBy = "marathon", cascade = CascadeType.ALL)
     private List<Sprint> sprintList;
     @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY)
@@ -31,4 +34,16 @@ public class Marathon {
     )
     private List<User> users;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Marathon)) return false;
+        Marathon marathon = (Marathon) o;
+        return getTitle().equals(marathon.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTitle());
+    }
 }

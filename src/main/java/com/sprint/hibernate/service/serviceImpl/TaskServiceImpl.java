@@ -3,7 +3,6 @@ import com.sprint.hibernate.entity.Sprint;
 import com.sprint.hibernate.entity.Task;
 import com.sprint.hibernate.repository.TaskRepository;
 import com.sprint.hibernate.service.TaskService;
-import com.sprint.hibernate.validator.EntityValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +12,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class TaskServiceImpl implements TaskService {
-    @Autowired
-    private EntityValidate validator;
+
     private TaskRepository taskRepository;
     @Autowired
     public void setTaskRepository(TaskRepository taskRepository) {
@@ -23,8 +21,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task createOrUpdateTask(Task task) {
-
-        validator.validate(task);
         if(task != null) {
             Optional<Task> temp = taskRepository.findById( task.getId());
 
@@ -44,8 +40,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public boolean addTaskToSprint(Task task, Sprint sprint) {
-        validator.validate(task);
-        validator.validate(sprint);
         task.setSprint(sprint);
         taskRepository.save(task);
         return true;
@@ -54,11 +48,6 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task getTaskById(long id) {
         return taskRepository.findById(id).orElseGet(null);
-    }
-
-    @Override
-    public void deleteSprintById(long id) {
-        taskRepository.deleteById(id);
     }
     public void deleteAll(){
         taskRepository.deleteAll();

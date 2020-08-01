@@ -28,7 +28,7 @@
             </tr>
             <tbody>
             <tr th:each="item: ${progress}">
-                <td th:text="${item.getTask().id}"/>
+                <td th:text="${item.getTask().getTitle()}"/>
                 <td th:text="${item.getStarted()}"/>
                 <td th:text="${item.getUpdated()}"/>
                 <td th:text="${item.getStatus()}"/>

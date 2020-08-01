@@ -1,6 +1,7 @@
 package com.sprint.hibernate;
 
 import com.sprint.hibernate.entity.*;
+import com.sprint.hibernate.exceptions.MarathonExistException;
 import com.sprint.hibernate.service.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,7 +48,7 @@ public class ApplicationTest {
     private static Progress progress3;
 
     @BeforeAll
-    public void setUp() throws NoSuchFieldException, IllegalAccessException {
+    public void setUp() throws NoSuchFieldException, IllegalAccessException, MarathonExistException {
         //Create marathons
         marathon1 = Marathon.builder().id(1).title("JOM_1").build();
         marathon2 = Marathon.builder().id(2).title("JOM_2").build();

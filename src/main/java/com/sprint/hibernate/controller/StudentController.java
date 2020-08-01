@@ -8,22 +8,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 @Data
 @AllArgsConstructor
+@RequestMapping("/students")
 public class StudentController {
 
     private UserService userService;
     private MarathonService marathonService;
 
-    @GetMapping("/students")
+    @GetMapping
     public String getAllStudents(Model model) {
         List<User> students = userService.getAllByRole("TRAINEE");
         User newStudent = User.builder().role(User.Role.TRAINEE).build();
@@ -32,7 +30,7 @@ public class StudentController {
         return "students";
     }
 
-    @GetMapping("/students/{marathon_id}")
+    @GetMapping("/{marathon_id}")
     public String getAllStudentsFromMarathon(@PathVariable(name = "marathon_id") long marathonId, Model model) {
         List<User> students = userService.allUsersByMarathonIdAndRole(marathonId, "TRAINEE");
         User newStudent = new User();
@@ -42,11 +40,11 @@ public class StudentController {
         return "marathon-students";
     }
 
-    @GetMapping("/students/{marathon_id}/delete/{student_id}")
+    @GetMapping("/{marathon_id}/delete/{student_id}")
     public String removeFromMarathon(@PathVariable(name = "marathon_id") long marathonId,
                                      @PathVariable(name = "student_id") long studentId) {
         userService.deleteUserFromMarathon(userService.getUserById(studentId), marathonService.getMarathonById(marathonId));
-        return "redirect:/students/{marathon_id}";
+        return "redirect:/{marathon_id}";
     }
 
     @GetMapping("/students/delete/{student_id}")
@@ -56,7 +54,7 @@ public class StudentController {
         return "redirect:/students";
     }
 
-    @PostMapping("/students/edit/{student_id}")
+    @PostMapping("/edit/{student_id}")
     public String saveEditedStudent(@PathVariable(name = "student_id") long studentId,
                                     @ModelAttribute(name = "student") User student) {
         try {
@@ -70,11 +68,10 @@ public class StudentController {
     }
 
 
-    @PostMapping("/students/add/{marathon_id}")
+    @PostMapping("/add/{marathon_id}")
     public String addStudentToMarathon(@PathVariable(name = "marathon_id") long marathonId,
                                        @ModelAttribute(name = "student") User student) {
         student.setRole(User.Role.valueOf("TRAINEE"));
-
         try {
             userService.createOrUpdateUser(student);
         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -90,12 +87,6 @@ public class StudentController {
         model.addAttribute("student", student);
         return "student";
     }
-
-    @GetMapping("/home")
-    public String homePage() {
-        return "../static/index";
-    }
-
 }
 
 

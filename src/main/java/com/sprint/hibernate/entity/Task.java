@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -30,9 +31,9 @@ public class Task {
     @UpdateTimestamp
     private LocalDate updated;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Sprint sprint;
-    @OneToOne
-    private Progress progress;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Progress progress;
 }
