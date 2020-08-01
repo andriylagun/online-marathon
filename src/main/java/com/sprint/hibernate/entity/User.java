@@ -51,6 +51,9 @@ public class User {
   @ManyToMany(fetch = FetchType.LAZY, mappedBy="users")
   private List<Marathon> marathons;
 
+  @OneToMany(mappedBy = "trainee")
+  private List<Progress> progresses;
+
 //  @Override
 //  public boolean equals(Object o) {
 //    if (this == o) return true;

@@ -2,6 +2,7 @@ package com.sprint.hibernate;
 
 import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.User;
+import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.repository.UserRepository;
 import com.sprint.hibernate.service.*;
 import com.sprint.hibernate.service.serviceImpl.UserServiceImpl;
@@ -34,20 +35,11 @@ public class UserServiceTest {
         this.userService = userService;
     }
 
-
-//    @TestConfiguration
-//    static class UserServiceTestConfiguration {
-//        @Bean
-//        public UserService userService() {
-//            return new UserServiceImpl();
-//        }
-//    }
-//
-//    @Autowired
-//    private UserService userService;
-
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private MarathonRepository marathonRepository;
 
     private static User student1;
     private static User student2;
@@ -111,11 +103,18 @@ public class UserServiceTest {
         Mockito.when(userRepository.findById(student1.getId()))
                 .thenReturn(Optional.of(student1));
 
+        Mockito.when(userRepository.findById(student3.getId()))
+                .thenReturn(Optional.of(student3));
+
         Mockito.when(userRepository.getAllByRole(User.Role.valueOf("TRAINEE")))
                 .thenReturn(List.of(student1, student2, student3));
 
         Mockito.when(userRepository.findAllByMarathonsIdAndRole(1L, User.Role.valueOf("TRAINEE")))
                 .thenReturn(List.of(student1, student2));
+
+        //??????????????????????????
+        Mockito.when(marathonRepository.findById(marathon1.getId()))
+                .thenReturn(Optional.of(marathon1));
 
     }
 
@@ -135,35 +134,9 @@ public class UserServiceTest {
     }
 
     @Test
-    public void createOrUpdateUserTest() {
-        User student4 = User.builder()
-                .id(6L)
-                .firstName("Petro")
-                .lastName("Markiv")
-                .email("petro@gmail.com")
-                .password("12345")
-                .role(User.Role.TRAINEE)
-                .build();
-        Mockito.when(userRepository.findAll()).thenReturn(List.of(student1, student2, student3, mentor1, mentor2, student4));
-        String expected = List.of(student1, student2, student3, mentor1, mentor2, student4).toString();
-        String actual = userService.getAll().toString();
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
     public void getAllByRoleTest() {
         String expected = List.of(student1, student2, student3).toString();
         String actual = userService.getAllByRole("TRAINEE").toString();
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void addUserToMarathonTest() {  //??????????????????????????
-        String expected = List.of(student1, student2, student3).toString();
-        userService.addUserToMarathon(student3, marathon1);
-        Mockito.when(userRepository.findAllByMarathonsIdAndRole(1L, User.Role.valueOf("TRAINEE")))
-                .thenReturn(List.of(student1, student2, student3));
-        String actual = userService.allUsersByMarathonIdAndRole(1L, "TRAINEE").toString();
         Assertions.assertEquals(expected, actual);
     }
 
@@ -174,6 +147,7 @@ public class UserServiceTest {
         Assertions.assertEquals(expected, actual);
     }
 
+    //Fail
     @Test
     public void deleteUserByIdTest() {
         doNothing().when(userRepository).deleteById(1L);
@@ -191,8 +165,33 @@ public class UserServiceTest {
     }
 
     @Test
-    public void deleteUserFromMarathonTest() {
-//        userService.deleteUserFromMarathon(student2, marathon1);
-//        String actual = userService.
+    public void createOrUpdateUserTest() throws NoSuchFieldException, IllegalAccessException {
+        Mockito.when(userRepository.getOne(1L))
+                .thenReturn(student1);
+        userService.createOrUpdateUser(student1);
+        verify(userRepository, times(1)).save(student1);
+    }
+
+    @Test
+    public void addUserToMarathonTest() {  //??????????????????????????
+        boolean expected = false;
+        User student4 = User.builder()
+                .id(4)
+                .firstName("Olesia")
+                .lastName("Setrina")
+                .email("olesia@gmail.com")
+                .password("password3")
+                .role(User.Role.TRAINEE)
+                .build();
+        boolean actual = userService.addUserToMarathon(student4, marathon1);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void deleteUserFromMarathonTest() {  //?????????????????????
+        boolean expected = false;
+        Marathon marathon3 = Marathon.builder().id(3).title("JOM_3").build();
+        boolean actual = userService.deleteUserFromMarathon(student1, marathon3);
+        Assertions.assertEquals(expected, actual);
     }
 }
