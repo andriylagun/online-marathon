@@ -7,6 +7,7 @@ import com.sprint.hibernate.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @Controller
 @Data
 @AllArgsConstructor
+@Transactional
 @RequestMapping("/students")
 public class StudentController {
 

@@ -147,16 +147,6 @@ public class UserServiceTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    //Fail
-    @Test
-    public void deleteUserByIdTest() {
-        doNothing().when(userRepository).deleteById(1L);
-        Mockito.when(userRepository.getOne(1L))
-                .thenReturn(student1);
-        userService.deleteUserById(1L);
-        verify(userRepository, times(1)).deleteById(1L);
-    }
-
     @Test
     public void deleteAllTest() {
         doNothing().when(userRepository).deleteAll();
@@ -193,5 +183,15 @@ public class UserServiceTest {
         Marathon marathon3 = Marathon.builder().id(3).title("JOM_3").build();
         boolean actual = userService.deleteUserFromMarathon(student1, marathon3);
         Assertions.assertEquals(expected, actual);
+    }
+
+    //Fail
+    @Test
+    public void deleteUserByIdTest() {
+        doNothing().when(userRepository).deleteById(1L);
+        Mockito.when(userRepository.getOne(1L))
+                .thenReturn(student1);
+        userService.deleteUserById(1L);
+        verify(userRepository, times(1)).deleteById(1L);
     }
 }
