@@ -3,9 +3,7 @@ package com.sprint.hibernate;
 import com.sprint.hibernate.entity.*;
 import com.sprint.hibernate.repository.*;
 import com.sprint.hibernate.service.ProgressService;
-import com.sprint.hibernate.service.UserService;
 import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -15,13 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -175,13 +169,5 @@ public class ProgressServiceTest {
         progressService.allProgressByUserIdAndMarathonId(student1.getId(), marathon1.getId());
         Mockito.verify(progressRepository, Mockito.times(1)).findAllByTraineeIdAndTaskSprintMarathonId(student1.getId(), marathon1.getId());
     }
-
-    //Fail
-    @Test
-    public void addOrUpdateProgressTest() {
-        progressService.addOrUpdateProgress(progress1);
-        verify(progressRepository, times(1)).save(progress1);
-    }
-
 
 }

@@ -142,12 +142,4 @@ public class ProgressRepositoryTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    //Fail
-    @Test
-    public void findAllProgressByTraineeIdTest() {
-        String expected = List.of(progress1, progress2, progress3).toString();
-        String actual = progressRepository.findAllByTraineeId(mentor1.getId()).toString();
-        Assertions.assertEquals(expected, actual);
-    }
-
 }

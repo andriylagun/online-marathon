@@ -6,8 +6,9 @@ import com.sprint.hibernate.entity.Sprint;
 import com.sprint.hibernate.exceptions.MarathonExistException;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.SprintService;
-import com.sun.istack.logging.Logger;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
-import java.util.logging.Level;
 
 @Controller
 @AllArgsConstructor
@@ -23,11 +23,11 @@ public class MarathonController {
 
     private MarathonService marathonService;
     private SprintService sprintService;
-    private Logger logger;
+    private final Logger logger = LoggerFactory.getLogger(MarathonController.class);
 
     @GetMapping("/marathons")
     public String getAllMarathons(Model model) {
-        logger.log(Level.INFO, "That's info about students");
+        logger.info("That's info about students");
         List<Marathon> marathons = marathonService.getAll();
         Marathon marathon = new Marathon();
         model.addAttribute("marathon", marathon);
@@ -37,28 +37,28 @@ public class MarathonController {
 
     @GetMapping("/marathons/delete/{id}")
     public String deleteMarathon(@PathVariable(name = "id") Long id) {
-        logger.log(Level.INFO, "YOU DELETING A USER, ARE YOU SURE?");
+        logger.info("YOU DELETING A USER, ARE YOU SURE?");
         marathonService.deleteMarathonById(id);
         return "redirect:/marathons";
     }
 
     @PostMapping("/marathons/create")
     public String addMarathon(@ModelAttribute(name = "marathon") Marathon marathon) throws MarathonExistException {
-        logger.log(Level.FINE, "You are creating new USER");
+        logger.info("You are creating new USER");
         marathonService.createOrUpdate(marathon);
         return "redirect:/marathons";
     }
 
     @PostMapping("/marathons/edit/{id}")
     public String editMarathon(@ModelAttribute(name = "marathon") Marathon marathon) throws MarathonExistException {
-        logger.log(Level.FINE, "You are editing existing user");
+        logger.info("You are editing existing user");
         marathonService.createOrUpdate(marathon);
         return "redirect:/marathons";
     }
     @GetMapping("/sprints/{id}")
     public String showSprints(@PathVariable(name="id") long id,
                               Model model){
-        logger.log(Level.INFO, "Thats info about sprints");
+        logger.info("Thats info about sprints");
         Marathon sprintMarathon = marathonService.getMarathonById(id);
         List<Sprint> sprints= sprintMarathon.getSprintList();
         Sprint newSprint= new Sprint();
@@ -93,7 +93,7 @@ public class MarathonController {
     @GetMapping("/sprints/delete/{id}/{mid}")
     public String deleteSprint(@PathVariable(name = "id") long id,
                                @PathVariable(name = "mid") long mid) {
-        logger.log(Level.WARNING, "You are deleting a sprint");
+        logger.info("You are deleting a sprint");
         sprintService.deleteSprintById(id,marathonService.getMarathonById(mid));
         return "redirect:/sprints/{mid}";
     }

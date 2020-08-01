@@ -41,10 +41,10 @@ INSERT INTO progress VALUES (3, '2020-07-29', 'PENDING', '2020-07-29', 1, 4);
 --
 --
 --
-INSERT INTO marathon_user VALUES (1, 3);
-INSERT INTO marathon_user VALUES (2, 1);
-INSERT INTO marathon_user VALUES (2, 2);
-INSERT INTO marathon_user VALUES (2, 3);
-
- INSERT INTO sprint VALUES (1, '2020-07-29', '2020-07-29', 'Sprint 1', 1);
- INSERT INTO sprint VALUES (2, '2020-07-29', '2020-07-29', 'Sprint 2', 2);
+-- INSERT INTO marathon_user VALUES (1, 3);
+-- INSERT INTO marathon_user VALUES (2, 1);
+-- INSERT INTO marathon_user VALUES (2, 2);
+-- INSERT INTO marathon_user VALUES (2, 3);
+--
+--  INSERT INTO sprint VALUES (1, '2020-07-29', '2020-07-29', 'Sprint 1', 1);
+--  INSERT INTO sprint VALUES (2, '2020-07-29', '2020-07-29', 'Sprint 2', 2);
