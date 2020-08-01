@@ -25,5 +25,5 @@ public interface UserService {
     void deleteUserById(long id);
     void deleteAll();
 
-    public boolean deleteUserFromMarathon(User user, Marathon marathon);
+    boolean deleteUserFromMarathon(User user, Marathon marathon);
 }

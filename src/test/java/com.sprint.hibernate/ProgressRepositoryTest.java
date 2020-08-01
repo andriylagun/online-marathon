@@ -2,16 +2,12 @@ package com.sprint.hibernate;
 
 
 import com.sprint.hibernate.entity.*;
-import com.sprint.hibernate.repository.ProgressRepository;
-import com.sprint.hibernate.repository.TaskRepository;
-import com.sprint.hibernate.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import com.sprint.hibernate.repository.*;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @DataJpaTest
@@ -26,6 +22,12 @@ public class ProgressRepositoryTest {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private SprintRepository sprintRepository;
+
+    @Autowired
+    MarathonRepository marathonRepository;
 
     private static User student1;
     private static User student2;
@@ -42,11 +44,25 @@ public class ProgressRepositoryTest {
     private static Progress progress2;
     private static Progress progress3;
 
-    @BeforeAll
+    @BeforeEach
     public void setUp() {
         //Create marathons
         marathon1 = Marathon.builder().id(1).title("JOM_1").build();
         marathon2 = Marathon.builder().id(2).title("JOM_2").build();
+        marathonRepository.save(marathon1);
+        marathonRepository.save(marathon2);
+
+        // Create sprints
+        sprint1 = Sprint.builder().title("Sprint 1").marathon(marathon1).build();
+        sprint2 = Sprint.builder().title("Sprint 2").marathon(marathon2).build();
+        sprintRepository.save(sprint1);
+        sprintRepository.save(sprint2);
+
+        // Create tasks
+        task1 = Task.builder().title("task1").sprint(sprint1).build();
+        task2 = Task.builder().title("task2").sprint(sprint2).build();
+        taskRepository.save(task1);
+        taskRepository.save(task2);
 
         // Create students
         student1 = User.builder().firstName("Uliana")
@@ -89,24 +105,6 @@ public class ProgressRepositoryTest {
                 .password("password5")
                 .role(User.Role.MENTOR)
                 .build();
-        // Create sprints
-        sprint1 = Sprint.builder()
-                .title("Sprint 1")
-                .build();
-        sprint2 = Sprint.builder()
-                .title("Sprint 2")
-                .build();
-        // Create tasks
-        task1 = Task.builder().title("task1").build();
-        task2 = Task.builder().title("task2").build();
-
-        // Create progress
-        progress1 = Progress.builder().started(LocalDate.of(2020, 7, 25))
-                .updated(LocalDate.of(2020, 7, 26))
-                .status(Progress.TaskStatus.PENDING).build();
-        progress2 = Progress.builder().started(LocalDate.of(2020, 7, 27))
-                .updated(LocalDate.of(2020, 7, 28))
-                .status(Progress.TaskStatus.PASS).build();
 
         userRepository.save(student1);
         userRepository.save(student2);
@@ -114,42 +112,63 @@ public class ProgressRepositoryTest {
         userRepository.save(mentor1);
         userRepository.save(mentor2);
 
-        taskRepository.save(task1);
+        // Create progress
+        progress1 = Progress.builder().started(LocalDate.of(2020, 7, 25))
+                .updated(LocalDate.of(2020, 7, 26))
+                .status(Progress.TaskStatus.PENDING).trainee(mentor1).task(task1).build();
+        progress2 = Progress.builder().started(LocalDate.of(2020, 7, 27))
+                .updated(LocalDate.of(2020, 7, 28))
+                .status(Progress.TaskStatus.PASS).trainee(mentor1).task(task2).build();
+        progress3 = Progress.builder().started(LocalDate.of(2020, 7, 25))
+                .updated(LocalDate.of(2020, 7, 26))
+                .status(Progress.TaskStatus.PENDING).trainee(mentor1).task(task1).build();
+        progressRepository.save(progress1);
+        progressRepository.save(progress2);
+        progressRepository.save(progress3);
     }
 
     @Test
     public void addProgressTest() {
-        Progress progress3 = Progress.builder().started(LocalDate.of(2020, 7, 29))
+        Progress progress4 = Progress.builder().started(LocalDate.of(2020, 7, 29))
                 .updated(LocalDate.of(2020, 7, 30))
                 .status(Progress.TaskStatus.FAIL).trainee(student1).task(task1).build();
 //        Progress progress3 = Progress.builder().started(LocalDate.of(2020, 7, 29))
 //                .updated(LocalDate.of(2020, 7, 30))
 //                .status(Progress.TaskStatus.FAIL).trainee(userRepository.findUserByEmail("petro@gmail.com")).task(task1).build();
-        progressRepository.save(progress3);
-        String expected = progress3.toString();
+        progressRepository.save(progress4);
+        String expected = progress4.toString();
 
-        String actual = progressRepository.getOne(progress3.getId()).toString();
+        String actual = progressRepository.getOne(progress4.getId()).toString();
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findAllProgressByTraineeIdTest() {
+        String expected = List.of(progress1, progress2, progress3).toString();
+        String actual = progressRepository.findAllByTraineeId(mentor1.getId()).toString();
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findAllProgressByTraineeIdAndTaskSprintIdTest() {
+        String expected = List.of(progress1, progress3).toString();
+        String actual = progressRepository.findAllByTraineeIdAndTaskSprintId(mentor1.getId(), sprint1.getId()).toString();
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findAllByTraineeIdAndTaskSprintMarathonId() {
+        String expected = List.of(progress2).toString();
+        String actual = progressRepository.findAllByTraineeIdAndTaskSprintMarathonId(mentor1.getId(), marathon2.getId()).toString();
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
     public void deleteProgressTest() {
-
-    }
-
-    @Test
-    public void findAllProgressByTraineeIdTest() {
-
-    }
-
-    @Test
-    public void findAllProgressByTraineeIdAndTaskSprintIdTest() {
-
-    }
-
-    @Test
-    public void findAllByTraineeIdAndTaskSprintMarathonId() {
-
+        String expected = List.of(progress1, progress2).toString();
+        progressRepository.deleteById(progress3.getId());
+        String actual = progressRepository.findAllByTraineeId(mentor1.getId()).toString();
+        Assertions.assertEquals(expected, actual);
     }
 
 }
