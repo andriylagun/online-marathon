@@ -14,6 +14,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name="users")
 public class User {
   public enum Role {
@@ -51,25 +52,24 @@ public class User {
   @ManyToMany(fetch = FetchType.LAZY, mappedBy="users")
   private List<Marathon> marathons;
 
-  @OneToMany(mappedBy = "trainee")
+  @ToString.Exclude
+  @OneToMany(fetch=FetchType.EAGER, mappedBy = "trainee")
   private List<Progress> progresses;
 
-//  @Override
-//  public boolean equals(Object o) {
-//    if (this == o) return true;
-//    if (o == null || getClass() != o.getClass()) return false;
-//    User user = (User) o;
-//    return getId() == user.getId() &&
-//            getFirstName().equals(user.getFirstName()) &&
-//            getLastName().equals(user.getLastName()) &&
-//            getEmail().equals(user.getEmail()) &&
-//            getPassword().equals(user.getPassword()) &&
-//            getRole() == user.getRole() &&
-//            Objects.equals(getMarathons(), user.getMarathons());
-//  }
-//
-//  @Override
-//  public int hashCode() {
-//    return Objects.hash(getId(), getFirstName(), getLastName(), getEmail(), getPassword(), getRole(), getMarathons());
-//  }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    User user = (User) o;
+    return  getFirstName().equals(user.getFirstName()) &&
+            getLastName().equals(user.getLastName()) &&
+            getEmail().equals(user.getEmail()) &&
+            getPassword().equals(user.getPassword()) &&
+            getRole() == user.getRole();
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getFirstName(), getLastName(), getEmail(), getPassword(), getRole());
+  }
 }

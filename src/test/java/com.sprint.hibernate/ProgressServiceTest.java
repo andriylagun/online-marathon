@@ -70,20 +70,14 @@ public class ProgressServiceTest {
         //Create marathons
         marathon1 = Marathon.builder().id(1).title("JOM_1").build();
         marathon2 = Marathon.builder().id(2).title("JOM_2").build();
-//        marathonRepository.save(marathon1);
-//        marathonRepository.save(marathon2);
 
         // Create sprints
         sprint1 = Sprint.builder().title("Sprint 1").marathon(marathon1).build();
         sprint2 = Sprint.builder().title("Sprint 2").marathon(marathon2).build();
-//        sprintRepository.save(sprint1);
-//        sprintRepository.save(sprint2);
 
         // Create tasks
         task1 = Task.builder().title("task1").sprint(sprint1).build();
         task2 = Task.builder().title("task2").sprint(sprint2).build();
-//        taskRepository.save(task1);
-//        taskRepository.save(task2);
 
         // Create students
         student1 = User.builder().firstName("Uliana")
@@ -127,12 +121,6 @@ public class ProgressServiceTest {
                 .role(User.Role.MENTOR)
                 .build();
 
-//        userRepository.save(student1);
-//        userRepository.save(student2);
-//        userRepository.save(student3);
-//        userRepository.save(mentor1);
-//        userRepository.save(mentor2);
-
         // Create progress
         progress1 = Progress.builder().started(LocalDate.of(2020, 7, 25))
                 .updated(LocalDate.of(2020, 7, 26))
@@ -143,23 +131,10 @@ public class ProgressServiceTest {
         progress3 = Progress.builder().started(LocalDate.of(2020, 7, 25))
                 .updated(LocalDate.of(2020, 7, 26))
                 .status(Progress.TaskStatus.PENDING).trainee(mentor1).task(task1).build();
-//        progressRepository.save(progress1);
-//        progressRepository.save(progress2);
-//        progressRepository.save(progress3);
 
 
         Mockito.when(progressRepository.findById(progress1.getId()))
                 .thenReturn(Optional.of(progress1));
-//
-//        Mockito.when(userRepository.getAllByRole(User.Role.valueOf("TRAINEE")))
-//                .thenReturn(List.of(student1, student2, student3));
-//
-//        Mockito.when(userRepository.findAllByMarathonsIdAndRole(1L, User.Role.valueOf("TRAINEE")))
-//                .thenReturn(List.of(student1, student2));
-//
-//        //??????????????????????????
-//        Mockito.when(marathonRepository.findById(marathon1.getId()))
-//                .thenReturn(Optional.of(marathon1));
 
     }
 
@@ -170,43 +145,42 @@ public class ProgressServiceTest {
         Assert.assertEquals(expected, actual);
     }
 
-    //Fail
-    @Test
-    public void addOrUpdateProgressTest() {
-        Mockito.when(progressRepository.getOne(1L))
-                .thenReturn(progress1);
-        progressService.addOrUpdateProgress(progress1);
-        verify(progressRepository, times(1)).save(progress1);
-    }
-
-    @Test
-    public void addTaskForStudentTest() {
-
-    }
-
     @Test
     public void setStatusTest() {
-
-    }
-
-    @Test
-    public void allProgressByUserIdAndMarathonIdTest() {
-
-    }
-
-    @Test
-    public void allProgressByUserIdAndSprintIdTest() {
-
+        boolean expected = true;
+        boolean actual = progressService.setStatus(Progress.TaskStatus.valueOf("PASS"), progress1);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void deleteProgressByIdTest() {
-
+        progressService.deleteProgressById(progress1.getId());
+        Mockito.verify(progressRepository, Mockito.times(1)).deleteById(progress1.getId());
     }
 
     @Test
     public void deleteAllTest() {
+        progressService.deleteAll();
+        Mockito.verify(progressRepository, Mockito.times(1)).deleteAll();
+    }
 
+    @Test
+    public void allProgressByUserIdAndSprintIdTest() {
+        progressService.allProgressByUserIdAndSprintId(student1.getId(), sprint1.getId());
+        Mockito.verify(progressRepository, Mockito.times(1)).findAllByTraineeIdAndTaskSprintId(student1.getId(), sprint1.getId());
+    }
+
+    @Test
+    public void allProgressByUserIdAndMarathonIdTest() {
+        progressService.allProgressByUserIdAndMarathonId(student1.getId(), marathon1.getId());
+        Mockito.verify(progressRepository, Mockito.times(1)).findAllByTraineeIdAndTaskSprintMarathonId(student1.getId(), marathon1.getId());
+    }
+
+    //Fail
+    @Test
+    public void addOrUpdateProgressTest() {
+        progressService.addOrUpdateProgress(progress1);
+        verify(progressRepository, times(1)).save(progress1);
     }
 
 
