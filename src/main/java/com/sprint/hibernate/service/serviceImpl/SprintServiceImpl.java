@@ -2,7 +2,7 @@ package com.sprint.hibernate.service.serviceImpl;
 
 import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.Sprint;
-import com.sprint.hibernate.validator.EntityValidate;
+import com.sprint.hibernate.entity.Task;
 import com.sprint.hibernate.repository.SprintRepository;
 import com.sprint.hibernate.service.SprintService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,9 @@ import java.util.Optional;
 @Service
 @Transactional
 public class SprintServiceImpl implements SprintService {
-    @Autowired
-    private EntityValidate validator;
 
    private SprintRepository sprintRepository;
+
     @Autowired
     public void setSprintRepository(SprintRepository sprintRepository) {
         this.sprintRepository = sprintRepository;
@@ -30,8 +29,6 @@ public class SprintServiceImpl implements SprintService {
 
     @Override
     public boolean addSprintToMarathon(Sprint sprint, Marathon marathon) {
-        validator.validate(sprint);
-        validator.validate(marathon);
         sprint.setMarathon(marathon);
         sprintRepository.save(sprint);
         return true;
@@ -59,14 +56,16 @@ public class SprintServiceImpl implements SprintService {
     @Override
     public Sprint getSprintById(long id) {
 
-        return sprintRepository.findById(id).   get();
+        return sprintRepository.findById(id).get();
     }
 
     @Override
     public void deleteSprintById(long id,Marathon marathon) {
+        Sprint sprint = getSprintById(id);
         List<Sprint> sprints = marathon.getSprintList();
-        sprints.remove(getSprintById(id));
+        sprints.remove(sprint);
         marathon.setSprintList(sprints);
+        List<Task> tasks = sprint.getTasks();
         sprintRepository.deleteById(id);
     }
     public void deleteAll(){

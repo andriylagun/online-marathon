@@ -9,4 +9,5 @@ import java.math.BigInteger;
 import java.util.List;
 @Repository
 public interface MarathonRepository extends JpaRepository<Marathon, Long> {
+    Marathon getMarathonByTitle(String title);
 }

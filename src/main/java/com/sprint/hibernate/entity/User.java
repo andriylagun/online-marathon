@@ -7,11 +7,14 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
+
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name="users")
 public class User {
   public enum Role {
@@ -48,4 +51,25 @@ public class User {
   @ToString.Exclude
   @ManyToMany(fetch = FetchType.LAZY, mappedBy="users")
   private List<Marathon> marathons;
+
+  @ToString.Exclude
+  @OneToMany(fetch=FetchType.EAGER, mappedBy = "trainee")
+  private List<Progress> progresses;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    User user = (User) o;
+    return  getFirstName().equals(user.getFirstName()) &&
+            getLastName().equals(user.getLastName()) &&
+            getEmail().equals(user.getEmail()) &&
+            getPassword().equals(user.getPassword()) &&
+            getRole() == user.getRole();
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getFirstName(), getLastName(), getEmail(), getPassword(), getRole());
+  }
 }
