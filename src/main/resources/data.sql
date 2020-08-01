@@ -6,10 +6,6 @@
 -- insert into users (email, first_name, last_name, password, role) values ( 'Iryna@gmail.com', 'Iryna', 'Korba', '12345', 'MENTOR' );
 -- insert into users (email, first_name, last_name, password, role) values ( 'ostap@gmail.com', 'Ostap', 'Gryniv', '12345', 'TRAINEE' );
 
-
-
-
-
 INSERT INTO marathon VALUES (2, 'JOM_1');
 INSERT INTO marathon VALUES (1, 'JOM');
 
@@ -45,17 +41,10 @@ INSERT INTO progress VALUES (3, '2020-07-29', 'PENDING', '2020-07-29', 1, 4);
 --
 --
 --
--- INSERT INTO marathon_user VALUES (1, 3);
--- INSERT INTO marathon_user VALUES (2, 1);
--- INSERT INTO marathon_user VALUES (2, 2);
--- INSERT INTO marathon_user VALUES (2, 3);
---
--- INSERT INTO sprint VALUES (1, '2020-07-29', '2020-07-29', 'Sprint 1', 1);
--- INSERT INTO sprint VALUES (2, '2020-07-29', '2020-07-29', 'Sprint 2', 2);
---
--- INSERT INTO task VALUES (2, '2020-07-29', 'task2', '2020-07-29', null , 2);
--- INSERT INTO task VALUES (1, '2020-07-29', 'task1', '2020-07-29', null , 1);
---
--- INSERT INTO progress VALUES (1, '2020-07-29', 'PENDING', '2020-07-29', 1, 4);
--- INSERT INTO progress VALUES (2, '2020-07-29', 'PENDING', '2020-07-29', 2, 4);
--- INSERT INTO progress VALUES (3, '2020-07-29', 'PENDING', '2020-07-29', 1, 4);
+INSERT INTO marathon_user VALUES (1, 3);
+INSERT INTO marathon_user VALUES (2, 1);
+INSERT INTO marathon_user VALUES (2, 2);
+INSERT INTO marathon_user VALUES (2, 3);
+
+ INSERT INTO sprint VALUES (1, '2020-07-29', '2020-07-29', 'Sprint 1', 1);
+ INSERT INTO sprint VALUES (2, '2020-07-29', '2020-07-29', 'Sprint 2', 2);
