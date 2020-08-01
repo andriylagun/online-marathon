@@ -8,6 +8,8 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 
 import java.util.List;
 
@@ -90,23 +92,6 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void newUserTest() {
-        User user = User.builder()
-                .role(User.Role.valueOf("TRAINEE"))
-                .email("roman@i.ua")
-                .firstName("Roman")
-                .lastName("Ivaniuk")
-                .password("15247")
-                .build();
-        userRepository.save(user);
-
-        User actual = userRepository.findUserByEmail("roman@i.ua");
-
-        Assertions.assertEquals("Roman", actual.getFirstName());
-
-    }
-
-    @Test
     public void getAllStudentsTest() {
         String expected = List.of(student1, student2, student3).toString();
         String actual = userRepository.getAllByRole(User.Role.valueOf("TRAINEE")).toString();
@@ -120,12 +105,63 @@ public class UserRepositoryTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    @Test
-    public void deleteStudentTest() {
-        String expected = List.of(student1, student2).toString();
-        userRepository.deleteById(student3.getId());
-        String actual = userRepository.getAllByRole(User.Role.valueOf("TRAINEE")).toString();
-        Assertions.assertEquals(expected, actual);
-    }
+
 
 }
+
+
+
+
+//    @BeforeEach
+//    public void setUp() {
+//        marathon1 = Marathon.builder().title("C# Marathon").build();
+//        marathonRepository.save(marathon1);
+//        student1 = User.builder().firstName("Uliana")
+//                .lastName("Tomyn")
+//                .email("uliana@gmail.com")
+//                .password("password1")
+//                .role(User.Role.TRAINEE)
+//                .build();
+//        student2 = User.builder()
+//                .firstName("Andriy")
+//                .lastName("Lagun")
+//                .email("andriy@gmail.com")
+//                .password("password2")
+//                .role(User.Role.TRAINEE)
+//                .build();
+//        student3 = User.builder()
+//                .firstName("Olesia")
+//                .lastName("Setrina")
+//                .email("olesia@gmail.com")
+//                .password("password3")
+//                .role(User.Role.TRAINEE)
+//                .build();
+//        mentor1 = User.builder()
+//                .firstName("Mykola")
+//                .lastName("Demchyna")
+//                .email("mykola@gmail.com")
+//                .password("password4")
+//                .role(User.Role.MENTOR)
+//                .build();
+//        mentor2 = User.builder()
+//                .firstName("Nataliia")
+//                .lastName("Romanenko")
+//                .email("nataliia@gmail.com")
+//                .password("password5")
+//                .role(User.Role.MENTOR)
+//                .build();
+//
+//        student1.setMarathons(List.of(marathon1));
+//        student2.setMarathons(List.of(marathon1));
+//        mentor1.setMarathons(List.of(marathon1));
+//
+//
+////        entityManager.persist(student1);
+//        userRepository.save(student1);
+//        userRepository.save(student2);
+//        userRepository.save(student3);
+//        userRepository.save(mentor1);
+//        userRepository.save(mentor2);
+//        marathon1.setUsers(List.of(student1, student2, mentor1));
+//        marathonRepository.save(marathon1);
+//    }
