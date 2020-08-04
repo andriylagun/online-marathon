@@ -4,4 +4,6 @@ public class MarathonExistException extends Exception {
     public MarathonExistException(String message) {
         super(message);
     }
+    public MarathonExistException() { }
+    }
 }

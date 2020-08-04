@@ -58,7 +58,7 @@ public class MarathonServiceImpl implements MarathonService {
 
     @Override
     public void deleteMarathonById(long id) {
-    marathonRepository.deleteById(id);
+        marathonRepository.deleteById(id);
     }
 
     public void deleteAll(){

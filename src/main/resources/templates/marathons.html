@@ -85,9 +85,15 @@
                     <div class="input-group input-group-lg">
                         <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Alarm-Plus-icon.png">
                         <h4>Create new marathon:</h4>
-                        <span class="input-group-addon"></span></span>
+                        <span class="input-group-addon"></span>
+                        <div th:if="${#fields.hasErrors('title')}">
+                            <div class="alert alert-danger">
+                                <strong>Error!</strong>
+                                <p th:errors="*{title}"></p>
+                            </div>
+                        </div>
                         <input type="text" th:field="*{title}" placeholder="Enter a name of marathon"/>
-                        &nbsp&nbsp<button type="submit" class="btn btn-primary" >Create</button>
+                        <button type="submit" class="btn btn-primary" >Create</button>
                     </div>
                 </form>
             </div>

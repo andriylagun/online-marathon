@@ -7,14 +7,18 @@ import com.sprint.hibernate.exceptions.MarathonExistException;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.SprintService;
 import lombok.AllArgsConstructor;
+import org.jvnet.staxex.NamespaceContextEx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -23,11 +27,12 @@ public class MarathonController {
 
     private MarathonService marathonService;
     private SprintService sprintService;
+
     private final Logger logger = LoggerFactory.getLogger(MarathonController.class);
 
     @GetMapping("/marathons")
     public String getAllMarathons(Model model) {
-        logger.info("That's info about students");
+        logger.info("That's info about marathons");
         List<Marathon> marathons = marathonService.getAll();
         Marathon marathon = new Marathon();
         model.addAttribute("marathon", marathon);
@@ -43,8 +48,13 @@ public class MarathonController {
     }
 
     @PostMapping("/marathons/create")
-    public String addMarathon(@ModelAttribute(name = "marathon") Marathon marathon) throws MarathonExistException {
+    public String addMarathon(@Valid @ModelAttribute(name = "marathon") Marathon marathon,
+                              BindingResult bindingResult) throws MarathonExistException {
         logger.info("You are creating new USER");
+        if (bindingResult.hasErrors()) {
+            logger.error(bindingResult.getAllErrors().toString());
+            return "marathons";
+        }
         marathonService.createOrUpdate(marathon);
         return "redirect:/marathons";
     }
@@ -55,10 +65,11 @@ public class MarathonController {
         marathonService.createOrUpdate(marathon);
         return "redirect:/marathons";
     }
+
     @GetMapping("/sprints/{id}")
     public String showSprints(@PathVariable(name="id") long id,
                               Model model){
-        logger.info("Thats info about sprints");
+        logger.info("That is info about sprints");
         Marathon sprintMarathon = marathonService.getMarathonById(id);
         List<Sprint> sprints= sprintMarathon.getSprintList();
         Sprint newSprint= new Sprint();
@@ -69,6 +80,7 @@ public class MarathonController {
         model.addAttribute("welcome", welcome);
         return "sprints";
     }
+
     @PostMapping("/sprints/edit/{mid}")
     public String editSprint(@ModelAttribute(name ="newSprint") Sprint sprint,
                              @PathVariable(name= "mid") long id){
@@ -90,6 +102,7 @@ public class MarathonController {
         sprintService.addSprintToMarathon(sprint1, marathon);
         return "redirect:/sprints/{id}";
     }
+
     @GetMapping("/sprints/delete/{id}/{mid}")
     public String deleteSprint(@PathVariable(name = "id") long id,
                                @PathVariable(name = "mid") long mid) {
