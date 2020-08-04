@@ -53,10 +53,10 @@ public class StudentController {
                                      @PathVariable(name = "student_id") long studentId) {
         logger.info("Removing student from the marathon");
         userService.deleteUserFromMarathon(userService.getUserById(studentId), marathonService.getMarathonById(marathonId));
-        return "redirect:/{marathon_id}";
+        return "redirect:/students/{marathon_id}";
     }
 
-    @GetMapping("/students/delete/{student_id}")
+    @GetMapping("/delete/{student_id}")
     public String removeStudent(@PathVariable(name = "student_id") long studentId) {
         logger.info("Deleting student");
         userService.deleteUserById(studentId);

@@ -3,6 +3,8 @@ package com.sprint.hibernate.service.serviceImpl;
 import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.Progress;
 import com.sprint.hibernate.entity.User;
+import com.sprint.hibernate.exceptions.EmailExistException;
+import com.sprint.hibernate.exceptions.MarathonExistException;
 import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.repository.ProgressRepository;
 import com.sprint.hibernate.repository.UserRepository;
@@ -72,7 +74,15 @@ public class UserServiceImpl implements UserService {
                 return userRepository.save(newUser);
             }
         }
+        if(checkEmail(input.getEmail())) {
+            throw new EmailExistException("User with this email is already exist");
+        }
         return userRepository.save(input);
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        return userRepository.findStudentByEmail(email)!=null;
     }
 
     @Override
