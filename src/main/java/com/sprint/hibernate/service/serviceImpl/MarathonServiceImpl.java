@@ -2,6 +2,7 @@ package com.sprint.hibernate.service.serviceImpl;
 
 import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.exceptions.MarathonExistException;
+import com.sprint.hibernate.exceptions.MarathonNotFoundByIDException;
 import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.SprintService;
@@ -32,25 +33,20 @@ public class MarathonServiceImpl implements MarathonService {
 
     @Override
     public Marathon getMarathonById(long id) {
-
         Optional<Marathon> marathon = marathonRepository.findById(id);
-
-        if (marathon.isPresent()) {
-            return marathon.get();
-        } else {
-            throw new EntityNotFoundException("No marathon exist for given id");
-        }
+        return marathon.orElseThrow(() ->
+                new MarathonNotFoundByIDException(String.format("No marathon exist with given id = %d", id)));
     }
 
     @Override
-    public Marathon createOrUpdate(Marathon input) throws MarathonExistException {
+    public Marathon createOrUpdate(Marathon input) {
         Optional<Marathon> marathon = marathonRepository.findById(input.getId());
-        if (!marathon.isPresent()){
-            if(checkTitle(input.getTitle()))
-                throw new MarathonExistException("This marathon is already exist");
+        if (!marathon.isPresent()) {
+            if (checkTitle(input.getTitle()))
+                throw new MarathonExistException(String.format("Marathon %s already exist", input));
         return marathonRepository.save(input);
         }
-        Marathon newMarathon=marathon.get();
+        Marathon newMarathon = marathon.get();
         newMarathon.setTitle(input.getTitle());
         return newMarathon;
     }

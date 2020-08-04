@@ -7,7 +7,6 @@ import com.sprint.hibernate.exceptions.MarathonExistException;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.SprintService;
 import lombok.AllArgsConstructor;
-import org.jvnet.staxex.NamespaceContextEx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -49,7 +48,7 @@ public class MarathonController {
 
     @PostMapping("/marathons/create")
     public String addMarathon(@Valid @ModelAttribute(name = "marathon") Marathon marathon,
-                              BindingResult bindingResult) throws MarathonExistException {
+                              BindingResult bindingResult) {
         logger.info("You are creating new USER");
         if (bindingResult.hasErrors()) {
             logger.error(bindingResult.getAllErrors().toString());
@@ -60,7 +59,7 @@ public class MarathonController {
     }
 
     @PostMapping("/marathons/edit/{id}")
-    public String editMarathon(@ModelAttribute(name = "marathon") Marathon marathon) throws MarathonExistException {
+    public String editMarathon(@ModelAttribute(name = "marathon") Marathon marathon) {
         logger.info("You are editing existing user");
         marathonService.createOrUpdate(marathon);
         return "redirect:/marathons";
@@ -68,7 +67,7 @@ public class MarathonController {
 
     @GetMapping("/sprints/{id}")
     public String showSprints(@PathVariable(name="id") long id,
-                              Model model){
+                              Model model) {
         logger.info("That is info about sprints");
         Marathon sprintMarathon = marathonService.getMarathonById(id);
         List<Sprint> sprints= sprintMarathon.getSprintList();
