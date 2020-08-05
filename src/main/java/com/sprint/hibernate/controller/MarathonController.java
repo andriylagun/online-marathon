@@ -4,6 +4,7 @@ package com.sprint.hibernate.controller;
 import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.Sprint;
 import com.sprint.hibernate.exceptions.MarathonExistException;
+import com.sprint.hibernate.exceptions.SprintExistException;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.SprintService;
 import lombok.AllArgsConstructor;
@@ -82,7 +83,7 @@ public class MarathonController {
     }
     @PostMapping("/sprints/add/{id}")
     public String createSprint(@ModelAttribute(name ="marathon") Marathon marathon,
-                               @ModelAttribute(name ="newSprint") Sprint sprint) {
+                               @ModelAttribute(name ="newSprint") Sprint sprint) throws SprintExistException {
         logger.info("Add a new sprint");
         Sprint sprint1=Sprint.builder()
                 .title(sprint.getTitle())

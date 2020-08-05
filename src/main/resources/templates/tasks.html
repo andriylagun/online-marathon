@@ -19,26 +19,44 @@
 </head>
 <body>
 <div th:replace="fragments/header.html :: header"/>
-    <div class="container">
-        <h2 th:text="${sprint.getTitle()}"></h2>
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-            <tr>
-                <th>Task</th><th>Created</th><th>Updated</th>
-            </tr>
-            <tbody>
-            <tr th:each="task: ${tasks}">
-                <td th:text="${task.getTitle()}"/>
-                <td th:text="${task.getCreated()}"/>
-                <td th:text="${task.getUpdated()}"/>
-            </tr>
-            </tbody>
-        </table>
+<div class="container">
+    <h2 th:text="${sprint.getTitle()}"></h2>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Task</th><th>Created</th><th>Updated</th>
+        </tr>
+        <tbody>
+        <tr th:each="task: ${tasks}">
+            <td th:text="${task.getTitle()}"/>
+            <td th:text="${task.getCreated()}"/>
+            <td th:text="${task.getUpdated()}"/>
+        </tr>
 
-        <a th:href="@{/home}"
-           class="btn btn-info btn-sm">
-            Main page
-        </a>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Add to sprint</button>
+
+    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <form th:action="@{/tasks/add/{sprint_id}(sprint_id=${sprint.getId()})}" th:object="${newTask}" method="post">
+                    <div class="input-group input-group-lg">
+                        <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Alarm-Plus-icon.png">
+                        <h4>Create new Task:</h4>
+                        <span class="input-group-addon"></span>
+                        <input type="text" th:field="*{title}" placeholder="Enter a name of task"/>
+                        &nbsp&nbsp<button type="submit" class="btn btn-primary" >Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+    <a th:href="@{/home}"
+       class="btn btn-info btn-sm">
+        Main page
+    </a>
+</div>
 </body>
 </html>
+

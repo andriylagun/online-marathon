@@ -23,4 +23,18 @@ public class ApplicationExceptionHandler {
         model.addObject("info", exception.getMessage());
         return model;
     }
+
+    @ExceptionHandler({SprintExistException.class})
+    public ModelAndView handleSprintExistException(SprintExistException exception){
+        ModelAndView model = new ModelAndView("error-page");
+        model.addObject("info", exception.getMessage());
+        return model;
+    }
+
+    @ExceptionHandler({TaskExistException.class})
+    public ModelAndView handleTaskExistException(TaskExistException exception){
+        ModelAndView model = new ModelAndView("error-page");
+        model.addObject("info", exception.getMessage());
+        return model;
+    }
 }
