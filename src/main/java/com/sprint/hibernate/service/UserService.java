@@ -14,7 +14,7 @@ public interface UserService {
 
     User getUserById(long userId);
 
-    User createOrUpdateUser(User input) throws NoSuchFieldException, IllegalAccessException;
+    User createOrUpdateUser(User input);
 
     List<User> getAllByRole (String role);
 
