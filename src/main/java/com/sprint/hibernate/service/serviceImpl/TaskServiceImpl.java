@@ -41,7 +41,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public boolean addTaskToSprint(Task task, Sprint sprint) throws TaskExistException {
+    public boolean addTaskToSprint(Task task, Sprint sprint){
         if(checkTitle(task.getTitle())) {
             throw new TaskExistException("Task with this title already exists");
         }
