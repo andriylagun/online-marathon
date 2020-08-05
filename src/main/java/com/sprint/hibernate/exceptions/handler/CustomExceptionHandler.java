@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Slf4j
@@ -25,10 +28,18 @@ public class CustomExceptionHandler {
     }
 
     @ExceptionHandler({MarathonExistException.class, MarathonNotFoundByIDException.class})
-    public final ModelAndView  handleMarathonExistException(MarathonExistException exception) {
+    public final ModelAndView  handleMarathonExistException(Exception exception) {
         log.error("handleMarathonExistException : " + exception.getMessage());
         ModelAndView modelAndView = new ModelAndView("marathon_error", HttpStatus.BAD_REQUEST);
         modelAndView.addObject("info", exception.getMessage());
+        return modelAndView;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public final ModelAndView handle500Exception(Exception exception) {
+        log.error(String.format("Internal Server Error %s ", exception.getMessage()));
+        ModelAndView modelAndView = new ModelAndView("marathon_error", HttpStatus.BAD_REQUEST);
+        modelAndView.addObject("info", "Some problem, but we are working");
         return modelAndView;
     }
 }
