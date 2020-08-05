@@ -12,9 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.logging.Level;
 
 @Controller
 @Data
@@ -53,14 +51,15 @@ public class StudentController {
                                      @PathVariable(name = "student_id") long studentId) {
         logger.info("Removing student from the marathon");
         userService.deleteUserFromMarathon(userService.getUserById(studentId), marathonService.getMarathonById(marathonId));
-        return "redirect:/{marathon_id}";
+        return "redirect:/students/{marathon_id}";
     }
 
-    @GetMapping("/students/delete/{student_id}")
+    @GetMapping("/delete/{student_id}")
     public String removeStudent(@PathVariable(name = "student_id") long studentId) {
-        logger.info("Deleting student");
-        userService.deleteUserById(studentId);
-        return "redirect:/students";
+//        logger.info("Deleting student");
+//        userService.deleteUserById(studentId);
+//        return "redirect:/students";
+        throw new RuntimeException();
     }
 
     @PostMapping("/edit/{student_id}")
@@ -92,7 +91,8 @@ public class StudentController {
         return "redirect:/students/{marathon_id}";
     }
 
-    @GetMapping("/student/{student_id}")
+    @GetMapping("/student")
+//    @GetMapping("/student/{student_id}")
     public String getInfoAboutStudent(@PathVariable(name = "student_id") long studentId, Model model) {
         logger.info("Getting info about student");
         User student = userService.getUserById(studentId);
