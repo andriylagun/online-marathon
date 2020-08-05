@@ -6,6 +6,7 @@ import com.sprint.hibernate.exceptions.MarathonNotFoundByIDException;
 import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.SprintService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
@@ -18,7 +19,6 @@ import java.util.Optional;
 public class MarathonServiceImpl implements MarathonService {
 
     private MarathonRepository marathonRepository;
-    private SprintService sprintService;
 
     @Autowired
     public MarathonServiceImpl(MarathonRepository marathonRepository) {
@@ -27,7 +27,6 @@ public class MarathonServiceImpl implements MarathonService {
 
     @Override
     public List<Marathon> getAll() {
-
         return marathonRepository.findAll();
     }
 
@@ -38,8 +37,9 @@ public class MarathonServiceImpl implements MarathonService {
                 new MarathonNotFoundByIDException(String.format("No marathon exist with given id = %d", id)));
     }
 
+    @SneakyThrows
     @Override
-    public Marathon createOrUpdate(Marathon input) {
+    public Marathon createOrUpdate(Marathon input){
         Optional<Marathon> marathon = marathonRepository.findById(input.getId());
         if (!marathon.isPresent()) {
             if (checkTitle(input.getTitle()))
