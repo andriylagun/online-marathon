@@ -26,4 +26,6 @@ public interface UserService {
     void deleteAll();
 
     boolean deleteUserFromMarathon(User user, Marathon marathon);
+
+    boolean checkEmail(String email);
 }
