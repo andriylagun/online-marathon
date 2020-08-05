@@ -3,6 +3,7 @@ package com.sprint.hibernate.service.serviceImpl;
 import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.Progress;
 import com.sprint.hibernate.entity.User;
+import com.sprint.hibernate.exceptions.AddUserToMarathonException;
 import com.sprint.hibernate.exceptions.EmailExistException;
 import com.sprint.hibernate.exceptions.MarathonExistException;
 import com.sprint.hibernate.repository.MarathonRepository;
@@ -98,13 +99,14 @@ public class UserServiceImpl implements UserService {
         if(!userEntity.isPresent() || !marathonEntity.isPresent()) {
             return false;
         }
+        for(Marathon tempMarathon : user.getMarathons()){
+            if(tempMarathon.equals(marathon)){
+                throw new AddUserToMarathonException("That user alredy in this marathon");
+            }
+        }
         List<User> users = marathonEntity.get().getUsers();
         users.add(userEntity.get());
         marathonEntity.get().setUsers(users);
-        //???????????????
-//        List<Marathon> marathons = userEntity.get().getMarathons();
-//        marathons.add(marathonEntity.get());
-//        userEntity.get().setMarathons(marathons);
         return true;
     }
 

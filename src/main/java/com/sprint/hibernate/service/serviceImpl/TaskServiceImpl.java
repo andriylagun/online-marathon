@@ -1,6 +1,8 @@
 package com.sprint.hibernate.service.serviceImpl;
 import com.sprint.hibernate.entity.Sprint;
 import com.sprint.hibernate.entity.Task;
+import com.sprint.hibernate.exceptions.SprintExistException;
+import com.sprint.hibernate.exceptions.TaskExistException;
 import com.sprint.hibernate.repository.TaskRepository;
 import com.sprint.hibernate.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,7 @@ public class TaskServiceImpl implements TaskService {
                 newTask.setTitle(task.getTitle());
                 newTask.setCreated(task.getCreated());
                 newTask.setUpdated(task.getUpdated());
-                newTask.setProgress(task.getProgress());
+                newTask.setProgresses(task.getProgresses());
                 newTask.setSprint(task.getSprint());
                 newTask = taskRepository.save(newTask);
                 return newTask;
@@ -39,11 +41,20 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public boolean addTaskToSprint(Task task, Sprint sprint) {
+    public boolean addTaskToSprint(Task task, Sprint sprint){
+        if(checkTitle(task.getTitle())) {
+            throw new TaskExistException("Task with this title already exists");
+        }
         task.setSprint(sprint);
         taskRepository.save(task);
         return true;
     }
+
+    @Override
+    public boolean checkTitle(String title) {
+        return taskRepository.findTaskByTitle(title)!=null;
+    }
+
 
     @Override
     public Task getTaskById(long id) {

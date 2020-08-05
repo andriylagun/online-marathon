@@ -15,12 +15,22 @@
     <!-- Подключаем Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous" ></script>
 
+    <script type="text/javascript" src="../static/main.js" th:src="@{/addStudent.js}"></script>
+
     <title>Students</title>
 </head>
 <body>
 <div th:replace="fragments/header.html :: header"/>
     <div class="container">
         <h2>Students</h2>
+        <form th:action="@{/students/{marathon_id}/add(marathon_id = ${marathon.id})}" method="get" style="display: inline-block">
+            <label for="users">Add Student from list:</label>
+            <select name="user_id" id="users">
+                <option>Select student...</option>
+                <option th:each="student : ${allStudents}" th:value="${student.id}" th:text="${student.firstName + ' ' + student.lastName}" />
+            </select>
+            <input type="submit" value="Add" class="btn btn-primary btn-sm">
+        </form>
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
@@ -46,6 +56,8 @@
                             Progress
                         </a>
                     </td>
+
+
                 </tr>
             </tbody>
         </table>
@@ -55,32 +67,31 @@
             Main page
         </a>
 
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".bd-example-modal-sm1">Add student to marathon</button>
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".bd-example-modal-sm1">Add new student to marathon</button>
+    </div>
 
-            <div class="modal fade bd-example-modal-sm1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  >
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <form th:action="@{/students/add/{marathon_id} (marathon_id=${marathon.getId()})}" th:object="${newStudent}" method="post">
-                            <div class="input-group input-group-lg">
-                            <h4>Create new Student</h4>
-                                <div class="form-group has-success has-feedback">
-                                    <input type="text" th:field="*{firstName}" class="form-control" placeholder="Firstname" >
-                                    </br>
-                                    <input type="text" th:field="*{lastName}" class="form-control" placeholder="Lastname" >
-                                    </br>
-                                    <input type="text" th:field="*{email}" class="form-control" placeholder="Email" >
-                                    </br>
-                                    <input type="text" th:field="*{password}" class="form-control" placeholder="Password" >
-                                    </br>
-                                    <button type="submit" class="btn btn-primary">Create</button>
-                                    <input type="reset" class="btn btn-danger" value="Reset">
-                                </div>
-                            </div>
-                        </form>
+<div class="modal fade bd-example-modal-sm1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  >
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form th:action="@{/students/{marathon_id}/add/(marathon_id=${marathon.getId()})}" th:object="${addStudent}" method="post">
+                <div class="input-group input-group-lg">
+                    <h4>Create new Student</h4>
+                    <div class="form-group has-success has-feedback">
+                        <input type="text" th:field="*{firstName}" class="form-control" placeholder="Firstname" >
+                        </br>
+                        <input type="text" th:field="*{lastName}" class="form-control" placeholder="Lastname" >
+                        </br>
+                        <input type="text" th:field="*{email}" class="form-control" placeholder="Email" >
+                        </br>
+                        <input type="text" th:field="*{password}" class="form-control" placeholder="Password" >
+                        </br>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                        <input type="reset" class="btn btn-danger" value="Reset">
                     </div>
                 </div>
-            </div>
-
+            </form>
+        </div>
     </div>
+</div>
 </body>
 </html>

@@ -68,6 +68,7 @@ public class User {
             getRole() == user.getRole();
   }
 
+
   @Override
   public int hashCode() {
     return Objects.hash(getFirstName(), getLastName(), getEmail(), getPassword(), getRole());

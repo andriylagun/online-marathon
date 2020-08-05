@@ -3,6 +3,8 @@ package com.sprint.hibernate.service.serviceImpl;
 import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.Sprint;
 import com.sprint.hibernate.entity.Task;
+import com.sprint.hibernate.exceptions.MarathonExistException;
+import com.sprint.hibernate.exceptions.SprintExistException;
 import com.sprint.hibernate.repository.SprintRepository;
 import com.sprint.hibernate.service.SprintService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +30,18 @@ public class SprintServiceImpl implements SprintService {
     }
 
     @Override
-    public boolean addSprintToMarathon(Sprint sprint, Marathon marathon) {
+    public boolean addSprintToMarathon(Sprint sprint, Marathon marathon) throws SprintExistException {
+        if(checkTitle(sprint.getTitle())) {
+            throw new SprintExistException("Sprint with this title already exists in this marathon");
+        }
         sprint.setMarathon(marathon);
         sprintRepository.save(sprint);
         return true;
+    }
+
+    @Override
+    public boolean checkTitle(String title) {
+        return sprintRepository.findSprintByTitle(title)!=null;
     }
 
 

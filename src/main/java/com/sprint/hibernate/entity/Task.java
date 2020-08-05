@@ -34,6 +34,6 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY)
     private Sprint sprint;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Progress progress;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Progress> progresses;
 }

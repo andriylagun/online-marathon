@@ -37,11 +37,10 @@ public class Progress {
     private LocalDate updated;
 
     @ToString.Exclude
-    @OneToOne
+    @ManyToOne
     private Task task;
 
     @ToString.Exclude
     @ManyToOne(optional = false)
     private User trainee;
-
 }

@@ -4,6 +4,7 @@ package com.sprint.hibernate.controller;
 import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.Sprint;
 import com.sprint.hibernate.exceptions.MarathonExistException;
+import com.sprint.hibernate.exceptions.SprintExistException;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.SprintService;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,7 +33,7 @@ public class MarathonController {
 
     @GetMapping("/marathons")
     public String getAllMarathons(Model model) {
-        logger.info("That's info about marathons");
+        logger.info("That's info about students");
         List<Marathon> marathons = marathonService.getAll();
         Marathon marathon = new Marathon();
         model.addAttribute("marathon", marathon);
@@ -56,16 +60,10 @@ public class MarathonController {
         return "redirect:/marathons";
     }
 
-    @RequestMapping(value = "/marathons/edit", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String editMarathon(Marathon marathon) {
+    @PostMapping("/marathons/edit/{id}")
+    public String editMarathon(@ModelAttribute(name = "marathon") Marathon marathon){
         logger.info("You are editing existing user");
         marathonService.createOrUpdate(marathon);
         return "redirect:/marathons";
-    }
-
-    @RequestMapping("/marathons/getOne")
-    @ResponseBody
-    public Marathon getOne(Long id){
-        return marathonService.getMarathonById(id);
     }
 }

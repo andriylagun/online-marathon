@@ -11,8 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 public class ApplicationExceptionHandler {
 
-    //Create CustomException (extends RuntimeException) and then other exceptions would extend it
-
     @ExceptionHandler({MarathonExistException.class})
     public ModelAndView handleMarathonExistException(MarathonExistException exception){
         log.error("MarathonExistException : " + exception.getMessage());
@@ -28,8 +26,7 @@ public class ApplicationExceptionHandler {
         model.addObject("info", exception.getMessage());
         return model;
     }
-
-    @ExceptionHandler(MarathonNotFoundByIDException.class)
+      @ExceptionHandler(MarathonNotFoundByIDException.class)
     public final ModelAndView  handleMarathonExistException(Exception exception) {
         log.error("MarathonNotFoundByIDException : " + exception.getMessage());
         ModelAndView modelAndView = new ModelAndView("marathon_error", HttpStatus.BAD_REQUEST);
@@ -44,5 +41,17 @@ public class ApplicationExceptionHandler {
         modelAndView.addObject("info", "Some problem, but we are working");
         return modelAndView;
     }
+    @ExceptionHandler({SprintExistException.class})
+    public ModelAndView handleSprintExistException(SprintExistException exception){
+        ModelAndView model = new ModelAndView("error-page");
+        model.addObject("info", exception.getMessage());
+        return model;
+    }
 
+    @ExceptionHandler({TaskExistException.class})
+    public ModelAndView handleTaskExistException(TaskExistException exception){
+        ModelAndView model = new ModelAndView("error-page");
+        model.addObject("info", exception.getMessage());
+        return model;
+    }
 }
