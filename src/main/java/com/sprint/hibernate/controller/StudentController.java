@@ -1,6 +1,7 @@
 package com.sprint.hibernate.controller;
 
 
+import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.UserService;
@@ -62,12 +63,10 @@ public class StudentController {
         throw new RuntimeException();
     }
 
-    @PostMapping("/edit/{student_id}")
-    public String saveEditedStudent(@PathVariable(name = "student_id") long studentId,
-                                    @ModelAttribute(name = "student") User student) {
+    @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String saveEditedStudent(User student) {
         logger.info("Editing student");
-        try {
-            student.setId(studentId);
+        try { ;
             student.setRole(User.Role.TRAINEE);
             userService.createOrUpdateUser(student);
         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -75,7 +74,6 @@ public class StudentController {
         }
         return "redirect:/students";
     }
-
 
     @PostMapping("/add/{marathon_id}")
     public String addStudentToMarathon(@PathVariable(name = "marathon_id") long marathonId,
@@ -99,6 +97,13 @@ public class StudentController {
         model.addAttribute("student", student);
         return "student";
     }
+
+    @RequestMapping("/getOne")
+    @ResponseBody
+    public User getOne(Long id){
+        return userService.getUserById(id);
+    }
+
 }
 
 

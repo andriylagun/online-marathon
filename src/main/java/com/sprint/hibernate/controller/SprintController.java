@@ -38,14 +38,6 @@ public class SprintController {
         return "sprints";
     }
 
-    @RequestMapping(value = "/sprints/edit", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String editMarathon(Sprint sprint,Long marathonId) {
-        sprint.setMarathon(marathonService.getMarathonById(marathonId));
-        logger.info("You are editing existing sprint");
-        sprintService.updateSprint(sprint);
-        return "redirect:/sprints";
-    }
-
     @PostMapping("/sprints/add/{id}")
     public String createSprint(@ModelAttribute(name ="marathon") Marathon marathon,
                                @ModelAttribute(name ="newSprint") Sprint sprint) {
@@ -63,11 +55,5 @@ public class SprintController {
         logger.info("You are deleting a sprint");
         sprintService.deleteSprintById(id,marathonService.getMarathonById(mid));
         return "redirect:/sprints/{mid}";
-    }
-
-    @RequestMapping("/sprints/getOne")
-    @ResponseBody
-    public Sprint getOne(Long sprint_id){
-        return sprintService.getSprintById(sprint_id);
     }
 }

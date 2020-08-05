@@ -101,10 +101,6 @@ public class UserServiceImpl implements UserService {
         List<User> users = marathonEntity.get().getUsers();
         users.add(userEntity.get());
         marathonEntity.get().setUsers(users);
-        //???????????????
-//        List<Marathon> marathons = userEntity.get().getMarathons();
-//        marathons.add(marathonEntity.get());
-//        userEntity.get().setMarathons(marathons);
         return true;
     }
 
