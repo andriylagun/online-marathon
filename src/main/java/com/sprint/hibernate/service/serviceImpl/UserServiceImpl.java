@@ -10,7 +10,11 @@ import com.sprint.hibernate.repository.ProgressRepository;
 import com.sprint.hibernate.repository.UserRepository;
 import com.sprint.hibernate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.userdetails.User.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -18,9 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.security.core.userdetails.User.withUsername;
+
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     private UserRepository userRepository;
@@ -36,9 +42,8 @@ public class UserServiceImpl implements UserService {
     public void setMarathonRepository(MarathonRepository marathonRepository) {
         this.marathonRepository = marathonRepository;
     }
-
     @Autowired
-    public void setProgressRepository(ProgressRepository progressRepository) {
+    public void setProgressRepository(ProgressRepository progressRepository){
         this.progressRepository = progressRepository;
     }
 
@@ -62,10 +67,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createOrUpdateUser(User input) {
-        if (input != null) {
-            Optional<User> user = userRepository.findById(input.getId());
+        if(input != null) {
+                Optional<User> user = userRepository.findById(input.getId());
 
-            if (user.isPresent()) {
+            if(user.isPresent()) {
                 User newUser = user.get();
                 newUser.setEmail(input.getEmail());
                 newUser.setFirstName(input.getFirstName());
@@ -75,7 +80,7 @@ public class UserServiceImpl implements UserService {
                 return userRepository.save(newUser);
             }
         }
-        if (checkEmail(input.getEmail())) {
+        if(checkEmail(input.getEmail())) {
             throw new EmailExistException("User with this email is already exist");
         }
         return userRepository.save(input);
@@ -83,12 +88,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkEmail(String email) {
-        return userRepository.findStudentByEmail(email) != null;
+        return userRepository.findUserByEmail(email)!=null;
     }
 
     @Override
-    public List<User> getAllByRole(String role) {
-        return userRepository.getAllByRole(User.Role.valueOf(role.toUpperCase()));
+    public List<User> getAllByRoleId (long roleId) {
+        return userRepository.findAllByRoleId(roleId);
     }
 
     @Override
@@ -96,11 +101,11 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> userEntity = userRepository.findById(user.getId());
         Optional<Marathon> marathonEntity = marathonRepository.findById(marathon.getId());
-        if (!userEntity.isPresent() || !marathonEntity.isPresent()) {
+        if(!userEntity.isPresent() || !marathonEntity.isPresent()) {
             return false;
         }
-        for (Marathon tempMarathon : user.getMarathons()) {
-            if (tempMarathon.equals(marathon)) {
+        for(Marathon tempMarathon : user.getMarathons()){
+            if(tempMarathon.equals(marathon)){
                 throw new AddUserToMarathonException("That user alredy in this marathon");
             }
         }
@@ -110,8 +115,8 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    public List<User> allUsersByMarathonIdAndRole(long id, String role) {
-        return userRepository.findAllByMarathonsIdAndRole(id, User.Role.valueOf(role));
+    public List<User> allUsersByMarathonIdAndRoleId(long marathonId, long roleId) {
+        return userRepository.findAllByMarathonsIdAndRoleId(marathonId, roleId);
     }
 
     @Override
@@ -124,16 +129,16 @@ public class UserServiceImpl implements UserService {
                 deleteUserFromMarathon(user, marathon);
             }
         }
-        List<Progress> userProgress = progressRepository.findAllByTraineeId(user.getId());
-        if (userProgress != null) {
-            for (Progress progress : userProgress) {
+        List<Progress> userProgress= progressRepository.findAllByTraineeId(user.getId());
+        if(userProgress != null){
+            for (Progress progress: userProgress)
+            {
                 progress.setTrainee(null);
             }
         }
         userRepository.deleteById(id);
     }
-
-    public void deleteAll() {
+    public void deleteAll(){
         userRepository.deleteAll();
     }
 
@@ -142,12 +147,24 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> userEntity = userRepository.findById(user.getId());
         Optional<Marathon> marathonEntity = marathonRepository.findById(marathon.getId());
-        if (!userEntity.isPresent() || !marathonEntity.isPresent()) {
+        if(!userEntity.isPresent() || !marathonEntity.isPresent()) {
             return false;
         }
         List<User> users = marathonEntity.get().getUsers();
         users.remove(userEntity.get());
         marathonEntity.get().setUsers(users);
         return true;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findUserByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found!");
+        }
+        UserBuilder userBuilder = withUsername(user.getUsername());
+        userBuilder.password(user.getPassword());
+        userBuilder.roles(user.getRole().getName());
+        return userBuilder.build();
     }
 }
