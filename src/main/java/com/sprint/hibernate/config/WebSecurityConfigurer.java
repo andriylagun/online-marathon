@@ -30,11 +30,11 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID");
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth,  @Qualifier("userServiceImpl") UserDetailsService userDetailsService)
-            throws Exception {
-        auth.userDetailsService(userDetailsService);
-    }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth,  @Qualifier("userServiceImpl") UserDetailsService userDetailsService)
+//            throws Exception {
+//        auth.userDetailsService(userDetailsService);
+//    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth, AuthenticationProvider provider) throws Exception {
