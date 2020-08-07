@@ -1,7 +1,7 @@
 package com.sprint.hibernate.service.serviceImpl;
+
 import com.sprint.hibernate.entity.Sprint;
 import com.sprint.hibernate.entity.Task;
-import com.sprint.hibernate.exceptions.SprintExistException;
 import com.sprint.hibernate.exceptions.TaskExistException;
 import com.sprint.hibernate.repository.TaskRepository;
 import com.sprint.hibernate.service.TaskService;
@@ -16,6 +16,7 @@ import java.util.Optional;
 public class TaskServiceImpl implements TaskService {
 
     private TaskRepository taskRepository;
+
     @Autowired
     public void setTaskRepository(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
@@ -23,10 +24,10 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task createOrUpdateTask(Task task) {
-        if(task != null) {
-            Optional<Task> temp = taskRepository.findById( task.getId());
+        if (task != null) {
+            Optional<Task> temp = taskRepository.findById(task.getId());
 
-            if(temp.isPresent()) {
+            if (temp.isPresent()) {
                 Task newTask = temp.get();
                 newTask.setTitle(task.getTitle());
                 newTask.setCreated(task.getCreated());
@@ -41,8 +42,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public boolean addTaskToSprint(Task task, Sprint sprint){
-        if(checkTitle(task.getTitle())) {
+    public boolean addTaskToSprint(Task task, Sprint sprint) {
+        if (checkTitle(task.getTitle())) {
             throw new TaskExistException("Task with this title already exists");
         }
         task.setSprint(sprint);
@@ -52,7 +53,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public boolean checkTitle(String title) {
-        return taskRepository.findTaskByTitle(title)!=null;
+        return taskRepository.findTaskByTitle(title) != null;
     }
 
 
@@ -60,7 +61,8 @@ public class TaskServiceImpl implements TaskService {
     public Task getTaskById(long id) {
         return taskRepository.findById(id).orElseGet(null);
     }
-    public void deleteAll(){
+
+    public void deleteAll() {
         taskRepository.deleteAll();
     }
 }

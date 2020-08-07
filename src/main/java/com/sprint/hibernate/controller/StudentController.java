@@ -1,7 +1,6 @@
 package com.sprint.hibernate.controller;
 
 
-import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.UserService;
@@ -12,9 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
@@ -24,9 +22,9 @@ import java.util.List;
 @RequestMapping("/students")
 public class StudentController {
 
+    private final Logger logger = LoggerFactory.getLogger(StudentController.class);
     private UserService userService;
     private MarathonService marathonService;
-    private final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     @GetMapping
     public String getAllStudents(Model model) {
@@ -69,9 +67,9 @@ public class StudentController {
 
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.GET})
     public String saveEditedStudent(User student) {
-            logger.info("Editing student");
-            student.setRole(User.Role.TRAINEE);
-            userService.createOrUpdateUser(student);
+        logger.info("Editing student");
+        student.setRole(User.Role.TRAINEE);
+        userService.createOrUpdateUser(student);
         return "redirect:/students";
     }
 
@@ -82,21 +80,24 @@ public class StudentController {
                 marathonService.getMarathonById(marathonId));
         return "redirect:/students/{marathon_id}";
     }
+
     @PostMapping("/add")
-    public String createStudent(@ModelAttribute(name="newStudent") User student) {
-            student.setRole(User.Role.TRAINEE);
-            userService.createOrUpdateUser(student);
+    public String createStudent(@ModelAttribute(name = "newStudent") User student) {
+        student.setRole(User.Role.TRAINEE);
+        userService.createOrUpdateUser(student);
         return "redirect:/students/";
     }
+
     @PostMapping("/{marathon_id}/add")
-    public String addStudentToMarathon(@ModelAttribute(name="newStudent") User student,
-                                       @PathVariable(name="marathon_id")long marathonId) {
+    public String addStudentToMarathon(@ModelAttribute(name = "newStudent") User student,
+                                       @PathVariable(name = "marathon_id") long marathonId) {
         student.setRole(User.Role.TRAINEE);
         userService.createOrUpdateUser(student);
         userService.addUserToMarathon(student,
                 marathonService.getMarathonById(marathonId));
-        return "redirect:/students/"+ marathonId;
+        return "redirect:/students/" + marathonId;
     }
+
     @GetMapping("/student/{student_id}")
     public String getInfoAboutStudent(@PathVariable(name = "student_id") long studentId, Model model) {
         logger.info("Getting info about student");
@@ -107,7 +108,7 @@ public class StudentController {
 
     @RequestMapping("/getOne")
     @ResponseBody
-    public User getOne(Long id){
+    public User getOne(Long id) {
         return userService.getUserById(id);
     }
 }

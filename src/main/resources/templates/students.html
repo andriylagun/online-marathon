@@ -2,122 +2,135 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
     <!-- Подключаем jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!-- Подключаем плагин Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 
     <!-- Подключаем Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous" ></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="../static/main.js" th:src="@{/student.js}"></script>
+    <script src="../static/main.js" th:src="@{/student.js}" type="text/javascript"></script>
     <title>Students</title>
 </head>
 <body>
 <div th:replace="fragments/header.html :: header"/>
-    <div class="container">
-        <h2>Students</h2>
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-            <tr>
-                <th>Lastname</th><th>Firstname</th><th>Email</th><th></th><th></th>
-            </tr>
-            <tbody>
-                <tr th:each="student: ${students}">
-                    <td>
-                        <a th:text="${student.getLastName()}" th:href="@{/students/student/{student_id}(student_id=${student.getId()})}"></a>
-                    </td>
-                    <td th:text="${student.getFirstName()}"/>
-                    <td th:text="${student.getEmail()}"/>
-                    <td>
-                        <a th:href="@{/students/getOne/(id=${student.getId()})}" class="btn btn-primary">Edit</a>
-                    </td>
-                    <td>
-                        <a th:href="@{/students/delete/{student_id}(student_id=${student.getId()})}"
-                           class="btn btn-danger btn-sm"
-                           onclick="if (!(confirm('Are you sure you want to remove this student?'))) return false">
-                            Remove
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<div class="container">
+    <h2>Students</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Lastname</th>
+            <th>Firstname</th>
+            <th>Email</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tbody>
+        <tr th:each="student: ${students}">
+            <td>
+                <a th:href="@{/students/student/{student_id}(student_id=${student.getId()})}"
+                   th:text="${student.getLastName()}"></a>
+            </td>
+            <td th:text="${student.getFirstName()}"/>
+            <td th:text="${student.getEmail()}"/>
+            <td>
+                <a class="btn btn-primary" th:href="@{/students/getOne/(id=${student.getId()})}">Edit</a>
+            </td>
+            <td>
+                <a class="btn btn-danger btn-sm"
+                   onclick="if (!(confirm('Are you sure you want to remove this student?'))) return false"
+                   th:href="@{/students/delete/{student_id}(student_id=${student.getId()})}">
+                    Remove
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-        <a th:href="@{/home}"
-           class="btn btn-info btn-sm">
-            Main page
-        </a>
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".bd-example-modal-sm1">Add new student</button>
-    </div>
+    <a class="btn btn-info btn-sm"
+       th:href="@{/home}">
+        Main page
+    </a>
+    <button class="btn btn-primary btn-sm" data-target=".bd-example-modal-sm1" data-toggle="modal" type="button">Add new
+        student
+    </button>
+</div>
 
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-    <form th:action="@{/students/edit}" method="put">
+<div aria-hidden="true" aria-labelledby="ModalLabel" class="modal fade" id="editModal" role="dialog" tabindex="-1">
+    <form method="put" th:action="@{/students/edit}">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Edit Student</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
 
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="idEdit" name="id">
+                        <input class="form-control" id="idEdit" name="id" type="hidden">
                     </div>
 
                     <div class="form-group">
-                        <label for="firstNameEdit" class="col-form-label">FirstName:</label>
-                        <input type="text" class="form-control" id="firstNameEdit" name="firstName">
+                        <label class="col-form-label" for="firstNameEdit">FirstName:</label>
+                        <input class="form-control" id="firstNameEdit" name="firstName" type="text">
                     </div>
 
                     <div class="form-group">
-                        <label for="lastNameEdit" class="col-form-label">LastName:</label>
-                        <input type="text" class="form-control" id="lastNameEdit" name="lastName">
+                        <label class="col-form-label" for="lastNameEdit">LastName:</label>
+                        <input class="form-control" id="lastNameEdit" name="lastName" type="text">
                     </div>
 
                     <div class="form-group">
-                        <label for="emailEdit" class="col-form-label">E-mail:</label>
-                        <input type="text" class="form-control" id="emailEdit" name="email">
+                        <label class="col-form-label" for="emailEdit">E-mail:</label>
+                        <input class="form-control" id="emailEdit" name="email" type="text">
                     </div>
 
                     <div class="form-group">
-                        <label for="passwordEdit" class="col-form-label">Password:</label>
-                        <input type="text" class="form-control" id="passwordEdit" name="password">
+                        <label class="col-form-label" for="passwordEdit">Password:</label>
+                        <input class="form-control" id="passwordEdit" name="password" type="text">
                     </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </div>
         </div>
     </form>
 </div>
 
-<div class="modal fade bd-example-modal-sm1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  >
+<div aria-hidden="true" aria-labelledby="mySmallModalLabel" class="modal fade bd-example-modal-sm1" role="dialog"
+     tabindex="-1">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <form th:action="@{/students/add/}" th:object="${newStudent}" method="post">
+            <form method="post" th:action="@{/students/add/}" th:object="${newStudent}">
                 <div class="input-group input-group-lg">
                     <h4>Create new Student</h4>
                     <div class="form-group has-success has-feedback">
-                        <input type="text" th:field="*{firstName}" class="form-control" placeholder="Firstname" >
+                        <input class="form-control" placeholder="Firstname" th:field="*{firstName}" type="text">
                         </br>
-                        <input type="text" th:field="*{lastName}" class="form-control" placeholder="Lastname" >
+                        <input class="form-control" placeholder="Lastname" th:field="*{lastName}" type="text">
                         </br>
-                        <input type="text" th:field="*{email}" class="form-control" placeholder="Email" >
+                        <input class="form-control" placeholder="Email" th:field="*{email}" type="text">
                         </br>
-                        <input type="text" th:field="*{password}" class="form-control" placeholder="Password" >
+                        <input class="form-control" placeholder="Password" th:field="*{password}" type="text">
                         </br>
-                        <button type="submit" class="btn btn-primary">Create</button>
-                        <input type="reset" class="btn btn-danger" value="Reset">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <input class="btn btn-danger" type="reset" value="Reset">
                     </div>
                 </div>
             </form>

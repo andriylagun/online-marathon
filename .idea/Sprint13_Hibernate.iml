@@ -16,7 +16,7 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="Sprint13_Hibernate" value="a827e56b-73ea-4b6e-a25c-67c8afc2bb94" />
-          <factory-entry name="entityManagerFactory" value="a827e56b-73ea-4b6e-a25c-67c8afc2bb94" />
+          <factory-entry name="entityManagerFactory" value="d83fd4d7-167c-485a-bce7-62760761fdd3" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
@@ -158,5 +158,6 @@
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-slf4j-impl:2.13.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.13.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-jul:2.13.3" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains:annotations:1.0" level="project" />
   </component>
 </module>

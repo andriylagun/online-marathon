@@ -2,9 +2,6 @@ package com.sprint.hibernate.controller;
 
 
 import com.sprint.hibernate.entity.Marathon;
-import com.sprint.hibernate.entity.Sprint;
-import com.sprint.hibernate.exceptions.MarathonExistException;
-import com.sprint.hibernate.exceptions.SprintExistException;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.SprintService;
 import lombok.AllArgsConstructor;
@@ -20,16 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
 public class MarathonController {
 
+    private final Logger logger = LoggerFactory.getLogger(MarathonController.class);
     private MarathonService marathonService;
     private SprintService sprintService;
-
-    private final Logger logger = LoggerFactory.getLogger(MarathonController.class);
 
     @GetMapping("/marathons")
     public String getAllMarathons(Model model) {
@@ -61,7 +56,7 @@ public class MarathonController {
     }
 
     @PostMapping("/marathons/edit/{id}")
-    public String editMarathon(@ModelAttribute(name = "marathon") Marathon marathon){
+    public String editMarathon(@ModelAttribute(name = "marathon") Marathon marathon) {
         logger.info("You are editing existing user");
         marathonService.createOrUpdate(marathon);
         return "redirect:/marathons";

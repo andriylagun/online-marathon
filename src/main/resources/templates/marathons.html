@@ -4,17 +4,17 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    <script crossorigin="anonymous"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script crossorigin="anonymous"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-            crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../static/main.js" th:src="@{/marathon.js}"></script>
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="../static/main.js" th:src="@{/marathon.js}" type="text/javascript"></script>
     <title>Marathon List Directory</title>
 </head>
 
@@ -38,15 +38,16 @@
         <tbody class="bg-light">
         <tr th:each="tempMarathon : ${marathons}">
             <td>
-                <a th:text="${tempMarathon.title}" th:href="@{/students/{marathon_id}(marathon_id=${tempMarathon.getId()})}"></a>
+                <a th:href="@{/students/{marathon_id}(marathon_id=${tempMarathon.getId()})}"
+                   th:text="${tempMarathon.title}"></a>
             </td>
             <td>
-                <a th:href="@{marathons/delete/{id}(id=${tempMarathon.getId()})}"
-                   class="btn btn-danger btn-sm"
-                   onclick="if (!(confirm('Are you sure you want to close this marathon?'))) return false">
+                <a class="btn btn-danger btn-sm"
+                   onclick="if (!(confirm('Are you sure you want to close this marathon?'))) return false"
+                   th:href="@{marathons/delete/{id}(id=${tempMarathon.getId()})}">
                     Close
                 </a>
-                <a th:href="@{marathons/getOne/(id=${tempMarathon.getId()})}" class="btn btn-primary">Edit</a>
+                <a class="btn btn-primary" th:href="@{marathons/getOne/(id=${tempMarathon.getId()})}">Edit</a>
             </td>
             <td>
                 <a th:href="@{/sprints/{id}(id=${tempMarathon.getId()})}">Show sprints</a>
@@ -56,20 +57,20 @@
         </tr>
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Create</button>
+    <button class="btn btn-primary" data-target=".bd-example-modal-sm" data-toggle="modal" type="button">Create</button>
 
-    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-         aria-hidden="true">
+    <div aria-hidden="true" aria-labelledby="mySmallModalLabel" class="modal fade bd-example-modal-sm" role="dialog"
+         tabindex="-1">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
-                <form th:action="@{/marathons/create}" th:object="${marathon}" method="post">
+                <form method="post" th:action="@{/marathons/create}" th:object="${marathon}">
                     <div class="input-group input-group-lg">
                         <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/32/Alarm-Plus-icon.png">
                         <h4>Create new marathon:</h4>
                         <span class="input-group-addon"></span>
-                        <input type="text" th:field="*{title}" placeholder="Enter a name of marathon"/>
+                        <input placeholder="Enter a name of marathon" th:field="*{title}" type="text"/>
                         &nbsp&nbsp
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button class="btn btn-primary" type="submit">Create</button>
                     </div>
                 </form>
             </div>
@@ -77,13 +78,13 @@
     </div>
 </div>
 
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-    <form th:action="@{/marathons/edit}" method="put">
+<div aria-hidden="true" aria-labelledby="ModalLabel" class="modal fade" id="editModal" role="dialog" tabindex="-1">
+    <form method="put" th:action="@{/marathons/edit}">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Edit Marathon</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -91,17 +92,17 @@
 
 
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="idEdit" name="id">
+                        <input class="form-control" id="idEdit" name="id" type="hidden">
                     </div>
 
                     <div class="form-group">
-                        <input type="text" class="form-control" id="titleEdit" name="title">
+                        <input class="form-control" id="titleEdit" name="title" type="text">
                     </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </div>
         </div>

@@ -1,3 +1,4 @@
+
 -- insert into marathon (title) values ('Java Marathon');
 -- INSERT INTO marathon (title) values ('Python Marathon');
 --

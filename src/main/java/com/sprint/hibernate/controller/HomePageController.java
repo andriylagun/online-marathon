@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @AllArgsConstructor
 public class HomePageController {
 
-    @GetMapping({"/","/home"})
+    @GetMapping({"/", "/home"})
     public String homePage() {
         return "../static/index";
     }

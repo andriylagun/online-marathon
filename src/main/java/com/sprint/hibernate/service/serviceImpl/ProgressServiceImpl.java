@@ -1,7 +1,9 @@
 package com.sprint.hibernate.service.serviceImpl;
 
-import com.sprint.hibernate.entity.*;
-import com.sprint.hibernate.repository.*;
+import com.sprint.hibernate.entity.Progress;
+import com.sprint.hibernate.entity.Task;
+import com.sprint.hibernate.entity.User;
+import com.sprint.hibernate.repository.ProgressRepository;
 import com.sprint.hibernate.service.ProgressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static com.sprint.hibernate.entity.Progress.TaskStatus.*;
+import static com.sprint.hibernate.entity.Progress.TaskStatus.PENDING;
 
 @Service
 @Transactional
@@ -21,7 +23,7 @@ public class ProgressServiceImpl implements ProgressService {
     private ProgressRepository progressRepository;
 
     @Autowired
-    public void setProgressRepository (ProgressRepository progressRepository) {
+    public void setProgressRepository(ProgressRepository progressRepository) {
         this.progressRepository = progressRepository;
     }
 
@@ -51,10 +53,10 @@ public class ProgressServiceImpl implements ProgressService {
 
     @Override
     public Progress addOrUpdateProgress(Progress input) {
-        if(input!= null) {
+        if (input != null) {
             Optional<Progress> progress = progressRepository.findById(input.getId());
 
-            if(progress.isPresent()) {
+            if (progress.isPresent()) {
                 Progress newProgress = progress.get();
                 newProgress.setStatus(input.getStatus());
                 newProgress.setStarted(input.getStarted());
@@ -90,7 +92,8 @@ public class ProgressServiceImpl implements ProgressService {
     public void deleteProgressById(long id) {
         progressRepository.deleteById(id);
     }
-    public void deleteAll(){
+
+    public void deleteAll() {
         progressRepository.deleteAll();
     }
 }

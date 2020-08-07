@@ -3,12 +3,12 @@ package com.sprint.hibernate.service.serviceImpl;
 import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.Sprint;
 import com.sprint.hibernate.entity.Task;
-import com.sprint.hibernate.exceptions.MarathonExistException;
 import com.sprint.hibernate.exceptions.SprintExistException;
 import com.sprint.hibernate.repository.SprintRepository;
 import com.sprint.hibernate.service.SprintService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @Transactional
 public class SprintServiceImpl implements SprintService {
 
-   private SprintRepository sprintRepository;
+    private SprintRepository sprintRepository;
 
     @Autowired
     public void setSprintRepository(SprintRepository sprintRepository) {
@@ -31,7 +31,7 @@ public class SprintServiceImpl implements SprintService {
 
     @Override
     public boolean addSprintToMarathon(Sprint sprint, Marathon marathon) throws SprintExistException {
-        if(checkTitle(sprint.getTitle())) {
+        if (checkTitle(sprint.getTitle())) {
             throw new SprintExistException("Sprint with this title already exists in this marathon");
         }
         sprint.setMarathon(marathon);
@@ -41,15 +41,15 @@ public class SprintServiceImpl implements SprintService {
 
     @Override
     public boolean checkTitle(String title) {
-        return sprintRepository.findSprintByTitle(title)!=null;
+        return sprintRepository.findSprintByTitle(title) != null;
     }
 
 
     @Override
     public Sprint updateSprint(Sprint sprint) {
-        if(sprint != null) {
-            Optional<Sprint> temp = sprintRepository.findById(  sprint.getId());
-            if(temp.isPresent()) {
+        if (sprint != null) {
+            Optional<Sprint> temp = sprintRepository.findById(sprint.getId());
+            if (temp.isPresent()) {
                 Sprint newSprint = temp.get();
                 newSprint.setTitle(sprint.getTitle());
                 newSprint.setTasks(sprint.getTasks());
@@ -70,7 +70,7 @@ public class SprintServiceImpl implements SprintService {
     }
 
     @Override
-    public void deleteSprintById(long id,Marathon marathon) {
+    public void deleteSprintById(long id, Marathon marathon) {
         Sprint sprint = getSprintById(id);
         List<Sprint> sprints = marathon.getSprintList();
         sprints.remove(sprint);
@@ -78,7 +78,8 @@ public class SprintServiceImpl implements SprintService {
         List<Task> tasks = sprint.getTasks();
         sprintRepository.deleteById(id);
     }
-    public void deleteAll(){
+
+    public void deleteAll() {
         sprintRepository.deleteAll();
     }
 }
