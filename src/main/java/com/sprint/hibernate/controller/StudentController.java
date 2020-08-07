@@ -61,10 +61,10 @@ public class StudentController {
 
     @GetMapping("/delete/{student_id}")
     public String removeStudent(@PathVariable(name = "student_id") long studentId) {
-//        logger.info("Deleting student");
-//        userService.deleteUserById(studentId);
-//        return "redirect:/students";
-        throw new RuntimeException();
+        logger.info("Deleting student");
+        userService.deleteUserById(studentId);
+        return "redirect:/students";
+//        throw new RuntimeException();
     }
 
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.GET})
