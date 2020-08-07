@@ -1,9 +1,9 @@
 package com.sprint.hibernate.controller;
 
 
-import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.service.MarathonService;
+import com.sprint.hibernate.service.RoleService;
 import com.sprint.hibernate.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -26,12 +24,13 @@ public class StudentController {
 
     private UserService userService;
     private MarathonService marathonService;
+    private RoleService roleService;
     private final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     @GetMapping
     public String getAllStudents(Model model) {
         logger.info("Get all students");
-        List<User> students = userService.getAllByRole("TRAINEE");
+        List<User> students = userService.getAllByRoleId(1L);
         User newStudent = new User();
         model.addAttribute("newStudent", newStudent);
         model.addAttribute("students", students);
@@ -41,9 +40,9 @@ public class StudentController {
     @GetMapping("/{marathon_id}")
     public String getAllStudentsFromMarathon(@PathVariable(name = "marathon_id") long marathonId, Model model) {
         logger.info("Getting all students from the marathon");
-        List<User> students = userService.allUsersByMarathonIdAndRole(marathonId, "TRAINEE");
+        List<User> students = userService.allUsersByMarathonIdAndRoleId(marathonId, 1L);
         List<User> allStudents = userService.getAll();
-        User addStudent = new User().builder().role(User.Role.TRAINEE).build();
+        User addStudent = new User().builder().role(roleService.getRoleById(1L)).build();
         model.addAttribute("addStudent", addStudent);
         model.addAttribute("students", students);
         model.addAttribute("marathon", marathonService.getMarathonById(marathonId));
@@ -70,7 +69,7 @@ public class StudentController {
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.GET})
     public String saveEditedStudent(User student) {
             logger.info("Editing student");
-            student.setRole(User.Role.TRAINEE);
+            student.setRole(roleService.getRoleById(1L));
             userService.createOrUpdateUser(student);
         return "redirect:/students";
     }
@@ -84,14 +83,14 @@ public class StudentController {
     }
     @PostMapping("/add")
     public String createStudent(@ModelAttribute(name="newStudent") User student) {
-            student.setRole(User.Role.TRAINEE);
+            student.setRole(roleService.getRoleById(1L));
             userService.createOrUpdateUser(student);
         return "redirect:/students/";
     }
     @PostMapping("/{marathon_id}/add")
     public String addStudentToMarathon(@ModelAttribute(name="newStudent") User student,
                                        @PathVariable(name="marathon_id")long marathonId) {
-        student.setRole(User.Role.TRAINEE);
+        student.setRole(roleService.getRoleById(1L));
         userService.createOrUpdateUser(student);
         userService.addUserToMarathon(student,
                 marathonService.getMarathonById(marathonId));

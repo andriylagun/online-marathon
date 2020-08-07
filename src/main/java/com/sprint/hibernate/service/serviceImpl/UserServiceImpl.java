@@ -5,13 +5,16 @@ import com.sprint.hibernate.entity.Progress;
 import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.exceptions.AddUserToMarathonException;
 import com.sprint.hibernate.exceptions.EmailExistException;
-import com.sprint.hibernate.exceptions.MarathonExistException;
 import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.repository.ProgressRepository;
 import com.sprint.hibernate.repository.UserRepository;
 import com.sprint.hibernate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.userdetails.User.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -19,9 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.security.core.userdetails.User.withUsername;
+
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     private UserRepository userRepository;
@@ -83,12 +88,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkEmail(String email) {
-        return userRepository.findStudentByEmail(email)!=null;
+        return userRepository.findUserByEmail(email)!=null;
     }
 
     @Override
-    public List<User> getAllByRole (String role) {
-        return userRepository.getAllByRole(User.Role.valueOf(role.toUpperCase()));
+    public List<User> getAllByRoleId (long roleId) {
+        return userRepository.findAllByRoleId(roleId);
     }
 
     @Override
@@ -110,8 +115,8 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    public List<User> allUsersByMarathonIdAndRole(long id, String role) {
-        return userRepository.findAllByMarathonsIdAndRole(id, User.Role.valueOf(role));
+    public List<User> allUsersByMarathonIdAndRoleId(long marathonId, long roleId) {
+        return userRepository.findAllByMarathonsIdAndRoleId(marathonId, roleId);
     }
 
     @Override
@@ -149,5 +154,17 @@ public class UserServiceImpl implements UserService {
         users.remove(userEntity.get());
         marathonEntity.get().setUsers(users);
         return true;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findUserByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found!");
+        }
+        UserBuilder userBuilder = withUsername(user.getUsername());
+        userBuilder.password(user.getPassword());
+        userBuilder.roles(user.getRole().getName());
+        return userBuilder.build();
     }
 }

@@ -26,56 +26,56 @@ public class UserControllerTest {
     }
 
 
-    @Test
-    public void getAllStudentsFromMarathonTest() throws Exception {
-        List<User> students = userService.allUsersByMarathonIdAndRole(1, "TRAINEE");
-        mockMvc.perform(MockMvcRequestBuilders.get("/students/1"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().attributeExists("students"))
-                .andExpect(MockMvcResultMatchers.model().size(3))
-                .andExpect(MockMvcResultMatchers.model().attribute("students", students));
-    }
-
-
-    @Test
-    public void getInfoAboutStudentTest() throws Exception {
-        User student = userService.getUserById(1);
-        mockMvc.perform(MockMvcRequestBuilders.get("/students/student/1"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().attributeExists("student"))
-                .andExpect(MockMvcResultMatchers.model().attribute("student", student));
-    }
-
-    @Test
-    public void removeFromMarathonTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/students/1/delete/1"))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection());
-    }
-
-    @Test
-    public void addStudentTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/students/add/1")
-                .param("email", "test@email.com")
-                .param("firstName", "fName")
-                .param("lastName", "lName")
-                .param("password", "password"))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection());
-    }
-
-    @Test
-    public void getAllStudentsTest() throws Exception {
-        List<User> expected = userService.getAllByRole("TRAINEE");
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/students"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().attributeExists("students"))
-                .andExpect(MockMvcResultMatchers.model().attribute("students", expected));
-    }
-
-    @Test
-    public void saveEditedStudentTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/students/edit/1"))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection());
-    }
+//    @Test
+//    public void getAllStudentsFromMarathonTest() throws Exception {
+//        List<User> students = userService.allUsersByMarathonIdAndRole(1, "TRAINEE");
+//        mockMvc.perform(MockMvcRequestBuilders.get("/students/1"))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.model().attributeExists("students"))
+//                .andExpect(MockMvcResultMatchers.model().size(3))
+//                .andExpect(MockMvcResultMatchers.model().attribute("students", students));
+//    }
+//
+//
+//    @Test
+//    public void getInfoAboutStudentTest() throws Exception {
+//        User student = userService.getUserById(1);
+//        mockMvc.perform(MockMvcRequestBuilders.get("/students/student/1"))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.model().attributeExists("student"))
+//                .andExpect(MockMvcResultMatchers.model().attribute("student", student));
+//    }
+//
+//    @Test
+//    public void removeFromMarathonTest() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.get("/students/1/delete/1"))
+//                .andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+//    }
+//
+//    @Test
+//    public void addStudentTest() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.post("/students/add/1")
+//                .param("email", "test@email.com")
+//                .param("firstName", "fName")
+//                .param("lastName", "lName")
+//                .param("password", "password"))
+//                .andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+//    }
+//
+//    @Test
+//    public void getAllStudentsTest() throws Exception {
+//        List<User> expected = userService.getAllByRole("TRAINEE");
+//
+//        mockMvc.perform(MockMvcRequestBuilders.get("/students"))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.model().attributeExists("students"))
+//                .andExpect(MockMvcResultMatchers.model().attribute("students", expected));
+//    }
+//
+//    @Test
+//    public void saveEditedStudentTest() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.post("/students/edit/1"))
+//                .andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+//    }
 
 }

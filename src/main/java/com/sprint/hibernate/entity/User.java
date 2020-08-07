@@ -2,10 +2,14 @@ package com.sprint.hibernate.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,10 +20,10 @@ import java.util.Objects;
 @AllArgsConstructor
 @ToString
 @Table(name="users")
-public class User {
-  public enum Role {
-    MENTOR, TRAINEE
-  }
+public class User implements UserDetails {
+//  public enum Role {
+//    MENTOR, TRAINEE
+//  }
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -43,9 +47,10 @@ public class User {
   @NotNull
   private String password;
 
-  @Column
-  @NotNull
-  @Enumerated(EnumType.STRING)
+  //@Enumerated(EnumType.STRING)
+  @ToString.Exclude
+  @ManyToOne
+  @JoinColumn(name="role_id", nullable = false)
   private Role role;
 
   @ToString.Exclude
@@ -72,5 +77,35 @@ public class User {
   @Override
   public int hashCode() {
     return Objects.hash(getFirstName(), getLastName(), getEmail(), getPassword(), getRole());
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return Collections.singletonList(role);
+  }
+
+  @Override
+  public String getUsername() {
+    return email;
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return true;
   }
 }
