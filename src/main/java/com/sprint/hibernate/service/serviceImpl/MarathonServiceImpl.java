@@ -5,15 +5,15 @@ import com.sprint.hibernate.exceptions.MarathonExistException;
 import com.sprint.hibernate.exceptions.MarathonNotFoundByIDException;
 import com.sprint.hibernate.repository.MarathonRepository;
 import com.sprint.hibernate.service.MarathonService;
-import com.sprint.hibernate.service.SprintService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@PreAuthorize("hasRole('MENTOR')")
 @Service
 @Transactional
 public class MarathonServiceImpl implements MarathonService {
@@ -25,6 +25,7 @@ public class MarathonServiceImpl implements MarathonService {
         this.marathonRepository = marathonRepository;
     }
 
+    @PreAuthorize("hasAnyRole('MENTOR', 'TRAINEE')")
     @Override
     public List<Marathon> getAll() {
         return marathonRepository.findAll();
@@ -50,7 +51,6 @@ public class MarathonServiceImpl implements MarathonService {
         newMarathon.setTitle(input.getTitle());
         return newMarathon;
     }
-
 
     @Override
     public void deleteMarathonById(long id) {
