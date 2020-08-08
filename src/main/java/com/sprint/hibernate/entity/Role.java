@@ -3,20 +3,21 @@ package com.sprint.hibernate.entity;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity(name="roles")
 public class Role implements GrantedAuthority {
+    public enum Name {
+        MENTOR, TRAINEE
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @Enumerated(EnumType.STRING)
     private String name;
 
     @Override
