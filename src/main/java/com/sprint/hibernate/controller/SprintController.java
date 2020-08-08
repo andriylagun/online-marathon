@@ -30,7 +30,7 @@ public class SprintController {
                               Model model) {
         logger.info("That is info about sprints");
         Marathon sprintMarathon = marathonService.getMarathonById(id);
-        List<Sprint> sprints = sprintMarathon.getSprintList();
+        List<Sprint> sprints = sprintService.getSprintsByMarathonId(id);
         Sprint newSprint = new Sprint();
         model.addAttribute("newSprint", newSprint);
         model.addAttribute("sprints", sprints);

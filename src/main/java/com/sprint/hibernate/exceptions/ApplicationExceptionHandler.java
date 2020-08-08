@@ -34,13 +34,6 @@ public class ApplicationExceptionHandler {
         return modelAndView;
     }
 
-    @ExceptionHandler(Exception.class)
-    public final ModelAndView handle500Exception(Exception exception) {
-        log.error(String.format("Internal Server Error %s ", exception.getMessage()));
-        ModelAndView modelAndView = new ModelAndView("marathon_error", HttpStatus.BAD_REQUEST);
-        modelAndView.addObject("info", "Some problem, but we are working");
-        return modelAndView;
-    }
     @ExceptionHandler({SprintExistException.class})
     public ModelAndView handleSprintExistException(SprintExistException exception){
         ModelAndView model = new ModelAndView("error-page");

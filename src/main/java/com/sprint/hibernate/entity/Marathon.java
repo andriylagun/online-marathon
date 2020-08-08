@@ -2,6 +2,7 @@ package com.sprint.hibernate.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

@@ -5,6 +5,7 @@ import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -33,6 +34,7 @@ public class Sprint {
     private String title;
     @ManyToOne(optional = false)
     private Marathon marathon;
+
     @ToString.Exclude
     @OneToMany(mappedBy = "sprint", cascade = CascadeType.REMOVE)
     private List<Task> tasks;

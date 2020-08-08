@@ -24,6 +24,7 @@
 </head>
 <body>
 <div th:replace="fragments/header.html :: header"/>
+<div sec:authorize="isAuthenticated()">
 <div class="container">
     <h2><p th:text="${welcome}"/></h2>
     <table class="table table-bordered table-striped">
@@ -51,13 +52,15 @@
             <td>
                 <a th:href="@{/tasks/{sprint_id}(sprint_id=${sprint.getId()})}">Tasks</a>
             </td>
+
         </tr>
         </tbody>
     </table>
+    <div sec:authorize="hasAuthority('MENTOR')">
     <button class="btn btn-primary" data-target=".bd-example-modal-sm" data-toggle="modal" type="button">Add to
         marathon
     </button>
-
+    </div>
     <div aria-hidden="true" aria-labelledby="mySmallModalLabel" class="modal fade bd-example-modal-sm" role="dialog"
          tabindex="-1">
         <div class="modal-dialog modal-sm">
@@ -77,6 +80,7 @@
         </div>
     </div>
 
+</div>
 </div>
 </body>
 </html>

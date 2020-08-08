@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@PreAuthorize("hasRole('MENTOR')")
+@PreAuthorize("hasAuthority('MENTOR')")
 @Service
 @Transactional
 public class MarathonServiceImpl implements MarathonService {
@@ -25,12 +25,13 @@ public class MarathonServiceImpl implements MarathonService {
         this.marathonRepository = marathonRepository;
     }
 
-    @PreAuthorize("hasAnyRole('MENTOR', 'TRAINEE')")
+    @PreAuthorize("hasAnyAuthority('STUDENT','MENTOR')")
     @Override
     public List<Marathon> getAll() {
         return marathonRepository.findAll();
     }
 
+    @PreAuthorize("hasAnyAuthority('STUDENT','MENTOR')")
     @Override
     public Marathon getMarathonById(long id) {
         Optional<Marathon> marathon = marathonRepository.findById(id);

@@ -10,6 +10,7 @@ import com.sprint.hibernate.repository.ProgressRepository;
 import com.sprint.hibernate.repository.UserRepository;
 import com.sprint.hibernate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,8 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.security.core.userdetails.User.withUsername;
-
 @Service
 @Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -37,26 +36,31 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
+    @PreAuthorize("hasAuthority('MENTOR')")
     @Autowired
     public void setMarathonRepository(MarathonRepository marathonRepository) {
         this.marathonRepository = marathonRepository;
     }
+
+    @PreAuthorize("hasAuthority('MENTOR')")
     @Autowired
     public void setProgressRepository(ProgressRepository progressRepository){
         this.progressRepository = progressRepository;
     }
 
+    @PreAuthorize("hasAuthority('MENTOR')")
     @Override
     public List<User> getAll() {
         List<User> users = userRepository.findAll();
         return users.isEmpty() ? new ArrayList<>() : users;
     }
 
+    @PreAuthorize("hasAuthority('MENTOR')")
     @Override
     public User getUserById(long userId) {
         Optional<User> user = userRepository.findById(userId);
@@ -68,7 +72,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
-
+    @PreAuthorize("hasAuthority('MENTOR')")
     @Override
     public User createOrUpdateUser(User input) {
         if(input != null) {
@@ -91,16 +95,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(input);
     }
 
+    @PreAuthorize("hasAuthority('MENTOR')")
     @Override
     public boolean checkEmail(String email) {
         return userRepository.findUserByEmail(email)!=null;
     }
 
+    @PreAuthorize("hasAuthority('MENTOR')")
     @Override
     public List<User> getAllByRoleId (long roleId) {
         return userRepository.findAllByRoleId(roleId);
     }
 
+    @PreAuthorize("hasAuthority('MENTOR')")
     @Override
     public boolean addUserToMarathon(User user, Marathon marathon) {
 
@@ -120,10 +127,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return true;
     }
 
+    @PreAuthorize("hasAuthority('MENTOR')")
     public List<User> allUsersByMarathonIdAndRoleId(long marathonId, long roleId) {
         return userRepository.findAllByMarathonsIdAndRoleId(marathonId, roleId);
     }
-
+    @PreAuthorize("hasAuthority('MENTOR')")
     @Override
     public void deleteUserById(long id) {
         User user = userRepository.getOne(id);
@@ -143,10 +151,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         userRepository.deleteById(id);
     }
+    @PreAuthorize("hasAuthority('MENTOR')")
     public void deleteAll(){
         userRepository.deleteAll();
     }
 
+    @PreAuthorize("hasAuthority('MENTOR')")
     @Override
     public boolean deleteUserFromMarathon(User user, Marathon marathon) {
 

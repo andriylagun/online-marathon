@@ -47,7 +47,6 @@ public class User implements UserDetails {
   @NotNull
   private String password;
 
-  //@Enumerated(EnumType.STRING)
   @ToString.Exclude
   @ManyToOne
   @JoinColumn(name="role_id", nullable = false)

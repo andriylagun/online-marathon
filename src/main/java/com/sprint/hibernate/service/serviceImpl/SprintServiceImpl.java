@@ -7,12 +7,14 @@ import com.sprint.hibernate.exceptions.SprintExistException;
 import com.sprint.hibernate.repository.SprintRepository;
 import com.sprint.hibernate.service.SprintService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@PreAuthorize("hasAuthority('MENTOR')")
 @Service
 @Transactional
 public class SprintServiceImpl implements SprintService {
@@ -24,6 +26,7 @@ public class SprintServiceImpl implements SprintService {
         this.sprintRepository = sprintRepository;
     }
 
+    @PreAuthorize("hasAnyAuthority('STUDENT','MENTOR')")
     @Override
     public List<Sprint> getSprintsByMarathonId(long id) {
         return sprintRepository.getSprintsByMarathonId(id);

@@ -5,6 +5,7 @@ import com.sprint.hibernate.entity.Task;
 import com.sprint.hibernate.exceptions.TaskExistException;
 
 import java.math.BigInteger;
+import java.util.List;
 
 public interface TaskService {
     Task createOrUpdateTask(Task task);
@@ -12,4 +13,5 @@ public interface TaskService {
     Task   getTaskById	(long id);
     void deleteAll();
     boolean checkTitle(String title);
+    public List<Task> getAllTasksBySpringId(long id);
 }

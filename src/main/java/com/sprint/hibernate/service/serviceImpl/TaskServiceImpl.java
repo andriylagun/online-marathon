@@ -6,11 +6,14 @@ import com.sprint.hibernate.exceptions.TaskExistException;
 import com.sprint.hibernate.repository.TaskRepository;
 import com.sprint.hibernate.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
+@PreAuthorize("hasAuthority('MENTOR')")
 @Service
 @Transactional
 public class TaskServiceImpl implements TaskService {
@@ -56,7 +59,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findTaskByTitle(title) != null;
     }
 
-
+    public List<Task> getAllTasksBySpringId(long id){ return taskRepository.getTasksBySprintId(id); }
     @Override
     public Task getTaskById(long id) {
         return taskRepository.findById(id).orElseGet(null);

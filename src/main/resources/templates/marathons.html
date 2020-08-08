@@ -30,7 +30,7 @@
         <thead class="bg-primary">
         <tr>
             <th>Title</th>
-            <th>Actions</th>
+            <div sec:authorize="hasAuthority('MENTOR')"> <th>Actions</th></div>
             <th>Sprints</th>
         </tr>
         </thead>
@@ -38,9 +38,13 @@
         <tbody class="bg-light">
         <tr th:each="tempMarathon : ${marathons}">
             <td>
+                <div sec:authorize="hasAuthority('MENTOR')">
                 <a th:href="@{/students/{marathon_id}(marathon_id=${tempMarathon.getId()})}"
                    th:text="${tempMarathon.title}"></a>
+                </div>
+                <p th:text="${tempMarathon.title}"></p>
             </td>
+            <div sec:authorize="hasAuthority('MENTOR')">
             <td>
                 <a class="btn btn-danger btn-sm"
                    onclick="if (!(confirm('Are you sure you want to close this marathon?'))) return false"
@@ -49,6 +53,7 @@
                 </a>
                 <a class="btn btn-primary" th:href="@{marathons/getOne/(id=${tempMarathon.getId()})}">Edit</a>
             </td>
+            </div>
             <td>
                 <a th:href="@{/sprints/{id}(id=${tempMarathon.getId()})}">Show sprints</a>
             </td>
@@ -57,8 +62,9 @@
         </tr>
         </tbody>
     </table>
+    <div sec:authorize="hasAuthority('MENTOR')">
     <button class="btn btn-primary" data-target=".bd-example-modal-sm" data-toggle="modal" type="button">Create</button>
-
+    </div>
     <div aria-hidden="true" aria-labelledby="mySmallModalLabel" class="modal fade bd-example-modal-sm" role="dialog"
          tabindex="-1">
         <div class="modal-dialog modal-sm">

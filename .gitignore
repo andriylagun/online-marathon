@@ -3,3 +3,4 @@
 *.iml
 application.properties
 pom.xml
+*.log
