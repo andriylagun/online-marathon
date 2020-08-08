@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.User.*;
 
@@ -32,6 +33,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserRepository userRepository;
     private MarathonRepository marathonRepository;
     private ProgressRepository progressRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -76,13 +80,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 newUser.setFirstName(input.getFirstName());
                 newUser.setLastName(input.getLastName());
                 newUser.setRole(input.getRole());
-                newUser.setPassword(input.getPassword());
+                newUser.setPassword(passwordEncoder.encode(input.getPassword()));
                 return userRepository.save(newUser);
             }
         }
         if(checkEmail(input.getEmail())) {
             throw new EmailExistException("User with this email is already exist");
         }
+        input.setPassword(passwordEncoder.encode(input.getPassword()));
         return userRepository.save(input);
     }
 
@@ -159,10 +164,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findUserByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found!");
+        if (user != null) {
+            return user;
         }
-        return user;
+        return null;
 //        UserBuilder userBuilder = withUsername(user.getUsername());
 //        userBuilder.password(user.getPassword());
 //        userBuilder.roles(user.getRole().getName());
