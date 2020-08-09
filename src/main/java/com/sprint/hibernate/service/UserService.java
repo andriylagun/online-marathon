@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface UserService {
 
+    User registerStudent(User input);
+
     List<User> getAll();
 
     User getUserById(long userId);

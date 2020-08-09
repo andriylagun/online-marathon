@@ -6,6 +6,6 @@ import com.sprint.hibernate.entity.Role;
 import java.util.List;
 
 public interface RoleService {
-    Role getRoleById(Long id);
+    Role getRoleById(long id);
     List<Role> getAll();
 }

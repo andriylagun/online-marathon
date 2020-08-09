@@ -5,9 +5,15 @@ import com.sprint.hibernate.entity.Marathon;
 import com.sprint.hibernate.entity.User;
 import com.sprint.hibernate.service.MarathonService;
 import com.sprint.hibernate.service.SprintService;
+import com.sprint.hibernate.service.UserService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,13 +29,19 @@ public class MarathonController {
 
     private final Logger logger = LoggerFactory.getLogger(MarathonController.class);
     private MarathonService marathonService;
-    private SprintService sprintService;
+
+    @Qualifier("userServiceImpl")
+    private UserDetailsService userDetailsService;
+
 
     @GetMapping
-    public String getAllMarathons(Model model) {
+    public String getAllMarathons(Model model, Authentication authentication) {
         logger.info("That's info about students");
         List<Marathon> marathons = marathonService.getAll();
+        User user = (User) userDetailsService.loadUserByUsername(authentication.getName());
+        List<Marathon> userMarathons= user.getMarathons();
         Marathon marathon = new Marathon();
+        model.addAttribute("userMarathons", userMarathons);
         model.addAttribute("marathon", marathon);
         model.addAttribute("marathons", marathons);
         return "marathons";

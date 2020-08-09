@@ -21,7 +21,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public Role getRoleById(Long id) {
+    public Role getRoleById(long id) {
         return roleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(("No role /w id " + id)));
     }
 

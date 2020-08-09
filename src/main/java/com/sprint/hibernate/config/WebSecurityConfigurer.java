@@ -25,14 +25,15 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure (HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/registration").not().fullyAuthenticated()
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage("/form-login")
+                .and().formLogin().loginPage("/login")
                 .loginProcessingUrl("/login").defaultSuccessUrl("/home")
-                .failureUrl("/form-login?error=true")
+                .failureUrl("/login?error=true")
                 .permitAll()
                 .and().logout()
                 .logoutUrl("/perform-logout")
-                .logoutSuccessUrl("/form-login")
+                .logoutSuccessUrl("/login")
                 .deleteCookies("JSESSIONID");
     }
 

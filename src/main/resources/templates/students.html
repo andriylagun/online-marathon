@@ -57,6 +57,37 @@
         </tr>
         </tbody>
     </table>
+    <h2>Mentors</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Lastname</th>
+            <th>Firstname</th>
+            <th>Email</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tbody>
+        <tr th:each="mentor: ${mentors}">
+            <td>
+                <a th:href="@{/students/student/{student_id}(student_id=${mentor.getId()})}"
+                   th:text="${mentor.getLastName()}"></a>
+            </td>
+            <td th:text="${mentor.getFirstName()}"/>
+            <td th:text="${mentor.getEmail()}"/>
+            <td>
+                <a class="btn btn-primary" th:href="@{/students/getOne/(id=${mentor.getId()})}">Edit</a>
+            </td>
+            <td>
+                <a class="btn btn-danger btn-sm"
+                   onclick="if (!(confirm('Are you sure you want to remove this student?'))) return false"
+                   th:href="@{/students/delete/{student_id}(student_id=${mentor.getId()})}">
+                    Remove
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
     <a class="btn btn-info btn-sm"
        th:href="@{/home}">
@@ -72,7 +103,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit Student</h5>
+                    <h5 class="modal-title" id="editModalLabel">Edit user</h5>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -119,7 +150,7 @@
         <div class="modal-content">
             <form method="post" th:action="@{/students/add/}" th:object="${newStudent}">
                 <div class="input-group input-group-lg">
-                    <h4>Create new Student</h4>
+                    <h4>Create new user</h4>
                     <div class="form-group has-success has-feedback">
                         <input class="form-control" placeholder="Firstname" th:field="*{firstName}" type="text">
                         </br>
@@ -136,5 +167,6 @@
             </form>
         </div>
     </div>
+</div>
 </body>
 </html>

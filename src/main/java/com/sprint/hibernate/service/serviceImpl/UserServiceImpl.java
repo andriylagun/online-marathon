@@ -72,6 +72,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    @Transactional
+    @Override
+    public User registerStudent(User input) {
+        if(input != null) {
+            if(checkEmail(input.getEmail())) {
+                throw new EmailExistException("User with this email is already exist");
+            }
+            input.setPassword(passwordEncoder.encode(input.getPassword()));
+            return userRepository.save(input);
+
+        }
+        return null;
+    }
+
     @PreAuthorize("hasAuthority('MENTOR')")
     @Override
     public User createOrUpdateUser(User input) {
@@ -95,7 +109,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(input);
     }
 
-    @PreAuthorize("hasAuthority('MENTOR')")
     @Override
     public boolean checkEmail(String email) {
         return userRepository.findUserByEmail(email)!=null;

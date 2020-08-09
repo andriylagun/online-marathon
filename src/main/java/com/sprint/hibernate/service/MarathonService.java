@@ -7,6 +7,7 @@ import com.sprint.hibernate.exceptions.MarathonExistException;
 import java.util.List;
 
 public interface MarathonService {
+
     List<Marathon> getAll();
     Marathon  getMarathonById (long id);
     Marathon createOrUpdate(Marathon marathon);

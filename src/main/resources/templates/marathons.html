@@ -34,26 +34,22 @@
             <th>Sprints</th>
         </tr>
         </thead>
-
+        <div sec:authorize="hasAuthority('MENTOR')">
         <tbody class="bg-light">
         <tr th:each="tempMarathon : ${marathons}">
             <td>
-                <div sec:authorize="hasAuthority('MENTOR')">
-                <a th:href="@{/students/{marathon_id}(marathon_id=${tempMarathon.getId()})}"
-                   th:text="${tempMarathon.title}"></a>
-                </div>
-                <p th:text="${tempMarathon.title}"></p>
+                    <a th:href="@{/students/{marathon_id}(marathon_id=${tempMarathon.getId()})}"
+                       th:text="${tempMarathon.title}"></a>
             </td>
-            <div sec:authorize="hasAuthority('MENTOR')">
-            <td>
-                <a class="btn btn-danger btn-sm"
-                   onclick="if (!(confirm('Are you sure you want to close this marathon?'))) return false"
-                   th:href="@{marathons/delete/{id}(id=${tempMarathon.getId()})}">
-                    Close
-                </a>
-                <a class="btn btn-primary" th:href="@{marathons/getOne/(id=${tempMarathon.getId()})}">Edit</a>
-            </td>
-            </div>
+
+                <td>
+                    <a class="btn btn-danger btn-sm"
+                       onclick="if (!(confirm('Are you sure you want to close this marathon?'))) return false"
+                       th:href="@{marathons/delete/{id}(id=${tempMarathon.getId()})}">
+                        Close
+                    </a>
+                    <a class="btn btn-primary" th:href="@{marathons/getOne/(id=${tempMarathon.getId()})}">Edit</a>
+                </td>
             <td>
                 <a th:href="@{/sprints/{id}(id=${tempMarathon.getId()})}">Show sprints</a>
             </td>
@@ -61,10 +57,24 @@
 
         </tr>
         </tbody>
+        </div>
+        <div sec:authorize="hasAuthority('STUDENT')">
+        <tbody class="bg-light">
+        <tr th:each="userMarathon : ${userMarathons}">
+            <td>
+                <p th:text="${userMarathon.title}"></p>
+            </td>
+            <td>
+                <a th:href="@{/sprints/{id}(id=${userMarathon.getId()})}">Show sprints</a>
+            </td>
+
+
+        </tr>
+        </tbody>
+        </div>
     </table>
     <div sec:authorize="hasAuthority('MENTOR')">
-    <button class="btn btn-primary" data-target=".bd-example-modal-sm" data-toggle="modal" type="button">Create</button>
-    </div>
+        <button class="btn btn-primary" data-target=".bd-example-modal-sm" data-toggle="modal" type="button">Create</button>
     <div aria-hidden="true" aria-labelledby="mySmallModalLabel" class="modal fade bd-example-modal-sm" role="dialog"
          tabindex="-1">
         <div class="modal-dialog modal-sm">
@@ -114,6 +124,6 @@
         </div>
     </form>
 </div>
-
+</div>
 </body>
 </html>

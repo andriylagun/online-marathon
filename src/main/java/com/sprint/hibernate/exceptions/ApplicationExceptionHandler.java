@@ -28,7 +28,7 @@ public class ApplicationExceptionHandler {
     }
       @ExceptionHandler(MarathonNotFoundByIDException.class)
     public final ModelAndView  handleMarathonExistException(Exception exception) {
-        log.error("MarathonNotFoundByIDException : " + exception.getMessage());
+        log.error("MarathonNotFoundByIDException     : " + exception.getMessage());
         ModelAndView modelAndView = new ModelAndView("marathon_error", HttpStatus.BAD_REQUEST);
         modelAndView.addObject("info", exception.getMessage());
         return modelAndView;

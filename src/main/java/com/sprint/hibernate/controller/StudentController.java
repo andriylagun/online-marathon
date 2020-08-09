@@ -30,8 +30,10 @@ public class StudentController {
     @GetMapping
     public String getAllStudents(Model model) {
         logger.info("Get all students");
-        List<User> students = userService.getAllByRoleId(1L);
+        List<User> students = userService.getAllByRoleId(1);
+        List<User> mentors = userService.getAllByRoleId(2);
         User newStudent = new User();
+        model.addAttribute("mentors", mentors);
         model.addAttribute("newStudent", newStudent);
         model.addAttribute("students", students);
         return "students";
@@ -40,9 +42,9 @@ public class StudentController {
     @GetMapping("/{marathon_id}")
     public String getAllStudentsFromMarathon(@PathVariable(name = "marathon_id") long marathonId, Model model) {
         logger.info("Getting all students from the marathon");
-        List<User> students = userService.allUsersByMarathonIdAndRoleId(marathonId, 1L);
+        List<User> students = userService.allUsersByMarathonIdAndRoleId(marathonId, 1);
         List<User> allStudents = userService.getAll();
-        User addStudent = new User().builder().role(roleService.getRoleById(1L)).build();
+        User addStudent = new User().builder().role(roleService.getRoleById(1)).build();
         model.addAttribute("addStudent", addStudent);
         model.addAttribute("students", students);
         model.addAttribute("marathon", marathonService.getMarathonById(marathonId));
@@ -63,13 +65,12 @@ public class StudentController {
         logger.info("Deleting student");
         userService.deleteUserById(studentId);
         return "redirect:/students";
-//        throw new RuntimeException();
     }
 
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.GET})
     public String saveEditedStudent(User student) {
             logger.info("Editing student");
-            student.setRole(roleService.getRoleById(1L));
+            student.setRole(roleService.getRoleById(1));
             userService.createOrUpdateUser(student);
         return "redirect:/students";
     }
@@ -83,19 +84,20 @@ public class StudentController {
     }
     @PostMapping("/add")
     public String createStudent(@ModelAttribute(name="newStudent") User student) {
-            student.setRole(roleService.getRoleById(1L));
+            student.setRole(roleService.getRoleById(1));
             userService.createOrUpdateUser(student);
         return "redirect:/students/";
     }
     @PostMapping("/{marathon_id}/add")
     public String addStudentToMarathon(@ModelAttribute(name="newStudent") User student,
                                        @PathVariable(name="marathon_id")long marathonId) {
-        student.setRole(roleService.getRoleById(1L));
+        student.setRole(roleService.getRoleById(1));
         userService.createOrUpdateUser(student);
         userService.addUserToMarathon(student,
                 marathonService.getMarathonById(marathonId));
         return "redirect:/students/"+ marathonId;
     }
+
     @GetMapping("/student/{student_id}")
     public String getInfoAboutStudent(@PathVariable(name = "student_id") long studentId, Model model) {
         logger.info("Getting info about student");
