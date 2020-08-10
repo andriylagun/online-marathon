@@ -27,7 +27,9 @@ public class WebAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (userDetails != null && passwordEncoder.matches(password, userDetails.getPassword())) {
-            return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+            return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), 
+                                                           userDetails.getPassword(), 
+                                                           userDetails.getAuthorities());
         } else {
             return null;
         }
