@@ -1,3 +1,16 @@
+Salesforce CI/CD Script.
+user: Привіт, напиши скрипт для windows який буде виконувати наступні дії. Це CI/CD скрипт який можна використовувати локально через термінал який буде використовуватись salesforce розробниками для зв'язки системи контролю версій з salesforce sandbox, а також автоматизації та оптимізації деплойменту:
+1. Перевірка наявності потрібних для роботи плагінів, встановлення якщо їх немає
+2. Імпортування файлу конфігурації(використати найбільш user friendly варіант конфігурації), запитати шлях, якщо не знайдено в тій самій теці, що й скрипт
+3. Пропозиція retrieve змін з $devSandbox сендбоксу, дозволити користувачу вказати $categories в конфігурації як default value, або ввести з клавіатури, тоді робити пошук тільки в тих категоріях метадати і перевірка стилю коду @salesforce/sfdx-scanner по бажанню користувача. Отримання опцій для запуску scanner run з конфігурафії 
+4. Перевірка наявності $gitprefix-$ticketNubmer гілки за допомогою git checkout, якщо такої немає, потрібно створити її з гілки origin/$remotebranch.
+5. Пропозиція закомітити зміни і надання можливості вибрати, що саме.
+6. Валідація різниці між $featureBranch і $sourceBranch за допомогою sfdx-git-delta package.xml, і деплой з параметрами $checkonly, $testsRun. Якщо $testsRun ~= 'RunSpecifiedTests' тоді отримуємо список тест класів за допомогою package.xml, скануємо категорії тригерів і класів, беремо ім'я і якщо вкінці Test то додаємо до тестів які будемо запускати, якщо немає додаємо до імені класів суфікс Test і скануємо файли проекту на наявність.
+7. Підтвердження git push в $featurebranch(комбінація: $gitprefix-$ticketNubmer)( користувачем
+8. Запускаємо валідацію як в п.6. тільки до delta from $featureBranch to $targetBranch і деплой на $targetSandbox. Якщо PR з цієї гілки немає, створюємо його до $targetBranch і вказуємо reviewer: 
+9. Результати валідації додати в PR.(Start a check for the PR and add the result of the check(Success/Fail) to the PR name.
+If the check fails, add a comment to the PR with the names of the files that failed).
+Потрібен максимально конфігурований з файлу конфігурації скрипт і повністю готовий для використання
 user: Generate a bash script based on analyze of all messages which cover all needs, as result paste code
 assistant: Based on our conversation, here's a Bash script that meets all the requirements:
 
