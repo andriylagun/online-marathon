@@ -1,4 +1,4 @@
-public with sharing class FIN_SettlementItemHelper {
+public with sharing class ClassToReview {
     public static void updateStatusesAfterInsert(List<FIN_SettlementItem__c> items, Map<Id, FIN_SettlementItem__c> oldMap) {
         Set<Id> pdIds = new Set<Id>();
         Set<Id> salesIds = new Set<Id>();
