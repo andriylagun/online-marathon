@@ -5,49 +5,6 @@ public with sharing class FIN_InvoiceItemHelper {
     static final String SALESTR_CONST = OrderItem.SObjectType.getDescribe().getName();
     static final String INVOICE_SCHEDULED_CONST = 'InvoiceScheduled';
 
-    public static void updateStatuses(List<FIN_InvoiceItem__c> items, Map<Id, FIN_InvoiceItem__c> oldMap, String statusValue) {
-        Map<String, Set<Id>> mapObjIds = new Map<String, Set<Id>>{
-                PDS_CONST => new Set<Id>(),
-                PAYMENTS_CONST => new Set<Id>(),
-                SALES_CONST => new Set<Id>(),
-                SALESTR_CONST => new Set<Id>()
-        };
-        SOQLQueryBuilder itemsQueryBuilder = SOQLQueryBuilder.create()
-                .selectClause()
-                .field(FIN_InvoiceItem__c.Id.getDescribe().getName())
-                .field(FIN_InvoiceItem__c.FIN_PaymentDistribution__c.getDescribe().getName())
-                .field(FIN_InvoiceItem__c.FIN_Sales__c.getDescribe().getName())
-                .field(FIN_InvoiceItem__c.FIN_Payment__c.getDescribe().getName())
-                .field(FIN_InvoiceItem__c.FIN_SalesTransactions__c.getDescribe().getName())
-                .field('FIN_PaymentDistribution__r.FIN_Payment__r.FIN_Order__c')
-                .field('FIN_PaymentDistribution__r.FIN_Payment__c')
-                .field('FIN_Payment__r.FIN_Order__c')
-                .field('FIN_SalesTransactions__r.OrderId')
-                .endSelectSOQL()
-                .fromClause(Schema.SObjectType.FIN_InvoiceItem__c.getName())
-                .whereClause()
-                .useBindVariablesInQuery(true)
-                .condition(FIN_InvoiceItem__c.Id.getDescribe().getName(), items,
-                        Constants.ConditionType.IN_CONDITION, null, null)
-                .endWhereSOQL();
-        Map<String, Object> bindVariables = itemsQueryBuilder.getBindVariables();
-        for (FIN_InvoiceItem__c item : (List<FIN_InvoiceItem__c>) Database.queryWithBinds(itemsQueryBuilder.build(), bindVariables,
-                AccessLevel.USER_MODE)) {
-            mapObjIds.get(PDS_CONST).add(item.FIN_PaymentDistribution__c);
-            mapObjIds.get(PAYMENTS_CONST).add(item.FIN_Payment__c);
-            mapObjIds.get(PAYMENTS_CONST).add(item.FIN_PaymentDistribution__r.FIN_Payment__c);
-            mapObjIds.get(SALES_CONST).add(item.FIN_Sales__c);
-            mapObjIds.get(SALES_CONST).add(item.FIN_Payment__r.FIN_Order__c);
-            mapObjIds.get(SALES_CONST).add(item.FIN_PaymentDistribution__r.FIN_Payment__r.FIN_Order__c);
-            mapObjIds.get(SALES_CONST).add(item.FIN_SalesTransactions__r.OrderId);
-            mapObjIds.get(SALESTR_CONST).add(item.FIN_SalesTransactions__c);
-        }
-
-        for (String obj : mapObjIds.keySet()) {
-            updateRelatedRecordsStatuses(Constants.statusFields.get(FIN_InvoiceItem__c.SObjectType.getDescribe().getName()).get(obj), obj, mapObjIds.get(obj), statusValue);
-        }
-    }
-
     public static void createInvoiceLines(List<FIN_InvoiceItem__c> items, Map<Id, FIN_InvoiceItem__c> oldMap) {
 
         //get all related invoice items
